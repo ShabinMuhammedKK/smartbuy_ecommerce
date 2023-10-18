@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>SmartBuy</title>
+    <!-- plugins:css -->
+    <link
+      rel="stylesheet"
+      href="assets/vendors/mdi/css/materialdesignicons.min.css"
+    />
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css" />
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="assets/css/style1.css" />
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'>
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <style>
+      .otp-field {
+        flex-direction: row;
+        column-gap: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .otp-field input {
+        height: 45px;
+        width: 42px;
+        border-radius: 6px;
+        outline: none;
+        font-size: 1.125rem;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+      .otp-field input:focus {
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+      }
+      .otp-field input::-webkit-inner-spin-button,
+      .otp-field input::-webkit-outer-spin-button {
+        display: none;
+      }
+
+      .resend {
+        font-size: 12px;
+      }
+
+      .footer {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        color: black;
+        font-size: 12px;
+        text-align: right;
+        font-family: monospace;
+      }
+
+      .footer a {
+        color: black;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body style="background-color: black;">
+    <section class="container-fluid bg-body-tertiary d-block">
+      <div class="row justify-content-center" style="background-color: black;max-height:max-content;margin-top: 5%;height: 100hv;">
+          <div class="col-12 col-md-6 col-lg-4" style="min-width: 500px">
+              <div
+                  class="card bg-white mb-5 mt-5 border-0"
+                  style="box-shadow: 0 12px 15px rgba(255, 255, 255, 0.02)"
+              >
+                  <div class="card-body p-5 text-center">
+                      <h4 class="font-monospace text-primary">Verify</h4>
+                      <p class="font-monospace text-dark">Your code was sent to you via email <%= userData.email%></p>
+                    <form action="/verifyOTP?id=<%= userData._id%>" method="post">
+                      <div class="otp-field mb-4">
+                          <input type="number" name="a" id="otp-input" />
+                          <input type="number" name="b" disabled />
+                          <input type="number" name="c" disabled />
+                          <input type="number" name="d" disabled />
+                          <input type="number" name="e" disabled />
+                          <input type="number" name="f" disabled />
+                      </div>
+  
+                      <button class="btn btn-primary mb-3" id="verify-button">
+                       Verify
+                      </button>
+                    </form>
+                    <p>Time left: <span class="text-danger" id="timer">02:00</span></p>
+  
+                      <!-- <p class="resend text-muted mb-0">
+                          Didn't receive code? <a href="">Request again</a>
+                      </p> -->
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+<script>
+  const inputs = document.querySelectorAll(".otp-field > input");
+  const button = document.querySelector(".btn");
+  function redirectToPage() {
+        setTimeout(function () {
+          window.location.href = '/verifyOTP?userid=<%= userData._id%>';
+        }, 120000); 
+      }
+      
+      redirectToPage();
+
+
+  window.addEventListener("load", () => inputs[0].focus());
+  button.setAttribute("disabled", "disabled");
+
+  let inputtedOtp = "";
+
+  inputs[0].addEventListener("paste", function (event) {
+    event.preventDefault();
+
+    const pastedValue = (
+      event.clipboardData || window.clipboardData
+    ).getData("text");
+    const otpLength = inputs.length;
+
+    for (let i = 0; i < otpLength; i++) {
+      if (i < pastedValue.length) {
+        inputs[i].value = pastedValue[i];
+        inputs[i].removeAttribute("disabled");
+        inputtedOtp += pastedValue[i];
+        inputs[i].focus;
+      } else {
+        inputs[i].value = ""; // Clear any remaining inputs
+        inputs[i].focus;
+      }
+    }
+  });
+
+  inputs.forEach((input, index1) => {
+    input.addEventListener("keyup", (e) => {
+      const currentInput = input;
+      const nextInput = input.nextElementSibling;
+      const prevInput = input.previousElementSibling;
+
+      if (currentInput.value.length > 1) {
+        currentInput.value = "";
+        return;
+      }
+
+      if (
+        nextInput &&
+        nextInput.hasAttribute("disabled") &&
+        currentInput.value !== ""
+      ) {
+        nextInput.removeAttribute("disabled");
+        nextInput.focus();
+      }
+
+      if (e.key === "Backspace") {
+        inputs.forEach((input, index2) => {
+          if (index1 <= index2 && prevInput) {
+            input.setAttribute("disabled", true);
+            input.value = "";
+            prevInput.focus();
+          }
+        });
+      }
+
+      button.classList.remove("active");
+      button.setAttribute("disabled", "disabled");
+
+      const inputsNo = inputs.length;
+      if (
+        !inputs[inputsNo - 1].disabled &&
+        inputs[inputsNo - 1].value !== ""
+      ) {
+        button.classList.add("active");
+        button.removeAttribute("disabled");
+
+        inputtedOtp += currentInput.value;
+        console.log("Inputted OTP:", inputtedOtp);
+
+        
+
+        // $.ajax({
+        //   url: "/verifyOTP",
+        //   method: "POST",
+        //   data: { userOTP: inputtedOtp },
+        //   success: function (response) {
+        //     // Handle the response from the server here
+        //     console.log("Server Response:", response);
+        //   },
+        //   error: function (error) {
+        //     // Handle any errors here
+        //     console.error("Error:", error);
+        //   },
+        // });
+      }
+    });
+  });
+</script>
+
+<script>
+  function startCountdown(durationInSeconds) {
+	const timerElement = document.getElementById("timer");
+	let timeLeft = durationInSeconds;
+
+	const countdownInterval = setInterval(function() {
+		const minutes = Math.floor(timeLeft / 60);
+		const seconds = timeLeft % 60;
+
+		const minutesStr = String(minutes).padStart(2, '0');
+		const secondsStr = String(seconds).padStart(2, '0');
+
+		timerElement.textContent = `${minutesStr}:${secondsStr}`;
+
+		if (timeLeft <= 0) {
+			clearInterval(countdownInterval);
+			timerElement.textContent = "00:00";
+			timerElement.textContent="The OTP has expired"
+		} else {
+			timeLeft--;
+		}
+	}, 1000);
+}
+
+startCountdown(120);
+</script>
+
+
+
+
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="assets/js/off-canvas.js"></script>
+    <script src="assets/js/hoverable-collapse.js"></script>
+    <script src="assets/js/misc.js"></script>
+    <script src="assets/js/settings.js"></script>
+    <script src="assets/js/todolist.js"></script>
+    <!-- endinject -->
+  </body>
+</html>

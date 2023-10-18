@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SmartBuy</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="assets/css/style1.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="assets/images/favicon.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="row w-100 m-0">
+          <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+            <div class="card col-lg-4 mx-auto">
+              <div class="card-body px-5 py-5">
+                <h3 class="card-title text-left mb-3">Register</h3>
+                <form action="" method="post" style="color: #ffff;" onsubmit="return validateForm()">
+                  <div class="form-group" >
+                    <label>Name *</label>
+                    <input type="text" class="form-control p_input" style="color: white;" name="name" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" class="form-control p_input" style="color: white;" name="email" required>
+
+                  </div>
+                  <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="text" class="form-control p_input" style="color: white;" name="mno" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" class="form-control p_input" style="color: white;" name="password" required>
+                  </div>
+                  <div class="form-group d-flex align-items-center justify-content-between">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <!-- <input type="checkbox" class="form-check-input"> Remember me </label> -->
+                    </div>
+                    <a href="#" class="forgot-pass">Forgot password</a>
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" id="registerButton" class="btn btn-primary btn-block enter-btn" data-toggle="modal" data-target="#verificationModal">Register</button>
+                  </div>
+                  
+                  <p class="sign-up text-center">Already have an Account?<a href="/login"> LOGIN</a></p>
+                  <!-- <p class="terms">By creating an account you are accepting our<a href="#"> Terms & Conditions</a></p> -->
+                </form>
+
+                <% if (typeof message !== 'undefined') { %>
+                  <div style="border: 1px solid #ccc; padding: 10px; background-color: #ffffff; text-align: center;">
+                    <p style="margin: 0; color: #000000;"><%= message %></p>
+                  </div>
+                <% } %>
+
+
+                
+
+
+                
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+        </div>
+        <!-- row ends --->
+      </div>
+
+
+
+
+
+
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const otpContainer = document.getElementById('otpContainer');
+        const numberOfDigits = 6; // Adjust as needed
+      
+        // Generate OTP input fields
+        for (let i = 0; i < numberOfDigits; i++) {
+          const input = document.createElement('input');
+          input.type = 'number';
+          input.className = 'otp-digit';
+          input.maxLength = 1;
+      
+          otpContainer.appendChild(input);
+        }
+      
+        // Function to get the OTP value
+        function getOTPValue() {
+          const otpInputs = document.querySelectorAll('.otp-digit');
+          let otp = '';
+      
+          otpInputs.forEach((input) => {
+            otp += input.value;
+          });
+      
+          return otp;
+        }
+      
+        // Example: Logging the OTP value when the "Verify" button is clicked
+        const verifyButton = document.getElementById('verifyButton');
+        verifyButton.addEventListener('click', function() {
+          const otpValue = getOTPValue();
+          console.log('OTP Value:', otpValue);
+
+          userinputedOTP(otpValue);
+      
+          // You can use otpValue for further processing, e.g., verification
+        });
+      });
+      </script>
+      
+    <!-- otp====================================================== -->
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const otpInputs = document.querySelectorAll('.otp-digit');
+        let timer;
+        let countdown = 2 * 60; // 2 minutes in seconds
+      
+        otpInputs.forEach((input, index) => {
+          input.addEventListener('input', (e) => {
+            if (e.target.value.length === 1) {
+              if (index < otpInputs.length - 1) {
+                otpInputs[index + 1].focus();
+              } else {
+                // All OTP digits are filled, you can trigger verification here.
+              }
+            }
+          });
+      
+          input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && index > 0) {
+              otpInputs[index - 1].focus();
+            }
+          });
+        });
+      
+        const countdownElement = document.getElementById('countdown');
+      
+        function updateCountdown() {
+          const minutes = Math.floor(countdown / 60);
+          const seconds = countdown % 60;
+          countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+      
+        updateCountdown();
+      
+        timer = setInterval(() => {
+          countdown--;
+          updateCountdown();
+          if (countdown <= 0) {
+            clearInterval(timer);
+            $('#verificationModal').modal('hide'); // Hide the modal using jQuery
+          }
+        }, 1000);
+      
+        // Clear the timer when the modal is closed manually
+        $('#verificationModal').on('hidden.bs.modal', function () {
+          clearInterval(timer);
+        });
+      });
+      </script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <!-- inject:js -->
+    <script src="assets/js/off-canvas.js"></script>
+    <script src="assets/js/hoverable-collapse.js"></script>
+    <script src="assets/js/misc.js"></script>
+    <script src="assets/js/settings.js"></script>
+    <script src="assets/js/todolist.js"></script>
+    <script>
+        function validateForm() {
+            const phone = document.getElementById('phone').value;
+            if (!/^\d{10}$/.test(phone)) {
+                alert("Invalid phone number");
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <!-- endinject -->
+  </body>
+</html>
+
