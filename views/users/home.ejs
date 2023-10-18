@@ -33,8 +33,11 @@
     <link rel="stylesheet" href="assets/css/skins/skin-demo-24.css">
     <link rel="stylesheet" href="assets/css/demos/demo-24.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
+
 
 	<div class="page-wrapper">
 		<div class="background" style="background-image: url(assets/images/demos/demo-24/frontpicrure.avif);height: 830px;">
@@ -385,7 +388,7 @@
                                 </figure>
 
                                 <div class="product-body" style="background-color: #ffffff; height: 200px;">
-                                    <h3 class="product-title" style="color: rgb(0, 0, 0);"><a href="product.html"><%=products[i].name%></a></h3>
+                                    <h3 class="product-title" style="color: rgb(0, 0, 0);font-weight: 800;font-size: larger;"><a href="product.html"><%=products[i].name%></a></h3>
                                     <h3 class="product-title" style="color: rgb(0, 0, 0);"><a href="product.html"><%=products[i].description%></a></h3>
                                     <div class="product-price" style="color: rgb(0, 0, 0);">
                                         RS.<%=products[i].price%>
@@ -754,7 +757,7 @@
                                 </figure>
 
                                 <div class="product-body" style="background-color: #ffffff; height: 200px;">
-                                    <h3 class="product-title" style="color: rgb(0, 0, 0);"><a href="product.html"><%=products[i].name%></a></h3>
+                                    <h3 class="product-title" style="color: rgb(0, 0, 0);font-weight: 800;font-size: larger;"><a href="product.html"><%=products[i].name%></a></h3>
                                     <h3 class="product-title" style="color: rgb(0, 0, 0);"><a href="product.html"><%=products[i].description%></a></h3>
                                     <div class="product-price" style="color: rgb(0, 0, 0);">
                                         RS.<%=products[i].price%>
@@ -1063,7 +1066,7 @@
                                 </figure>
 
                                 <div class="product-body" style="background-color: #ffffff; height: 200px;">
-                                    <h3 class="product-title" style="color: rgb(0, 0, 0);"><a href="product.html"><%=products[i].name%></a></h3>
+                                    <h3 class="product-title" style="color: rgb(0, 0, 0);font-weight: 800;font-size: larger;"><a href="product.html"><%=products[i].name%></a></h3>
                                     <h3 class="product-title" style="color: rgb(0, 0, 0);"><a href="product.html"><%=products[i].description%></a></h3>
                                     <div class="product-price" style="color: rgb(0, 0, 0);">
                                         RS.<%=products[i].price%>
@@ -1798,7 +1801,67 @@
             </div>
         </div>
     </div> -->
+
+    <div id="cartAlert" data-aos="fade-up" class="alert col-md-3 col-4 text-white fixed-bottom" style="display: none; left: 40%; bottom: 80px; border-radius: 7px; opacity: 0.9; background-color: rgb(0, 0, 0);padding-right: 5% ;" role="alert">
+        <div class="d-flex justify-content-center">
+            <dotlottie-player src="https://lottie.host/b0e85bf2-581b-4d27-8dd5-0c0e4b495dc2/QjXQ7zZA3T.json" background="transparent" speed="0.7" style="width: 50px; height: 50px;" direction="1" loop autoplay></dotlottie-player>
+            <p class="alert-heading d-flex align-items-center">Product Added to Your Cart</p>
+        </div>
+    </div>
+    
+    <div id="cartAlertAlready" data-aos="fade-up" class="bg-dark alert col-md-3 col-4 text-white fixed-bottom" style="display: none; left: 40%; bottom: 80px; border-radius: 7px;padding-right: 5% ; background-color: rgb(0, 0, 0);padding-right: 5% ;" role="alert">
+        <div class="d-flex justify-content-center">
+            <dotlottie-player src="https://lottie.host/675b522a-b663-4399-9a90-0f4800918a0f/JWak9AXJkj.json" background="transparent" speed="1" style="width: 50px; height: 50px;" direction="1" loop autoplay></dotlottie-player>
+            <p class="alert-heading d-flex align-items-center " >This product Already in Your Cart</p>
+        </div>
+    </div>
+    
+    
+    
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.5/lottie.min.js'></script>
     <script>
+        var animation = bodymovin.loadAnimation({
+            container: document.getElementById('animContainer'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://lottie.host/87abf9d2-a834-4f06-b667-26985786b0ba/0vh9JAhgi8.json' // lottie file path
+        })
+    </script>
+
+    
+
+
+
+
+
+
+
+
+    <script>
+function showAlertBox() {
+        console.log("alert fun called...");
+        $("#cartAlert").fadeIn();
+    
+        // Hide the alert box after 5 seconds
+        setTimeout(function () {
+            $("#cartAlert").fadeOut();
+        }, 3000);
+    }
+
+    function showAlertBoxAlready() {
+        console.log("alert fun called...");
+        $("#cartAlertAlready").fadeIn();
+    
+        // Hide the alert box after 5 seconds
+        setTimeout(function () {
+            $("#cartAlertAlready").fadeOut();
+        }, 3000);
+    }
+
+
+
         function addtocart(productId){
     console.log(productId);
     $.ajax({
@@ -1807,11 +1870,12 @@
             data: { id: productId},
             success: function(response) {
                 console.log("Response from server:", response);
-                if(response.cart==1){
-                    alert("item added to cart..")
-                }else if(response.cart==2){
-                    alert("alrady item in cart..")
-                }
+                
+            if (response.cart === 1) {
+                showAlertBox();
+            } else if (response.cart === 2) {
+                showAlertBoxAlready();
+            }
                 // Handle the response from the server here (e.g., update the UI)
             },
             error: function(error) {
@@ -1820,6 +1884,7 @@
             }
         });
 }
+
 
     </script>
     <script>

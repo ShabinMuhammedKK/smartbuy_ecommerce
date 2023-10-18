@@ -387,33 +387,8 @@ const calculateTotalPrice = async (userId) => {
   }
 };
 
-//==================================================after the placing order
-//////////this is moved into order controll
-
-// const orderPlaceClicked = async (req,res)=>{
-// try {
-//   const combinedData = req.body;
-//   // console.log(combinedData);
-//   const selectedAddress = combinedData.selectedData; 
-//   const selectedPaymentMethod = combinedData.selectedPaymentOptions; 
-//   console.log(selectedAddress);
-//   // console.log(typeof(selectedAddress));
-//  const deliveryUserAddress = await Address.findOne({user_id:req.session.user_id});
-// //  console.log(deliveryUserAddress);
-//  const targetAddress = deliveryUserAddress.address.find((address) => address._id == selectedAddress);
-//  console.log(targetAddress);
 
 
-//   if(!combinedData){
-//     console.log("selcted payment and address not reached in usercontroller")
-//   }else{
-//     // console.log("rendering order placed page");
-    
-//   }
-// } catch (error) {
-//   console.log(error.message);
-// }
-// }
 //=================================================load cart page
 const loadCartPage = async (req, res) => {
   try {

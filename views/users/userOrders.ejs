@@ -98,14 +98,10 @@ z-index: 0
         
             <% orderData.forEach(order => { %>
               <% order.products.forEach(product => { %>
-                <div class="col-md-10 col-lg-4 col-xl-3">
+                <div class="col-md-10 col-lg-4 col-xl-9" style="margin-bottom: 20px;">
                   <div class="card card-stepper" style="border-radius: 16px;">
                     <div class="card-body p-4">
-                      <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
-                        <li class="step0 active" id="step1"><span style="margin-left: 22px; margin-top: 12px;">PLACED</span></li>
-                        <li class="step0 active text-center" id="step2"><span>SHIPPED</span></li>
-                        <li class="step0 text-muted text-end" id="step3"><span style="margin-right: 22px;">DELIVERED</span></li>
-                      </ul>
+                      
                       <div class="d-flex flex-row mb-4 pb-2">
                         <div class="flex-fill">
                           <h5 class="bold"><%= product.productId.name %></h5>
@@ -118,12 +114,17 @@ z-index: 0
                             src="/userImages/<%= product.productId.image[0] %>" width="150">
                         </div>
                       </div>
+                      <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
+                        <li class="step0 active" id="step1"><span style="margin-left: 22px; margin-top: 12px;">PLACED</span></li>
+                        <li class="step0 active text-center" id="step2"><span>SHIPPED</span></li>
+                        <li class="step0 text-muted text-end" id="step3"><span style="margin-right: 22px;">DELIVERED</span></li>
+                      </ul>
                     </div>
                     <div class="card-footer p-4">
                       <div class="d-flex justify-content-between">
                         <h5 class="fw-normal mb-0"><a href="#!" style="text-decoration: none;">Track</a></h5>
                         <div class="border-start h-100"></div>
-                        <h5 class="fw-normal mb-0"><a href="#!" style="text-decoration: none;color: red;">Cancel</a></h5>
+                        <h5 class="fw-normal mb-0"><a href='/cancelOrder?productID=<%= product.productId %>' style="text-decoration: none;color: red;">Cancel</a></h5>
                       </div>
                     </div>
                   </div>

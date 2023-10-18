@@ -88,10 +88,27 @@ const orderUserProfile = async (req, res) => {
     console.log(error.message);
   }
 };
+//cancel the orders
+const cancelOrderByUser = async (req,res)=>{
+  const odrProductID = req.boy.productID;
+  const userID = req.session._id;
 
+  console.log("userID : "+req.session._id);
+  console.log("productID : "+req.boy.productID);
+  const cancelingProduct = await Order.findOne({userId:req.boy.userID});
+  const cancelProdunctID = cancelingProduct.products.find((product)=>{
+  return product.productId===req.boy.productID;
+  })
+
+ cancelProdunctID.OrderStatus="canceled";
+await cancelingProduct.save();
+
+
+}
 
 
 module.exports = {
   placeOrderManage,
   orderUserProfile,
+  cancelOrderByUser
 };

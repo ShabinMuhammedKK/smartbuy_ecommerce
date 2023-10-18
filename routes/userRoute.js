@@ -60,7 +60,7 @@ user_route.post("/orderPlaceClicked",auth.isLogin,orderController.placeOrderMana
 user_route.post("/changeqty",auth.isLogin,userController.productQuantityHandling)
 user_route.post('/removeProductFromCart/:productId',auth.isLogin,userController.removeProductFromCart);
 user_route.get('/userOrders',auth.isLogin,orderController.orderUserProfile)
-// user_route.get('/userOrders/placed',auth.isLogin,orderController.orderPlacedPage)
+user_route.post('/cancelOrder',auth.isLogin,orderController.cancelOrderByUser);
 
 
 module.exports = user_route;
