@@ -77,7 +77,7 @@ const orderUserProfile = async (req, res) => {
       userId: req.session.user_id,
     }).populate("products.productId");
 
-    // console.log(orderData[0].products[1].productId.price);
+    const orderdDate = formatToDayMonthYear(inputDate)
 
     if (!orderData) {
       console.log("no orders from database");
@@ -88,23 +88,60 @@ const orderUserProfile = async (req, res) => {
     console.log(error.message);
   }
 };
-//cancel the orders
-const cancelOrderByUser = async (req,res)=>{
-  const odrProductID = req.boy.productID;
-  const userID = req.session._id;
 
-  console.log("userID : "+req.session._id);
-  console.log("productID : "+req.boy.productID);
-  const cancelingProduct = await Order.findOne({userId:req.boy.userID});
-  const cancelProdunctID = cancelingProduct.products.find((product)=>{
-  return product.productId===req.boy.productID;
+
+//===============cancel the orders
+const cancelOrderByUser = async (req,res)=>{
+  const data = req.body;
+  const productID = data.orderProdID;
+  const orderID = data.OrderID;
+
+  // const userID = req.session._id;
+  console.log("userID : "+req.session.user_id);
+  console.log("productID : "+productID);
+  console.log("orderID : "+orderID);
+
+  const cancelingProduct = await Order.findOne({_id:orderID});
+  const cancelProductID = cancelingProduct.products.find((product)=>{
+  return product._id==productID;
   })
 
- cancelProdunctID.OrderStatus="canceled";
-await cancelingProduct.save();
+ cancelProductID.OrderStatus="Canceled";
+const success = await cancelingProduct.save();
+if(success){
+  res.json({result:"OK"});
+}
+
 
 
 }
+
+
+
+//============date function===
+function formatToDayMonthYear(inputDate) {
+  // Create a Date object from the input date string
+  const date = new Date(inputDate);
+
+  // Define an array of month names
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  // Get the day, month, and year components from the Date object
+  const day = date.getDate();
+  const month = date.getMonth();
+  const year = date.getFullYear();
+
+  // Format the date in "day month year" format
+  return `${day} ${monthNames[month]} ${year}`;
+}
+
+// Example usage:
+// const inputDate = "2023-10-15T06:08:03.686+00:00";
+// const formattedDate = formatToDayMonthYear(inputDate);
+// console.log(formattedDate); // Output: "15 October 2023"
 
 
 module.exports = {

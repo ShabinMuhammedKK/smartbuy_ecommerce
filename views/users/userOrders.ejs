@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <style>
 
@@ -95,13 +96,15 @@ z-index: 0
     <section class="vh-100 gradient-custom-2">
         <div class="container py-5 h-100">
           <div class="row d-flex justify-content-center align-items-center h-100">
-        
-            <% orderData.forEach(order => { %>
-              <% order.products.forEach(product => { %>
+ 
+
+            <% for (let i = 0; i < orderData.length; i++) { %>
+              <% const order = orderData[i]; %>
+              <% for (let j = 0; j < order.products.length; j++) { %>
+                <% const product = order.products[j]; %>
                 <div class="col-md-10 col-lg-4 col-xl-9" style="margin-bottom: 20px;">
                   <div class="card card-stepper" style="border-radius: 16px;">
                     <div class="card-body p-4">
-                      
                       <div class="d-flex flex-row mb-4 pb-2">
                         <div class="flex-fill">
                           <h5 class="bold"><%= product.productId.name %></h5>
@@ -110,13 +113,12 @@ z-index: 0
                           <p class="text-muted">Tracking Status: <span class="text-body"><%= product.OrderStatus %></span></p>
                         </div>
                         <div>
-                          <img class="align-self-center img-fluid"
-                            src="/userImages/<%= product.productId.image[0] %>" width="150">
+                          <img class="align-self-center img-fluid" src="/userImages/<%= product.productId.image[0] %>" width="150">
                         </div>
                       </div>
                       <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
                         <li class="step0 active" id="step1"><span style="margin-left: 22px; margin-top: 12px;">PLACED</span></li>
-                        <li class="step0 active text-center" id="step2"><span>SHIPPED</span></li>
+                        <li class="step0 text-center" id="step2"><span>SHIPPED</span></li>
                         <li class="step0 text-muted text-end" id="step3"><span style="margin-right: 22px;">DELIVERED</span></li>
                       </ul>
                     </div>
@@ -124,17 +126,47 @@ z-index: 0
                       <div class="d-flex justify-content-between">
                         <h5 class="fw-normal mb-0"><a href="#!" style="text-decoration: none;">Track</a></h5>
                         <div class="border-start h-100"></div>
-                        <h5 class="fw-normal mb-0"><a href='/cancelOrder?productID=<%= product.productId %>' style="text-decoration: none;color: red;">Cancel</a></h5>
+                        <button id="postButton" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" style="text-decoration: none; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">Cancel</button>
                       </div>
                     </div>
                   </div>
                 </div>
-              <% }); %>
-            <% }); %>
+              <% } %>
+            <% } %>f
             
           </div>
         </div>
       </section>
+
+      <script>
+       
+       function handleButtonClick(button) {
+    const OrderProdID = button.getAttribute('data-product-id');
+    const OrderID = button.getAttribute('data-order-data');
+    // const orderData = JSON.parse(OrderID);
+  const data = {
+    orderProdID: OrderProdID,
+    OrderID:OrderID,
+    
+  };
+
+  fetch('/cancelOrder', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // You may need to include additional headers such as authentication tokens.
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      location.reload();
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+};
+      </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
