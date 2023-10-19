@@ -146,6 +146,5 @@ function formatToDayMonthYear(inputDate) {
 
 module.exports = {
   placeOrderManage,
-  orderUserProfile,
-  cancelOrderByUser
+  orderUserProfile,git 
 };
