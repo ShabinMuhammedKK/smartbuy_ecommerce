@@ -37,7 +37,7 @@ const placeOrderManage = async (req, res) => {
       userId: req.session.user_id,
       "shippingAddress.country": country,
       "shippingAddress.fullName": fullName,
-      "shippingAddress.mobileNumber": mobileNo,
+      "shippingAddress.mobileNumber": mobileNo, 
       "shippingAddress.pincode": pincode,
       "shippingAddress.city": city,
       "shippingAddress.state": state,
@@ -146,5 +146,6 @@ function formatToDayMonthYear(inputDate) {
 
 module.exports = {
   placeOrderManage,
-  orderUserProfile,git 
+  orderUserProfile,
+  cancelOrderByUser
 };

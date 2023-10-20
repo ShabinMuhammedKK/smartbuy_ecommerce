@@ -346,9 +346,25 @@ const productDash = async(req,res)=>{
     console.log(error.message);
   }
 }
+
+//==================================user dash
 const UserDash = async(req,res)=>{
   try {
-  const usersData = await User.find({is_admin:0});
+
+
+var search = '';
+if(req.query.search){
+  search = req.query.search;
+}
+
+  const usersData = await User.find({
+    is_admin:0,
+    "$or":[
+      {name:{$regex:'.*'+search+'.*'}},
+      {mobile:{$regex:'.*'+search+'.*'}},
+      {email:{$regex:'.*'+search+'.*'}}
+    ],
+  });
   const adminData = await User.findOne({is_admin:1});
   res.render('userDash',{users:usersData,admin:adminData});
   } catch (error) {
