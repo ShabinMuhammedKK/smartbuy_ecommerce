@@ -603,5 +603,5 @@ module.exports = {
   loadAddressUploadPage,
   addAddress,
   productQuantityHandling,
-  removeProductFromCart
+ 
 };
