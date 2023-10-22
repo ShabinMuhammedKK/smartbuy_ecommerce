@@ -601,7 +601,7 @@ module.exports = {
   addToCart,
   loadcheckoutPage,
   loadAddressUploadPage,
-  addAddress,
+  // addAddress,
   productQuantityHandling,
- 
+  removeProductFromCart
 };
