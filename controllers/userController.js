@@ -589,7 +589,7 @@ module.exports = {
   sendVerifyMail,
   loadHome,
   userLogout,
-  loadProduct,
+  // loadProduct,
   verifyOTP,
   lodadProductDetails,
   resendOTP,
@@ -601,7 +601,7 @@ module.exports = {
   addToCart,
   loadcheckoutPage,
   loadAddressUploadPage,
-  // addAddress,
+  addAddress,
   productQuantityHandling,
   removeProductFromCart
 };
