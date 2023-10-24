@@ -589,7 +589,7 @@ module.exports = {
   sendVerifyMail,
   loadHome,
   userLogout,
-  // loadProduct,
+  loadProduct,
   verifyOTP,
   lodadProductDetails,
   resendOTP,

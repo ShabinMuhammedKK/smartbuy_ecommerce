@@ -77,7 +77,7 @@ const orderUserProfile = async (req, res) => {
       userId: req.session.user_id,
     }).populate("products.productId");
 
-    const orderdDate = formatToDayMonthYear(inputDate)
+    // const orderdDate = formatToDayMonthYear(inputDate)
 
     if (!orderData) {
       console.log("no orders from database");
@@ -90,16 +90,16 @@ const orderUserProfile = async (req, res) => {
 };
 
 
-//===============cancel the orders
+//===============cancel the orders by user
 const cancelOrderByUser = async (req,res)=>{
   const data = req.body;
   const productID = data.orderProdID;
   const orderID = data.OrderID;
 
   // const userID = req.session._id;
-  console.log("userID : "+req.session.user_id);
-  console.log("productID : "+productID);
-  console.log("orderID : "+orderID);
+  // console.log("userID : "+req.session.user_id);
+  // console.log("productID : "+productID);
+  // console.log("orderID : "+orderID);
 
   const cancelingProduct = await Order.findOne({_id:orderID});
   const cancelProductID = cancelingProduct.products.find((product)=>{
@@ -116,6 +116,33 @@ if(success){
 
 }
 
+//===============cancel order by admin
+const cancelOrderByAdmin = async (req,res)=>{
+try {
+  // console.log(req.body.productID);
+  const productID = req.body.productID;
+  const orderID = req.body.orderID
+  // console.log("product id : "+productID);
+  // console.log("order id : "+orderID);
+
+
+  const cancelingProduct = await Order.findOne({_id:orderID});
+  const cancelProductID = cancelingProduct.products.find((product)=>{
+  return product.productId==productID;
+  })
+
+  // console.log("result : "+cancelProductID)
+
+  cancelProductID.OrderStatus="Canceled";
+const success = await cancelingProduct.save();
+if(success){
+  res.json({result:"OK"});
+}
+  
+} catch (error) {
+  console.log(error.message);
+}
+}
 
 
 //============date function===
@@ -147,5 +174,7 @@ function formatToDayMonthYear(inputDate) {
 module.exports = {
   placeOrderManage,
   orderUserProfile,
-  cancelOrderByUser
+  cancelOrderByUser,
+  cancelOrderByAdmin,
+  formatToDayMonthYear
 };

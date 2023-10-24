@@ -10,13 +10,13 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body style="background-color: rgb(197, 246, 240);">
+<body style="background-color: #f0f0f0;">
     <section>
         <div class="container py-5">
           <div class="row justify-content-center mb-3">
             <div class="col-md-12 col-xl-10">
               <div class="card shadow-0 border rounded-3" style="background-color: rgb(255, 255, 255);width: 1000px;">
-                <div class="card-body" style="height: 600px;border-radius: 10px;">
+                <div class="card-body" style="height: 800px;border-radius: 20px;">
                   <div class="row">
                     <div class="col-md-12 col-lg-3 col-xl-9 mb-4 mb-lg-0" style="margin-left: 13%;">
                       <div class="bg-image hover-zoom ripple rounded ripple-surface">
@@ -38,7 +38,7 @@
                           <i class="fa fa-star"></i>
                           <i class="fa fa-star"></i> -->
                         </div>
-                        <span>4.9 Ratings</span>
+                        <span style="background-color: rgb(237, 200, 104);border-radius: 3px;" class="px-3">4.9 Ratings</span>
                       </div>
                       <div class="mt-1 mb-0 text-muted small">
                         <span><h5><h5><%=prodDatas.category%></h5></h5></span>
@@ -57,27 +57,57 @@
                       <p class="text-truncate mb-4 mb-md-0">
                         <%=prodDatas.description%>
                       </p>
+                      <br>
+
+                      <div style="background-color: aliceblue;padding: 2%;padding-left: 5%;border-radius: 5px;">
+                        <h4>Shipping Address</h4>
+                        <p class="text-truncate mb-4 mb-md-0">
+                          Name : <%=odrDatas.shippingAddress.fullName%>
+                        </p>
+                     
+                        <p class="text-truncate mb-4 mb-md-0">
+                          Phone No : <%=odrDatas.shippingAddress.mobileNumber%>
+                        </p>
+                       
+                        <p class="text-truncate mb-4 mb-md-0">
+                          City : <%=odrDatas.shippingAddress.city%>
+                        </p>
+                    
+                        <p class="text-truncate mb-4 mb-md-0">
+                          Pincode : <%=odrDatas.shippingAddress.pincode%>
+                        </p>
+                      </div>
+                      
+
+
+
                     </div>
                     <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
                       <div class="d-flex flex-row align-items-center mb-1">
-                        <h4 class="mb-1 me-1"><%=prodDatas.price%></h4>
+                        <h4 class="mb-1 me-1">₹<%=prodDatas.price%> x <%=status.quantity%></h4>
                         <span class="text-danger"><s></s></span>
                       </div>
                       <h6 class="text-success">Free shipping</h6>
                       <div class="d-flex flex-column mt-4">
                         <div class="dropdown">
-                            <button class="btn btn-success dropdown-toggle" id="statusDropdown" style="width: 215px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Change Order Status
+                          <button class="btn btn-success" id="statusDropdown" style="width: 170px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <%=status.OrderStatus%>
+                          </button>
+                            <button class="btn btn-success dropdown-toggle" id="statusDropdown"  type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                               <a class="dropdown-item" href="#">Order Placed</a>
                               <a class="dropdown-item" href="#">Shipping</a>
-                              <a class="dropdown-item" href="#">Out of Delivery</a>
+                              <a class="dropdown-item" href="#">Out for Delivery</a>
                             </div>
                           </div>
-                        <button class="btn btn-outline-danger btn-sm mt-2" type="button">
-                          Cancel Orders
+                        <button id="cancelButton" class="btn btn-outline-danger btn-sm mt-2">Cancel Orders
                         </button>
+                        <!-- <a href="/cancelOrders?productID=<%=prodDatas._id%>"></a> -->
+                        
+
+
                       </div>
                     </div>
                   </div>
@@ -101,6 +131,46 @@
           });
         });
         </script>
+
+
+<script>
+  document.getElementById("cancelButton").addEventListener("click", function() {
+    // Define the URL and data to send in the POST request
+    const url = "/admin/cancelOrders"; // Replace with the actual endpoint URL
+    const data = { 
+      productID: "<%=prodDatas._id%>",
+      orderID: "<%=orderID%>",
+     }; // Replace with the actual product ID
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+    .then((response) => {
+      if (response.ok) {
+        return response.json(); // Parse the response as JSON
+      } else {
+        console.error("POST request failed");
+        // Handle failure
+      }
+    })
+    .then((data) => {
+      if (data.result === "OK") {
+        // Reload the page when the result is "OK"
+        location.reload();
+      } else {
+        console.log("Response was successful, but result is not 'OK'");
+        // Handle other cases
+      }
+    })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  });
+</script>
         
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

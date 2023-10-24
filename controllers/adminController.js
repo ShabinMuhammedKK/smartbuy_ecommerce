@@ -439,12 +439,18 @@ try {
   
 
   const orderDatas = await Order.findOne({_id:req.query.orderID});
+  const orderID = req.query.orderID;
+  // console.log("order ID : "+orderID)
   // console.log("From Order Manage Oage : "+orderDatas);
   const productDatas =await Product.findOne({_id:req.query.productID})
     // console.log("From Order Manage Oage : "+productDatas);
+    const status = orderDatas.products.find((pro)=>{
+      return pro.productId == req.query.productID;
+    })
+  
 
 
-  res.render("orderManagePage",{odrDatas:orderDatas,prodDatas:productDatas});
+  res.render("orderManagePage",{odrDatas:orderDatas,prodDatas:productDatas,status,orderID});
 } catch (error) {
   console.log(error.message);
 }

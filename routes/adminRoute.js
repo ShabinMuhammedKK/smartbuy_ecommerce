@@ -31,7 +31,8 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage:storage})
 
-const adminController = require('../controllers/adminController')
+const adminController = require('../controllers/adminController');
+const orderController = require('../controllers/orderController');
 
 
 
@@ -56,7 +57,9 @@ admin_route.get('/usersData',auth.isLogin,adminController.UserDash);
 admin_route.get('/productData',auth.isLogin,adminController.productDash); 
 admin_route.get('/categoryData',auth.isLogin,adminController.categoryDash);
 admin_route.get("/ordersList",auth.isLogin,adminController.ordersListing);
-admin_route.get("/manageOrders",auth.isLogin,adminController.orderManage)
+admin_route.get("/manageOrders",auth.isLogin,adminController.orderManage);
+
+admin_route.post('/cancelOrders',auth.isLogin,orderController.cancelOrderByAdmin);
 
 
 

@@ -232,8 +232,11 @@
                           </td>
                           <td>
                       
-                            <a href="loadProductEdit?id=<%= products[i]._id %>"><button  class="btn btn-secondary"><a href="/admin/manageOrders?productID=<%=products[i].product._id%>&orderID=<%=products[i].orderDetails._id%>">Manage</a></button>
-                            </a> 
+                            <!-- <a href="loadProductEdit?id=<%= products[i]._id %>"> -->
+                              <button  class="btn btn-secondary">
+                                <a href="/admin/manageOrders?productID=<%=products[i].product._id%>&orderID=<%=products[i].orderDetails._id%>">Manage</a>
+                              </button>
+                            <!-- </a>  -->
                            </td>
                         </tr>
                       <% } %>
