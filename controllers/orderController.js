@@ -77,6 +77,8 @@ const orderUserProfile = async (req, res) => {
       userId: req.session.user_id,
     }).populate("products.productId");
 
+    // console.log("000000 : "+orderData.products);
+
     // const orderdDate = formatToDayMonthYear(inputDate)
 
     if (!orderData) {

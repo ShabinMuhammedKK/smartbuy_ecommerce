@@ -83,15 +83,22 @@ width: 50%;
 background: #1266f1;
 }
 
+#progressbar-1 li.red1:after,
+#progressbar-1 li.red1:before {
+background: #f11212;
+}
+
+
+
 .card-stepper {
 z-index: 0
 }
 </style>
 </head>
-<body style="background-color: rgb(233, 233, 233);">
-   <div style="display: flex;justify-content: space-between;margin: 10px;">
-    <h1 style="margin-left: 45%;">ORDERS</h1>
-    <a href="/userProfile"><button  class="btn btn-success">Go Back</button></a>
+<body style="background-color: rgb(0, 0, 0);">
+   <div style="display: flex;justify-content: space-evenly;margin: 10px;">
+    <h1 style="margin-left: 20%; color:#ffff;">ORDERS</h1>
+    <a href="/userProfile"><button style="position: fixed;margin-left: 15%;"  class="btn btn-success">Go Back</button></a>
    </div>
     <section class="vh-100 gradient-custom-2">
         <div class="container py-5 h-100">
@@ -117,10 +124,28 @@ z-index: 0
                         </div>
                       </div>
                       <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
-                        <li class="step0 active" id="step1"><span style="margin-left: 22px; margin-top: 12px;">PLACED</span></li>
-                        <li class="step0 text-center" id="step2"><span>SHIPPED</span></li>
-                        <li class="step0 text-muted text-end" id="step3"><span style="margin-right: 22px;">DELIVERED</span></li>
-                      </ul>
+                        <li class="step<%= product.OrderStatus === 'Order Placed' || product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled' ? ' active' : '' %>" id="step1">
+                            <span style="margin-left: 22px; margin-top: 12px;">PLACED</span>
+                        </li>
+                        <li class="step<%= product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled' ? ' active' : '' %> text-center" id="step2">
+                            <span>SHIPPED</span>
+                        </li>
+                        <% if (product.OrderStatus === 'Delivered' || product.OrderStatus === 'Canceled') { %>
+                          <li class="step red1 text-muted text-end" id="step3">
+                              <span style="margin-right: 22px;">
+                                  <% if (product.OrderStatus === 'Delivered') { %>
+                                      DELIVERED
+                                  <% } else if (product.OrderStatus === 'Canceled') { %>
+                                      Order Canceled
+                                  <% } %>
+                              </span>
+                          </li>
+                      <% } else { %>
+                          <li class="step text-muted text-end" id="step3">
+                              <span style="margin-right: 22px;">Out For Delivery</span>
+                          </li>
+                      <% } %>
+                    </ul>
                     </div>
                     <div class="card-footer p-4">
                       <div class="d-flex justify-content-between">
@@ -137,6 +162,8 @@ z-index: 0
           </div>
         </div>
       </section>
+
+     
 
       <script>
        
