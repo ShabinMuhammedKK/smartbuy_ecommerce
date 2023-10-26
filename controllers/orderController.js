@@ -60,7 +60,7 @@ const placeOrderManage = async (req, res) => {
       await Cart.deleteOne({ user_id: userID });
 
       // Respond with a success message
-      res.json({ success: 'OrderPlaced' });
+      return res.json({ success: 'OrderPlaced' });
     } else {
       // Handle other payment methods or provide an appropriate response here
     }
@@ -82,7 +82,7 @@ const orderUserProfile = async (req, res) => {
     if (!orderData) {
       console.log("no orders from database");
     }else{
-      res.render('userOrders',{orderData,products:orderData.products});
+      return res.render('userOrders',{orderData,products:orderData.products});
     }
   } catch (error) {
     console.log(error.message);
@@ -109,7 +109,7 @@ const cancelOrderByUser = async (req,res)=>{
  cancelProductID.OrderStatus="Canceled";
 const success = await cancelingProduct.save();
 if(success){
-  res.json({result:"OK"});
+  return res.json({result:"OK"});
 }
 
 
@@ -136,7 +136,7 @@ try {
   cancelProductID.OrderStatus="Canceled";
 const success = await cancelingProduct.save();
 if(success){
-  res.json({result:"OK"});
+  return res.json({result:"OK"});
 }
   
 } catch (error) {
@@ -144,6 +144,28 @@ if(success){
 }
 }
 
+//==status change by admin===
+const statusChange = async(req,res)=>{
+  try {
+    const selectedValue = req.body.selectedValue;
+    const productID = req.body.productID;
+    const orderID = req.body.orderID
+
+    const cancelingProduct = await Order.findOne({_id:orderID});
+  const cancelProductID = cancelingProduct.products.find((product)=>{
+  return product.productId==productID;
+  })
+
+  cancelProductID.OrderStatus=selectedValue.toString();
+const success = await cancelingProduct.save();
+if(success){
+  return res.json({result:"OK"});
+}
+    
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 //============date function===
 function formatToDayMonthYear(inputDate) {
@@ -176,5 +198,6 @@ module.exports = {
   orderUserProfile,
   cancelOrderByUser,
   cancelOrderByAdmin,
-  formatToDayMonthYear
+  formatToDayMonthYear,
+  statusChange
 };

@@ -60,6 +60,7 @@ admin_route.get("/ordersList",auth.isLogin,adminController.ordersListing);
 admin_route.get("/manageOrders",auth.isLogin,adminController.orderManage);
 
 admin_route.post('/cancelOrders',auth.isLogin,orderController.cancelOrderByAdmin);
+admin_route.post('/statusChange',auth.isLogin,orderController.statusChange);
 
 
 
