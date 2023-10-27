@@ -1,7 +1,15 @@
 const Order = require("../models/orderModel");
 const Cart = require("../models/userCartModel");
 const Address = require("../models/userAddressModel");
-const Product = require("../models/productModel");
+
+// const Product = require("../models/productModel");
+
+const razorpay = new Razorpay({
+  key_id: 'rzp_test_lrow7VIJwkZ3XE',
+  key_secret: '3F5xUM9pONfpz6QA0fAAaEYP',
+});
+
+
 
 //Oerder placing
 const placeOrderManage = async (req, res) => {
@@ -59,8 +67,31 @@ const placeOrderManage = async (req, res) => {
 
       await Cart.deleteOne({ user_id: userID });
 
-      // Respond with a success message
       return res.json({ success: 'OrderPlaced' });
+
+
+      //=============================================================================
+    } else if (placeorder.paymentMethod === "Online") {
+      // Handle Razorpay Payment
+
+      const options = {
+        amount: placeorder.totalAmount * 100, // Amount in paise
+        currency: "INR", // or your currency
+        receipt: placeorder._id, // Order ID or any unique identifier
+      };
+
+      razorpay.orders.create(options, async function (err, razorpayOrder) {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ error: 'Razorpay order creation failed' });
+        }
+
+        // Redirect the user to the Razorpay payment page
+        return res.json({ order_id: razorpayOrder.id });
+      });
+
+      //=========================================================================
+
     } else {
       // Handle other payment methods or provide an appropriate response here
     }

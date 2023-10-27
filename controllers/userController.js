@@ -518,14 +518,15 @@ const loadcheckoutPage = async (req, res) => {
 
     const usersAddresses = await Address.findOne({ user_id: req.session.user_id });
     // console.log(usersAddresses.address);
-    const totalamount = req
+    const totalamount = await calculateTotalPrice(req.session.user_id);
+
 
     if (usersAddresses) {
-      res.render("checkoutPage", { addresses: usersAddresses.address });
+      res.render("checkoutPage", { addresses: usersAddresses.address ,totalamount});
       // console.log(usersAddresses.address)
     } else {
       console.log("User's addresses not found.");
-      res.render("checkoutPage", { addresses: [] });
+      res.render("checkoutPage", { addresses: [] ,totalamount});
     }
   } catch (error) {
     console.log(error.message);

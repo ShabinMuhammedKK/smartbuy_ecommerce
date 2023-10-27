@@ -196,7 +196,7 @@
             <table
               class="table table-light table-borderless table-hover text-center mb-0"
             >
-              <thead style="background-color: black">
+              <thead style="background-color: rgb(88, 3, 6)">
                 <tr>
                   <th style="color: white"></th>
                   <th style="color: white">Products</th>
@@ -216,32 +216,27 @@
                 <% } else { %>
                 
                 <% for(let i=0;i<products.length;i++) { %>
-                  <tr style="border: solid 1px #000000;background-color: rgb(235, 239, 241);">
+                  <tr style="background-color: rgb(235, 239, 241);">
                     <td style="padding-top: 0px;padding-bottom: 0px;">
                       <img src="/userImages/<%=products[i].product.image[0] %>" alt="Product Image" style="width: 90px;height: 90px;">
                       <td style="font-size: larger;font-weight: bold;"><%= products[i].product.name %></td>
                     </td>
                     
-                    <td style="font-size: larger;font-weight:bold;" >₹<%=products[i].product.price %></td>
+                    <td style="font-size: larger;font-weight:bold;" id="singleProductPrice<%=products[i].product._id%>" >₹<%=products[i].product.price %></td>
                     <td>
                       <div class="input-group quantity mx-auto" style="padding-left: 25%;">
-                        <button onclick="changeQty('<%=user_id%>','<%=products[i].product._id%>',-1)"  style="height: 30px; width: 70px; border: none;background-color:transparent;"><i class="bi bi-dash"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
-                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                          <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
-                        </svg></i></button>
+                        <button onclick="changeQty('<%=user_id%>','<%=products[i].product._id%>',-1)"  style="height: 30px; width: 70px; border: none;background-color:transparent;"><h4>-</h4></button>
                         <input type="text" id="qty<%=products[i].product._id%>" style="width: 30px;font-size: larger;font-weight: bold; text-align: center;" value="<%=products[i].quantity%>">
-                        <button onclick="changeQty('<%=user_id%>','<%=products[i].product._id%>',1)" style="height: 30px; width: 70px; border: none;background-color:transparent;"><i class="bi bi-plus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                        </svg></i></button>
+                        <button onclick="changeQty('<%=user_id%>','<%=products[i].product._id%>',1)" style="height: 30px; width: 70px; border: none;background-color:transparent;"><h4>+</h4></button>
                       </div>
                     </td>
-                    <td style="font-size: larger;font-weight: bold;" id="singleProductTotal<%=products[i].product._id%>"> ₹<%=products[i].product.price %></td>
+                    
+
+                    <td style="font-size: larger;font-weight: bold;" id="singleProductTotal<%=products[i].product._id%>"><p></p> ₹ <%=products[i].product.price %></td>
                     <td>
-                      <button onclick="removeCartItem('<%=user_id%>','<%=products[i].product._id%>')" style="height: 40px; width: 40px; color: rgb(0, 0, 0);background-color: red;"><i class="bi bi-x-lg"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-                      </svg></i></button>
+                      <button onclick="removeCartItem('<%=user_id%>','<%=products[i].product._id%>')" style="height: 40px; width: 40px; color: rgb(255, 255, 255);background-color: rgb(67, 67, 67);">X</button>
                     </td>
+                    
                   </tr>
                 <% } %>
                 <% } %>
@@ -263,7 +258,7 @@
             </form> -->
             <h5
               style="
-                background-color: black;
+                background-color: rgb(88, 3, 6);
                 height: 50px;
                 width: 100%;
                 color: white;
@@ -284,14 +279,14 @@
                   "
                 >
                   <h6>Subtotal</h6>
-                  <h6 id="subTotalDisplay" >0</h6>
+                  <h6 id="subTotalDisplay" >₹ <%=total%></h6>
                 </div>
                 <div
                   class="d-flex justify-content-between"
                   style="padding-left: 30px; padding-right: 30px"
                 >
                   <h6 class="font-weight-medium">Shipping</h6>
-                  <h6 class="font-weight-medium">0</h6>
+                  <h6 class="font-weight-medium">Free</h6>
                 </div>
               </div>
               <div class="pt-2">
@@ -299,8 +294,8 @@
                   class="d-flex justify-content-between mt-2"
                   style="padding-left: 30px; padding-right: 30px"
                 >
-                  <h5>Total</h5>
-                  <h5 id="totalDisplay">0</h5>
+                  <h5 style="font-weight: 700;font-size: x-large;">Total</h5>
+                  <h5 id="totalDisplay" style="font-weight: 700;font-size: x-large;">₹ <%=total%></h5>
                 </div>
                 
               </div>
@@ -939,9 +934,9 @@
         // console.log("button cliked...");
       let totalDisplay = document.getElementById('totalDisplay')
       let subTotalDisplay = document.getElementById('subTotalDisplay');
-      let singleProductTotal = document.getElementById(`singleProductTotal${productId}`);
+      let singleProductTotal = document.getElementById(`singleProductTotal${productId}`)
       let qtyInput = document.getElementById(`qty${productId}`);
-      let singleProductPrice = document.getElementById(`singleProductPrice${productId}`);
+      let singleProductPrice = document.getElementById(`singleProductPrice${productId}`).innerHTML;
 
       if(userId){
         $.ajax({
@@ -952,14 +947,19 @@
             // console.log(response.cartItems.products[0].product);
             // console.log(productId);
             response.total==undefined?window.Location.href='/login':
-            totalDisplay.innerHTML=response.total
-            subTotalDisplay.innerHTML=response.total
+            totalDisplay.innerHTML="₹ "+response.total
+            subTotalDisplay.innerHTML="₹ "+response.total
 
             let newQuantity = response.cartItems.products.find(val=>val.product==productId);
-            // console.log(newQuantity.quantity);
+            
             qtyInput.value=newQuantity.quantity
-            singleProductTotal.innerHTML = `${Number(singleProductPrice.innerHTML) * Number(newQuantity.quantity)}`;
-            console.log("hello:"+singleProductTotal);
+            console.log(singleProductPrice.replace("₹", ""), newQuantity.quantity);
+            
+            // singleProductTotal.innerHTML = `${Number(singleProductPrice.innerHTML) * Number(newQuantity.quantity)}`;
+            singleProductTotal.innerHTML = "₹ "+(Number(singleProductPrice.replace("₹", "")) * newQuantity.quantity);
+
+            
+            // console.log("hello:"+singleProductTotal);
           }
         })
       }

@@ -130,10 +130,10 @@
         <div class="container-fluid">
             <div class="row px-lg-11">
 
-                <div style="border: 5px solid #000000;width: 65%;">
-                    <div class="mb-5 col-lg-12" style="padding-left: 0%;padding-right: 0%;">
-                        <h5 style="background-color: black;color: white;height: 45px;text-align:center;padding-top: 14px;">DELIVERY ADDRESS</h5>
-                        <h5 class="section-title position-relative  mb-3" style="padding-left: 20px;">Select Order Shipping Address </h5>
+                <div class="col-12 col-md-8 mb-3" style="border: 5px solid rgb(88, 3, 6);;">
+                    <div class="mb-5  col-lg-12" style="padding-left: 0%;padding-right: 0%;">
+                        <h5 style="background-color: rgb(88, 3, 6);color: white;height: 45px;text-align:center;padding-top: 14px;">DELIVERY ADDRESS</h5>
+                        <h5 class="section-title position-relative  mb-3" style="padding-left: 20px;">Select Shipping Address </h5>
                         <div class="" p-30" style="padding-left: 20px;padding-right: 20px;">
                             <% for (let i = addresses.length - 1; i >= 0; i--) { %>
                                 <div class="form-group" style="padding-left: 30px; padding-right: 30px;">
@@ -150,8 +150,8 @@
                             
     
                         </div>
-                        <button class="btn btn-dark" style="width: 30%;height: 40px;background-color: #000000;color: white;margin-left: 16%;" id="refreshButton">Refresh Page</button>
-                        <button style="width: 30%;height: 40px;background-color: #000000;color: white;margin-left: 2%;" data-toggle="collapse" data-target="#shipping-address">+ New Address</button>
+                        <button class="btn btn-dark" style="width: 30%;height: 40px;background-color: rgb(88, 3, 6);color: white;margin-left: 16%;" id="refreshButton">↻ Refresh</button>
+                        <button style="width: 30%;height: 40px;background-color: rgb(88, 3, 6);color: white;margin-left: 2%;" data-toggle="collapse" data-target="#shipping-address">+ New Address</button>
 
                         
 
@@ -204,9 +204,9 @@
                                     </div>                                   
                                     <div class="col-md-6 form-group">
                                         <label style="color: #000000;font-weight: bold;">Mobile No</label>
-                                        <input  style="color: #000000;font-weight: bold;"class="form-control" type="number" name="mobn" placeholder="1234567890">
+                                        <input  style="color: #000000;font-weight: bold;"class="form-control" type="number" name="mobn" placeholder="+91 00000 00000">
                                     </div>
-                                    <div class="col-md-6 form-group">
+                                    <div class="col-md-6 form-group" style="height: 50px;">
                                         <label style="color: #000000;font-weight: bold;">Country</label>
                                         <select  style="color: #000000;font-weight: bold;"class="custom-select" type="text" name="country">
                                             <option>United States</option>
@@ -228,7 +228,7 @@
                                         <input  style="color: #000000;font-weight: bold;" class="form-control" type="number" name="pin" placeholder="000000">
                                     </div>
                                 </div>
-                                <button type="submit" style="width: 30%;height: 40px;background-color: #000000;color: white;margin-left: 36%;">Save</button>
+                                <button type="submit" style="width: 30%;height: 40px;background-color: rgb(88, 3, 6);color: white;margin-left: 36%;">Save</button>
 
                             </form>
                         </div>
@@ -242,9 +242,9 @@
 
 
 
-                <div class="col-lg-4">
-                    <div style="border: 5px solid #000000;">
-                        <h5 style="background-color: black;color: white;height: 45px;text-align:center;padding-top: 14px;">ORDER TOTAL</h5>
+                <div class="col-lg-4 ">
+                    <div style="border: 5px solid rgb(88, 3, 6);">
+                        <h5 style="background-color: rgb(88, 3, 6);color: white;height: 45px;text-align:center;padding-top: 14px;">ORDER TOTAL</h5>
                     <div class=" p-30 mb-5">
                         <!-- <div class="border-bottom" style="padding-left: 30px;padding-right: 30px;">
                             <h6 class="mb-3">Products</h6>
@@ -264,44 +264,44 @@
                         <div class="border-bottom pt-3 pb-2" style="padding-left: 30px;padding-right: 30px;">
                             <div class="d-flex justify-content-between mb-3">
                                 <h6 style="color: #000000;">Subtotal</h6>
-                                <h6 style="color: #000000;">$150</h6>
+                                <h6 style="color: #000000;">₹ <%=totalamount%></h6>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <h6 style="color: #000000;" class="font-weight-medium">Shipping</h6>
-                                <h6  style="color: #000000;"class="font-weight-medium">$10</h6>
+                                <h6  style="color: #000000;"class="font-weight-medium">Free</h6>
                             </div>
                         </div>
                         
                     </div>
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2" style="padding-left: 30px;padding-right: 30px;">
-                            <h5 style="color: #000000;">Total</h5>
-                            <h5 style="color: #000000;">$160</h5>
+                            <h5 style="font-weight: 700;font-size: x-large;color: #000000;">Total</h5>
+                            <h5 style="font-weight: 700;font-size: x-large;color: #000000;">₹ <%=totalamount%></h5>
                         </div>
                     </div>
                     </div>
-                   <div style="border: 5px solid #000000;margin-top: 5px;">
+                   <div style="border: 5px solid rgb(88, 3, 6);margin-top: 5px;">
                     <div class="mb-5">
-                        <h5 style="background-color: black;color: white;height: 45px;text-align:center;padding-top: 14px;">PAYMENT</h5>
+                        <h5 style="background-color: rgb(88, 3, 6);color: white;height: 45px;text-align:center;padding-top: 14px;">PAYMENT</h5>
                         <div class=" p-30">
                             <div class="form-group" style="padding-left: 30px; padding-right: 30px; padding-top:20px;">
                                 <div class="custom-control custom-radio">
                                     <input type="radio" class="custom-control-input" name="payment" id="COD">
-                                    <label style="color: #000000;font-weight: bold;" class="custom-control-label" for="COD">Cash on delivery (COD)</label>
+                                    <label style="color: #000000;font-weight: bold;" class="custom-control-label" for="COD">Cash on Delivery (COD)</label>
                                 </div>
                             </div>
                             <div class="form-group" style="padding-left: 30px; padding-right: 30px;">
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" name="payment" id="UPI">
-                                    <label style="color: #000000;font-weight: bold;" class="custom-control-label" for="UPI">UPI Payment</label>
+                                    <input type="radio" class="custom-control-input" name="payment" id="Online">
+                                    <label style="color: #000000;font-weight: bold;" class="custom-control-label" for="Online">Online Payment</label>
                                 </div>
                             </div>
-                            <div class="form-group mb-4" style="padding-left: 30px; padding-right: 30px;">
+                            <!-- <div class="form-group mb-4" style="padding-left: 30px; padding-right: 30px;">
                                 <div class="custom-control custom-radio">
                                     <input type="radio" class="custom-control-input" name="payment" id="Wallet">
                                     <label style="color: #000000;font-weight: bold;" class="custom-control-label" for="Wallet">Wallet</label>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                    </div>
