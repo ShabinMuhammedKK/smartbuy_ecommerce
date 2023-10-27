@@ -1,7 +1,7 @@
 const Order = require("../models/orderModel");
 const Cart = require("../models/userCartModel");
 const Address = require("../models/userAddressModel");
-
+const Razorpay = require('razorpay');
 // const Product = require("../models/productModel");
 
 const razorpay = new Razorpay({
