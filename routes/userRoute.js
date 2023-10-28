@@ -38,28 +38,39 @@ const upload = multer({storage:storage})
 
 user_route.get('/register',auth.isLogout,userController.loadRegister);
 user_route.post('/register',userController.insertUser);
+
 user_route.post('/verifyOTP',userController.verifyOTP);
 user_route.get('/verifyOTP',userController.verifyOTP);
+
 user_route.get('/product',userController.lodadProductDetails);
+
 user_route.get('/resendOTP',userController.resendOTP);
+
 user_route.get('/',auth.isLogout,userController.loadHome);
 user_route.get('/login',auth.isLogout,userController.loginLoad);
 user_route.post('/login',auth.isLogout,userController.verifyLogin);
+
 user_route.get('/Allproducts',userController.loadProductListingPage);
 user_route.get('/home',auth.isLogin,userController.loadHome)
 user_route.get('/logout',auth.isLogin,userController.userLogout)
 user_route.get('/userProfile',auth.isLogin,userController.loadUserProfile)
 user_route.get('/userCart',auth.isLogin,userController.loadCartPage);
+
 user_route.get('/loadUserEdit',auth.isLogin,userController.loadUserEdit);
 user_route.post('/loadUserEdit',upload.single('image'),userController.updateEdit);
+
 user_route.post('/addToCart',auth.isLogin,userController.addToCart)
 user_route.get('/checkout',auth.isLogin,userController.loadcheckoutPage);
 user_route.get("/addressPage",auth.isLogin,userController.loadAddressUploadPage);
 user_route.post("/addressPage",auth.isLogin,userController.addAddress);
 user_route.post("/orderPlaceClicked",auth.isLogin,orderController.placeOrderManage);
+
 user_route.post("/changeqty",auth.isLogin,userController.productQuantityHandling)
+
 user_route.post('/removeProductFromCart/:productId',auth.isLogin,userController.removeProductFromCart);
+
 user_route.get('/userOrders',auth.isLogin,orderController.orderUserProfile)
+
 user_route.post('/cancelOrder',auth.isLogin,orderController.cancelOrderByUser);
 
 

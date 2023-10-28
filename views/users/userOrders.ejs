@@ -25,7 +25,7 @@ position: relative;
 content: "1";
 color: #fff;
 width: 29px;
-margin-left: 22px;
+margin-left: 50px;
 padding-left: 11px;
 }
 
@@ -39,12 +39,12 @@ width: 29px;
 content: "3";
 color: #fff;
 width: 29px;
-margin-right: 22px;
+margin-right: 50px;
 text-align: center;
 }
 
 #progressbar-1 li:before {
-line-height: 29px;
+line-height: 35px;
 display: block;
 font-size: 12px;
 background: #455A64;
@@ -55,7 +55,7 @@ margin: auto;
 #progressbar-1 li:after {
 content: '';
 width: 121%;
-height: 2px;
+height: 8px;
 background: #455A64;
 position: absolute;
 left: 0%;
@@ -66,6 +66,7 @@ z-index: -1;
 
 #progressbar-1 li:nth-child(2):after {
 left: 50%
+
 }
 
 #progressbar-1 li:nth-child(1):after {
@@ -95,10 +96,10 @@ z-index: 0
 }
 </style>
 </head>
-<body style="background-color: rgb(0, 0, 0);">
-   <div style="display: flex;justify-content: space-evenly;margin: 10px;">
-    <h1 style="margin-left: 20%; color:#ffff;">ORDERS</h1>
-    <a href="/userProfile"><button style="position: fixed;margin-left: 15%;"  class="btn btn-success">Go Back</button></a>
+<body style="background-color: rgb(21, 33, 67);">
+   <div style="display: flex;justify-content: space-evenly;margin-top: 40px;padding-bottom: 20px;padding-top:  20px;background-color: #f9fff9;">
+    <h1 style="justify-items: center; color:#000000;font-size: 60px;">ORDERS</h1>
+    <!-- <a href="/userProfile"><button style="position: fixed;margin-left: 15%;"  class="btn btn-success">Go Back</button></a> -->
    </div>
     <section class="vh-100 gradient-custom-2">
         <div class="container py-5 h-100">
@@ -116,42 +117,52 @@ z-index: 0
                         <div class="flex-fill">
                           <h5 class="bold"><%= product.productId.name %></h5>
                           <p class="text-muted">Qt: <%= product.quantity %> item</p>
-                          <h4 class="mb-3">RS. <%= product.productId.price %> <span class="small text-muted"> via (<%= order.paymentMethod %>) </span></h4>
-                          <p class="text-muted">Tracking Status: <span class="text-body"><%= product.OrderStatus %></span></p>
+                          <h4 class="mb-3">₹ <%= product.productId.price %> <span class="small text-muted"> via (<%= order.paymentMethod %>) </span></h4>
+                          <p style="font-weight: 600;border: 2px solid;margin-right: 78%;padding: 2%;border-radius: 8px;" class="text-muted">Status : <span class="text-body"><%= product.OrderStatus %></span></p>
                         </div>
                         <div>
-                          <img class="align-self-center img-fluid" src="/userImages/<%= product.productId.image[0] %>" width="150">
+                          <img style="border-radius: 8px;" class="align-self-center img-fluid" src="/userImages/<%= product.productId.image[0] %>" width="150">
                         </div>
                       </div>
                       <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
-                        <li class="step<%= product.OrderStatus === 'Order Placed' || product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled' ? ' active' : '' %>" id="step1">
-                            <span style="margin-left: 22px; margin-top: 12px;">PLACED</span>
+                        <li class="step<%= product.OrderStatus === 'placed' || product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled' ? ' active' : '' %>" id="step1">
+                            <span style="margin-left: 22px; margin-top: 12px;">ORDER PLACED</span>
                         </li>
                         <li class="step<%= product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled' ? ' active' : '' %> text-center" id="step2">
-                            <span>SHIPPED</span>
+                            <span>PRODUCT SHIPPED</span>
                         </li>
-                        <% if (product.OrderStatus === 'Delivered' || product.OrderStatus === 'Canceled') { %>
+                        
+
+                        <% if (product.OrderStatus === 'Canceled') { %>
                           <li class="step red1 text-muted text-end" id="step3">
                               <span style="margin-right: 22px;">
-                                  <% if (product.OrderStatus === 'Delivered') { %>
-                                      DELIVERED
-                                  <% } else if (product.OrderStatus === 'Canceled') { %>
-                                      Order Canceled
-                                  <% } %>
+                                  ORDER CANCELED
                               </span>
                           </li>
-                      <% } else { %>
-                          <li class="step text-muted text-end" id="step3">
-                              <span style="margin-right: 22px;">Out For Delivery</span>
+                      <% } else if (product.OrderStatus === 'Delivered') { %>
+                          <li class="step active text-muted text-end" id="step3">
+                              <span style="margin-right: 22px;">
+                                  DELIVERED
+                              </span>
                           </li>
-                      <% } %>
+                      <% }else{ %>
+                        <li class="step  text-muted text-end" id="step3">
+                            <span style="margin-right: 22px;">
+                                DELIVERED
+                            </span>
+                        </li>
+                    <% } %>
+
+
+                        
+                        
                     </ul>
                     </div>
                     <div class="card-footer p-4">
                       <div class="d-flex justify-content-between">
-                        <h5 class="fw-normal mb-0"><a href="#!" style="text-decoration: none;">Track</a></h5>
+                        <h6 class="fw-normal mb-0">Customer Service: (+91) 7994586558</h6>
                         <div class="border-start h-100"></div>
-                        <button id="postButton" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" style="text-decoration: none; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">Cancel</button>
+                        <button id="postButton" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" style="text-decoration: none;font-weight: 500; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">CANCEL ORDER</button>
                       </div>
                     </div>
                   </div>
