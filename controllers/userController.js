@@ -4,8 +4,9 @@ const Cart = require("../models/userCartModel");
 const Address = require("../models/userAddressModel");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
-// const secret = require("../.env/secret");
 require("dotenv").config();
+
+
 
 let otp;
 
@@ -29,12 +30,12 @@ const sendVerifyMail = async (name, email) => {
       secure: false,
       requireTLS: true,
       auth: {
-        user: process.env.googleEmailSecret,
-        pass: process.env.googlePassSecret,
+        user: process.env.googleEmailSecret.trim(),
+        pass: process.env.googlePassSecret.trim(),
       },
     });
     const mailOptions = {
-      from: proccess.env.googleEmailSecret,
+      from: process.env.googleEmailSecret,
       to: email,
       subject: "For veryfication email",
       html: `<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
@@ -352,6 +353,29 @@ const addAddress = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+//==============================remove address
+const removeAddr = async(req,res)=>{
+  try {
+    // const addrID = req.body.addrID;
+    const userID  = req.session.user_id
+    // console.log(userID);
+    const deliveryAddrs = await Address.findOne({user_id:req.session.user_id})
+    
+    const addressID = req.body
+    const value = addressID.value;
+    console.log(value);
+
+    // if(deliveryAddrs){
+    //   const selectedAddr = deliveryAddrs.address.find((addrID)=>{
+    //     addrID.user_id
+    //   })
+    // }else{
+    //   console.log("delivery address not fount from removeAddr");
+    // }
+  } catch (error) {
+    console.log(message.error);
+  }
+}
 //==============================load user address add page
 const loadAddressUploadPage = async (req, res) => {
   try {
@@ -405,7 +429,8 @@ const loadCartPage = async (req, res) => {
       res.render("userCart", { products: userCart.products, total,user_id: req.session.user_id });
       // console.log(userCart.products);
     }else{
-      res.render("userCart",{products:0});
+      let total = 0;
+      res.render("userCart",{products:0,total});
     }
   } catch (error) {
     console.log(error.message);
@@ -604,5 +629,6 @@ module.exports = {
   loadAddressUploadPage,
   addAddress,
   productQuantityHandling,
-  removeProductFromCart
+  removeProductFromCart,
+  removeAddr
 };

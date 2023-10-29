@@ -73,5 +73,7 @@ user_route.get('/userOrders',auth.isLogin,orderController.orderUserProfile)
 
 user_route.post('/cancelOrder',auth.isLogin,orderController.cancelOrderByUser);
 
+user_route.post('/deleteAddr',auth.isLogin,userController.removeAddr);
+
 
 module.exports = user_route;

@@ -4,7 +4,7 @@ const Address = require("../models/userAddressModel");
 const Razorpay = require('razorpay');
 // const Product = require("../models/productModel");
 
-const razorpay = new Razorpay({
+const instance = new Razorpay({
   key_id: 'rzp_test_lrow7VIJwkZ3XE',
   key_secret: '3F5xUM9pONfpz6QA0fAAaEYP',
 });
@@ -38,7 +38,7 @@ const placeOrderManage = async (req, res) => {
       StatusLevel: 1,
     }));
 
-
+    let total = await calculateTotalPrice(req.session.user_id);
 
 
     const order = new Order({
@@ -50,7 +50,7 @@ const placeOrderManage = async (req, res) => {
       "shippingAddress.city": city,
       "shippingAddress.state": state,
       products: cartProducts,
-      totalAmount: 0,
+      totalAmount: total,
       paymentMethod: selectedPaymentMethod,
       paymentStatus: "pending",
       OrderStatus: "pending",
@@ -74,23 +74,8 @@ const placeOrderManage = async (req, res) => {
     } else if (placeorder.paymentMethod === "Online") {
       // Handle Razorpay Payment
 
-      const options = {
-        amount: placeorder.totalAmount * 100, // Amount in paise
-        currency: "INR", // or your currency
-        receipt: placeorder._id, // Order ID or any unique identifier
-      };
-
-      razorpay.orders.create(options, async function (err, razorpayOrder) {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({ error: 'Razorpay order creation failed' });
-        }
-
-        // Redirect the user to the Razorpay payment page
-        return res.json({ order_id: razorpayOrder.id });
-      });
-
-      //=========================================================================
+      generateRazorpay(placeorder._id,total);
+      return res.json({ success: 'OnlinePayment' });
 
     } else {
       // Handle other payment methods or provide an appropriate response here
@@ -99,7 +84,20 @@ const placeOrderManage = async (req, res) => {
     console.log(error.message);
   }
 };
+//Razorpay function=======================================
+function generateRazorpay(orderID,total){
+  const options = {
+    amount: total, 
+    currency: "INR", 
+    receipt: orderID, 
+  };
 
+  instance.orders.create(options, async function (err,order) {
+    console.log(order);
+    return(order)
+  });
+
+}
 
 //orderpage displaying
 const orderUserProfile = async (req, res) => {
@@ -107,11 +105,6 @@ const orderUserProfile = async (req, res) => {
     const orderData = await Order.find({
       userId: req.session.user_id,
     }).populate("products.productId");
-
-    // console.log("000000 : "+orderData.products);
-
-    // const orderdDate = formatToDayMonthYear(inputDate)
-
     if (!orderData) {
       console.log("no orders from database");
     }else{
@@ -128,11 +121,6 @@ const cancelOrderByUser = async (req,res)=>{
   const data = req.body;
   const productID = data.orderProdID;
   const orderID = data.OrderID;
-
-  // const userID = req.session._id;
-  // console.log("userID : "+req.session.user_id);
-  // console.log("productID : "+productID);
-  // console.log("orderID : "+orderID);
 
   const cancelingProduct = await Order.findOne({_id:orderID});
   const cancelProductID = cancelingProduct.products.find((product)=>{
@@ -152,19 +140,15 @@ if(success){
 //===============cancel order by admin
 const cancelOrderByAdmin = async (req,res)=>{
 try {
-  // console.log(req.body.productID);
+
   const productID = req.body.productID;
   const orderID = req.body.orderID
-  // console.log("product id : "+productID);
-  // console.log("order id : "+orderID);
-
 
   const cancelingProduct = await Order.findOne({_id:orderID});
   const cancelProductID = cancelingProduct.products.find((product)=>{
   return product.productId==productID;
   })
 
-  // console.log("result : "+cancelProductID)
 
   cancelProductID.OrderStatus="Canceled";
 const success = await cancelingProduct.save();
@@ -225,6 +209,31 @@ function formatToDayMonthYear(inputDate) {
 // const formattedDate = formatToDayMonthYear(inputDate);
 // console.log(formattedDate); // Output: "15 October 2023"
 
+//--------------------------------------------calculation
+const calculateTotalPrice = async (userId) => {
+  try {
+    const cart = await Cart.findOne({ user_id: userId }).populate(
+      "products.product"
+    );
+    // console.log(cart);
+    if (!cart) {
+      console.log("User does not have a cart.");
+    }
+
+    let totalPrice = 0;
+    for (const cartProduct of cart.products) {
+      const { product, quantity } = cartProduct;
+      const productSubtotal = product.price * quantity;
+      totalPrice += productSubtotal;
+    }
+
+    // console.log('Total Price:', totalPrice);
+    return totalPrice;
+  } catch (error) {
+    console.error("Error calculating total price:", error.message);
+    return 0;
+  }
+};
 
 module.exports = {
   placeOrderManage,
