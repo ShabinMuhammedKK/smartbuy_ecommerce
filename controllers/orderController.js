@@ -316,5 +316,5 @@ module.exports = {
   cancelOrderByAdmin,
   formatToDayMonthYear,
   statusChange,
-  verifyPayment
+  // verifyPayment
 };
