@@ -75,5 +75,7 @@ user_route.post('/cancelOrder',auth.isLogin,orderController.cancelOrderByUser);
 
 user_route.post('/deleteAddr',auth.isLogin,userController.removeAddr);
 
+user_route.post('/verifyPayment',orderController.verifyPayment);
+
 
 module.exports = user_route;

@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <!-- Main CSS File -->
     <link rel="stylesheet" href="assets/css/style2.css">
     <link rel="stylesheet" href="assets/css/plugins/nouislider/nouislider.css">
@@ -697,11 +698,11 @@
 
     <!-- Plugins JS File -->
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+   
 
 
     <script>
-       const options = document.querySelectorAll('input[type="radio"][name="options"]');
+       const optionss = document.querySelectorAll('input[type="radio"][name="options"]');
         const paymentOptions = document.querySelectorAll('input[type="radio"][name="payment"]');
         const submitBothSets = document.getElementById("submitBothSets");
 
@@ -712,7 +713,7 @@
             let selectedPaymentOptions;
 
             // Collect data from the first set of radio buttons
-            options.forEach((option) => {
+            optionss.forEach((option) => {
                 if (option.checked) {
                     console.log("option checked");
                     selectedData=option.value;
@@ -749,7 +750,10 @@
           
           $('#orderPlacedModal').modal('show');
         }else if(response.success === 'OnlinePayment'){
-            console.log("online payment initialized");
+            // console.log("online payment initialized");
+            
+            razorpayPayment(response.order);
+            
         }
                 }
             };
@@ -758,6 +762,55 @@
             xhr.send(JSON.stringify(combinedData));
             
         });
+
+
+        //RazorPay function here---------------------
+        function razorpayPayment (order){
+            var options = {
+        "key": "rzp_test_lrow7VIJwkZ3XE", 
+        "amount": order.amount, 
+        "currency": "INR",
+        "name": "SmartBuy",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id":order.id, 
+        "handler": function (response){
+
+            verifyPayment(response,order);
+        },
+        "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9000090000"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+        rzp1.open();
+        }
+        function verifyPayment(payment,order){
+            $.ajax({
+                url: '/verifyPayment',
+                data:{
+                    payment,
+                    order,
+                },
+                method:'post',
+                success:(response)=>{
+                    if(response.success==="OrderPlaced"){
+                        $('#orderPlacedModal').modal('show');
+                    }
+                    
+                }
+                
+            })
+        }
+
     </script>
       
       
@@ -786,49 +839,6 @@
 });
       </script>
 
-
-
-<script>
-    var options = {
-        "key": "YOUR_KEY_ID", // Enter the Key ID generated from the Dashboard
-        "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-        "currency": "INR",
-        "name": "Acme Corp",
-        "description": "Test Transaction",
-        "image": "https://example.com/your_logo",
-        "order_id": "order_IluGWxBm9U8zJ8", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-        "handler": function (response){
-            alert(response.razorpay_payment_id);
-            alert(response.razorpay_order_id);
-            alert(response.razorpay_signature)
-        },
-        "prefill": {
-            "name": "Gaurav Kumar",
-            "email": "gaurav.kumar@example.com",
-            "contact": "9000090000"
-        },
-        "notes": {
-            "address": "Razorpay Corporate Office"
-        },
-        "theme": {
-            "color": "#3399cc"
-        }
-    };
-    var rzp1 = new Razorpay(options);
-    rzp1.on('payment.failed', function (response){
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
-    });
-    document.getElementById('rzp-button1').onclick = function(e){
-        rzp1.open();
-        e.preventDefault();
-    }
-    </script>
       
 
 

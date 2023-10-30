@@ -73,9 +73,11 @@ const placeOrderManage = async (req, res) => {
       //=============================================================================
     } else if (placeorder.paymentMethod === "Online") {
       // Handle Razorpay Payment
-
-      generateRazorpay(placeorder._id,total);
-      return res.json({ success: 'OnlinePayment' });
+      const orderID = placeorder._id;
+      generateRazorpay(orderID,total)
+      .then((order) => {
+        return res.json({ success: 'OnlinePayment',order });
+      })
 
     } else {
       // Handle other payment methods or provide an appropriate response here
@@ -85,18 +87,36 @@ const placeOrderManage = async (req, res) => {
   }
 };
 //Razorpay function=======================================
-function generateRazorpay(orderID,total){
-  const options = {
-    amount: total, 
-    currency: "INR", 
-    receipt: orderID, 
-  };
+function generateRazorpay(orderID, total) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      amount: total * 100,
+      currency: "INR",
+      receipt: orderID,
+    };
 
-  instance.orders.create(options, async function (err,order) {
-    console.log(order);
-    return(order)
+    instance.orders.create(options, function (err, order) {
+      if (err) {
+        reject(err); // Handle the error by rejecting the Promise
+      } else {
+        resolve(order); // Resolve the Promise with the order data
+      }
+    });
   });
+}
 
+verifyPayment:(details)=>{
+  return new Promise((resolve, reject) => {
+    const crypto = require('crypto');
+    let hmac = crypto.createHmac('sha256', '3F5xUM9pONfpz6QA0fAAaEYP')
+    hmac.update(details['payment[razorpay_order_id]']+'|'+details['payment[razorpay_payment_id]'])
+    hmac=hmac.digest('hex');
+    if(hmac==details['payment[razorpay_signature]']){
+      resolve();
+    }else{
+      reject()
+    }
+  })
 }
 
 //orderpage displaying
@@ -235,11 +255,66 @@ const calculateTotalPrice = async (userId) => {
   }
 };
 
+//verify payment
+
+const paymentHandler = {
+  changePaymentStatus: async (orderID) => {
+    try {
+      const updatedOrder = await Order.findOneAndUpdate(
+        { _id: orderID },
+        { $set: { OrderStatus: "Success",paymentStatus: "Paid" } },
+        { new: true }
+      );
+
+      if (updatedOrder) {
+        console.log("Order updated successfully:", updatedOrder);
+        // return 'Payment successful';
+        
+        
+
+      } else {
+        console.log("Order not found or update failed");
+        throw new Error('Payment failed');
+      }
+    } catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  },
+};
+
+
+
+const verifyPayment = (req, res) => {
+  const receipt = req.body.order['receipt'];
+  const userID = req.session.user_id
+
+  if (!receipt) {
+    console.log("Receipt not provided in the request.");
+    return res.status(400).json({ status: 'Payment failed' });
+  }
+
+  paymentHandler
+    .changePaymentStatus(receipt)
+    .then((status) => {
+       Cart.deleteOne({ user_id: userID });
+
+      return res.json({ success: 'OrderPlaced' });
+    })
+    .catch((err) => {
+      console.log(err.message || 'Payment failed');
+      return res.status(500).json({ status: 'Payment failed' });
+    });
+};
+
+
+
 module.exports = {
   placeOrderManage,
   orderUserProfile,
   cancelOrderByUser,
   cancelOrderByAdmin,
   formatToDayMonthYear,
-  statusChange
+  statusChange,
+  verifyPayment
 };
