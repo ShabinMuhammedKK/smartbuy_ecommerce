@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="../../assets/vendors/owl-carousel-2/owl.theme.default.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="../../assets/css/style1.css">
@@ -85,14 +87,14 @@
           <li class="nav-item nav-category">
             <span style="color: white;" class="nav-link">Navigation</span>
           </li>
-          <li class="nav-item menu-items">
+          <ldi class="nav-item menu-items">
             <a class="nav-link" href="/admin/dashboard">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
               <span style="color: white;" class="menu-title">DASHBOARD</span>
             </a>
-          </li>
+          </ldi>
           <li class="nav-item menu-items">
             <a class="nav-link" href="/admin/salesData">
               <span class="menu-icon">
@@ -102,20 +104,14 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="/admin/usersData" aria-expanded="false" aria-controls="ui-basic">
+            <a class="nav-link"  href="/admin/usersData">
               <span class="menu-icon">
                 <i class="mdi mdi-human"></i>
               </span>
               <span style="color: white;" class="menu-title">USERS</span>
               <!-- <i class="menu-arrow"></i> -->
             </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
-              </ul>
-            </div>
+            
           </li>
           <li class="nav-item menu-items">
             <a class="nav-link" href="/admin/productData">
@@ -168,8 +164,8 @@
               <li class="nav-item dropdown d-none d-lg-block">
                 <div style="display: flex;">
                   <!-- <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addUser">+ Add User</a> -->
-                  <a class="nav-link btn btn-outline-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addProduct">+ Add Product</a>
-                  <a class="nav-link btn btn-outline-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addCategory">+ Add Category</a>
+                  <!-- <a class="nav-link btn btn-outline-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addProduct">+ Add Product</a> -->
+                  <!-- <a class="nav-link btn btn-outline-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addCategory">+ Add Category</a> -->
                   <a class="nav-link btn btn-danger create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/logout">Logout</a>
               </div>
               </li>
@@ -186,72 +182,33 @@
             
 <!-- ================================== === ====================================== -->
 <div class="row">
-  <div class="col-sm-4 grid-margin">
+  <div class="col-lg-6 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h5>Revenue</h5>
-        <div class="row">
-          <div class="col-8 col-sm-12 col-xl-8 my-auto">
-            <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">₹32123</h2>
-              <!-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> -->
-            </div>
-            <!-- <h6 class="text-muted font-weight-normal">11.38% Since last month</h6> -->
-          </div>
-          <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-            <i class="icon-lg mdi mdi-codepen text-primary ml-auto"></i>
-          </div>
-        </div>
+        <h4 class="card-title">Area chart</h4>
+        <canvas id="areaChart" style="height:250px"></canvas>
       </div>
     </div>
   </div>
-  <div class="col-sm-4 grid-margin">
+  <div class="col-lg-6 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h5>Total Sales</h5>
-        <div class="row">
-          <div class="col-8 col-sm-12 col-xl-8 my-auto">
-            <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">₹45850</h2>
-              <!-- <p class="text-success ml-2 mb-0 font-weight-medium">+8.3%</p> -->
-            </div>
-            <!-- <h6 class="text-muted font-weight-normal"> 9.61% Since last month</h6> -->
-          </div>
-          <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-            <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <h5>Total Stock</h5>
-        <div class="row">
-          <div class="col-8 col-sm-12 col-xl-8 my-auto">
-            <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">₹2039</h2>
-              <!-- <p class="text-danger ml-2 mb-0 font-weight-medium">-2.1% </p> -->
-            </div>
-            <!-- <h6 class="text-muted font-weight-normal">2.27% Since last month</h6> -->
-          </div>
-          <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-            <i class="icon-lg mdi mdi-monitor text-success ml-auto"></i>
-          </div>
-        </div>
+        <h4 class="card-title">Bar chart</h4>
+        <canvas id="barChart" style="height:230px"></canvas>
       </div>
     </div>
   </div>
 </div>
 
 
+
+
 <div class="row">
-  <div class="col-md-4 col-xl-4 grid-margin stretch-card">
+  <div class="col-md-4 col-xl-6 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Transaction History</h4>
-        <canvas id="transaction-history" class="transaction-chart"></canvas>
+        <h4 class="card-title">Sold Stock</h4>
+        <!-- <canvas id="transaction-history" class="transaction-chart"></canvas> -->
         <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
           <div class="text-md-center text-xl-left">
             <h6 class="mb-1">Transfer to Paypal</h6>
@@ -273,100 +230,69 @@
       </div>
     </div>
   </div>
-  <div class="col-md-8 col-xl-8 grid-margin stretch-card">
+
+
+  <div class="col-md-6 col-xl-6 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
         <div class="d-flex flex-row justify-content-between">
-          <h4 class="card-title mb-1">Recent Orders</h4>
-          <p class="text-muted mb-1">Your data status</p>
+          <h4 class="card-title">Product Wise Profitability Analysis</h4>
+          <p class="text-muted mb-1 small">View all</p>
         </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="preview-list">
-              <div class="preview-item border-bottom">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-primary">
-                    <i class="mdi mdi-file-document"></i>
-                  </div>
+        <div class="preview-list">
+          <div class="preview-item border-bottom">
+            <div class="preview-thumbnail">
+              <img src="assets/images/faces/face6.jpg" alt="image" class="rounded-circle" />
+            </div>
+            <div class="preview-item-content d-flex flex-grow">
+              <div class="flex-grow">
+                <div class="d-flex d-md-block d-xl-flex justify-content-between">
+                  <h6 class="preview-subject">Leonard</h6>
+                  <p class="text-muted text-small">5 minutes ago</p>
                 </div>
-                <div class="preview-item-content d-sm-flex flex-grow">
-                  <div class="flex-grow">
-                    <h6 class="preview-subject">Admin dashboard design</h6>
-                    <p class="text-muted mb-0">Broadcast web app mockup</p>
-                  </div>
-                  <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                    <p class="text-muted">15 minutes ago</p>
-                    <p class="text-muted mb-0">30 tasks, 5 issues </p>
-                  </div>
-                </div>
+                <p class="text-muted">Well, it seems to be working now.</p>
               </div>
-              <div class="preview-item border-bottom">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-success">
-                    <i class="mdi mdi-cloud-download"></i>
-                  </div>
+            </div>
+          </div>
+          <div class="preview-item border-bottom">
+            <div class="preview-thumbnail">
+              <img src="assets/images/faces/face8.jpg" alt="image" class="rounded-circle" />
+            </div>
+            <div class="preview-item-content d-flex flex-grow">
+              <div class="flex-grow">
+                <div class="d-flex d-md-block d-xl-flex justify-content-between">
+                  <h6 class="preview-subject">Luella Mills</h6>
+                  <p class="text-muted text-small">10 Minutes Ago</p>
                 </div>
-                <div class="preview-item-content d-sm-flex flex-grow">
-                  <div class="flex-grow">
-                    <h6 class="preview-subject">Wordpress Development</h6>
-                    <p class="text-muted mb-0">Upload new design</p>
-                  </div>
-                  <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                    <p class="text-muted">1 hour ago</p>
-                    <p class="text-muted mb-0">23 tasks, 5 issues </p>
-                  </div>
-                </div>
+                <p class="text-muted">Well, it seems to be working now.</p>
               </div>
-              <div class="preview-item border-bottom">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-info">
-                    <i class="mdi mdi-clock"></i>
-                  </div>
+            </div>
+          </div>
+          <div class="preview-item border-bottom">
+            <div class="preview-thumbnail">
+              <img src="assets/images/faces/face9.jpg" alt="image" class="rounded-circle" />
+            </div>
+            <div class="preview-item-content d-flex flex-grow">
+              <div class="flex-grow">
+                <div class="d-flex d-md-block d-xl-flex justify-content-between">
+                  <h6 class="preview-subject">Ethel Kelly</h6>
+                  <p class="text-muted text-small">2 Hours Ago</p>
                 </div>
-                <div class="preview-item-content d-sm-flex flex-grow">
-                  <div class="flex-grow">
-                    <h6 class="preview-subject">Project meeting</h6>
-                    <p class="text-muted mb-0">New project discussion</p>
-                  </div>
-                  <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                    <p class="text-muted">35 minutes ago</p>
-                    <p class="text-muted mb-0">15 tasks, 2 issues</p>
-                  </div>
-                </div>
+                <p class="text-muted">Please review the tickets</p>
               </div>
-              <div class="preview-item border-bottom">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-danger">
-                    <i class="mdi mdi-email-open"></i>
-                  </div>
+            </div>
+          </div>
+          <div class="preview-item border-bottom">
+            <div class="preview-thumbnail">
+              <img src="assets/images/faces/face11.jpg" alt="image" class="rounded-circle" />
+            </div>
+            <div class="preview-item-content d-flex flex-grow">
+              <div class="flex-grow">
+                <div class="d-flex d-md-block d-xl-flex justify-content-between">
+                  <h6 class="preview-subject">Herman May</h6>
+                  <p class="text-muted text-small">4 Hours Ago</p>
                 </div>
-                <div class="preview-item-content d-sm-flex flex-grow">
-                  <div class="flex-grow">
-                    <h6 class="preview-subject">Broadcast Mail</h6>
-                    <p class="text-muted mb-0">Sent release details to team</p>
-                  </div>
-                  <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                    <p class="text-muted">55 minutes ago</p>
-                    <p class="text-muted mb-0">35 tasks, 7 issues </p>
-                  </div>
-                </div>
-              </div>
-              <div class="preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-warning">
-                    <i class="mdi mdi-chart-pie"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content d-sm-flex flex-grow">
-                  <div class="flex-grow">
-                    <h6 class="preview-subject">UI Design</h6>
-                    <p class="text-muted mb-0">New application planning</p>
-                  </div>
-                  <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                    <p class="text-muted">50 minutes ago</p>
-                    <p class="text-muted mb-0">27 tasks, 4 issues </p>
-                  </div>
-                </div>
+                <p class="text-muted">Thanks a lot. It was easy to fix it .</p>
               </div>
             </div>
           </div>
@@ -375,9 +301,6 @@
     </div>
   </div>
 </div>
-
-
-
 <!-- ================================== === ====================================== -->
             
           </div>
@@ -391,99 +314,128 @@
     <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-      function blockButton(id) {
-    // Send an AJAX request to update the user's block status
-    $.ajax({
-        url: '/admin/blockuser',
-        method: "post",
-        data: { id: id },
-        success: function (response) {
-            let users = response.users;
-            console.log(users);
-            let targetUser = users.find((user) => {
-                return user._id === id;
+   
+
+
+<script>
+  var data = {
+                labels: ["product4", "product2", "product6", "product1", "product5", "product3"],
+                datasets: [{
+                    label: 'Sold',
+                    data: [42, 22, 62, 12, 52, 32,],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1,
+                    fill: false
+                }]
+            };
+
+            var options = {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            color: "rgba(204, 204, 204,0.1)"
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            color: "rgba(204, 204, 204,0.1)"
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+                elements: {
+                    point: {
+                        radius: 0
+                    }
+                }
+            };
+
+            var barChartCanvas = $("#barChart").get(0).getContext("2d");
+            // This will get the first returned node in the jQuery collection.
+            var barChart = new Chart(barChartCanvas, {
+                type: 'bar',
+                data: data,
+                options: options
+              });
+
+// 
+
+              var areaData = {
+                labels: ["week7", "week6", "week5", "week4", "week3", "week2", "week1",],
+                datasets: [{
+                    label: 'Week Chart',
+                    data: [3,5,6,7,8,9,7],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1,
+                    fill: true,
+                }]
+            };
+
+            var areaOptions = {
+                plugins: {
+                    filler: {
+                        propagate: true
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        gridLines: {
+                            color: "rgba(204, 204, 204, 0.1)"
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            color: "rgba(204, 204, 204, 0.1)"
+                        }
+                    }]
+                }
+            };
+            var areaChartCanvas = document.getElementById("areaChart").getContext("2d");
+            var areaChart = new Chart(areaChartCanvas, {
+                type: 'line',
+                data: areaData,
+                options: areaOptions
             });
-
-            // Update the button class and text based on the user's block status
-            if (targetUser.is_blocked === 0) {
-                $(`button[data-id="${id}"]`).removeClass('btn-inverse-danger').addClass('btn-inverse-success').text('Block');
-            } else {
-                $(`button[data-id="${id}"]`).removeClass('btn-inverse-success').addClass('btn-inverse-danger').text('UnBlock');
-            }
-        },
-        error: function (error) {
-            console.error("Error:", error);
-        }
-    });
-}
-
-    </script>
-
-<script>
-  function unlistButton(id) {
-// Send an AJAX request to update the user's block status
-$.ajax({
-    url: '/admin/unlistproduct',
-    method: "post",
-    data: { id: id },
-    success: function (response) {
-        let products = response.products;
-        console.log(products);
-        let targetProduct = products.find((product) => {
-            return product._id === id;
-        });
-
-        // Update the button class and text based on the user's block status
-        if (targetProduct.is_unlisted === 0) {
-            $(`button[data-id="${id}"]`).removeClass('btn-inverse-danger').addClass('btn-inverse-success').text('Listed');
-        } else {
-            $(`button[data-id="${id}"]`).removeClass('btn-inverse-success').addClass('btn-inverse-danger').text('Unlisted');
-        }
-    },
-    error: function (error) {
-        console.error("Error:", error);
-    }
-});
-}
-
 </script>
 
 <script>
-  function unlistButton1(id) {
-// Send an AJAX request to update the user's block status
-$.ajax({
-    url: '/admin/unlistcategory',
-    method: "post",
-    data: { id: id },
-    success: function (response) {
-        let category = response.category;
-        console.log(category);
-        let targetCategory = category.find((category) => {
-            return category._id === id;
-        });
-
-        // Update the button class and text based on the user's block status
-        if (targetCategory.is_unlisted === 0) {
-            $(`button[data-id="${id}"]`).removeClass('btn-inverse-danger').addClass('btn-inverse-success').text('Unlist');
-        } else {
-            $(`button[data-id="${id}"]`).removeClass('btn-inverse-success').addClass('btn-inverse-danger').text('List');
-        }
-    },
-    error: function (error) {
-        console.error("Error:", error);
-    }
-});
-}
-
+  window.onload=autoload
 </script>
-
-
-
-
-    <script src="../../assets/vendors/chart.js/Chart.min.js"></script>
+    <!-- <script src="../../assets/vendors/chart.js/Chart.min.js"></script> -->
     <script src="../../assets/vendors/progressbar.js/progressbar.min.js"></script>
     <script src="../../assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
     <script src="../../assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
@@ -499,6 +451,7 @@ $.ajax({
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src="../../assets/js/dashboard.js"></script>
+   
     <!-- End custom js for this page -->
   </body>
 </html>

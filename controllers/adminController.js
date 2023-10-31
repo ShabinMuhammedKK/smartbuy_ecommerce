@@ -346,11 +346,19 @@ const productDash = async(req,res)=>{
     console.log(error.message);
   }
 }
+//============================================sales page routing
+const salesDash = async (req,res)=>{
+  try {
+    const adminData = await User.findOne({is_admin:1});
+    res.render('salesReport',{admin:adminData});
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 //==================================user dash
 const UserDash = async(req,res)=>{
   try {
-
 
 var search = '';
 if(req.query.search){
@@ -482,6 +490,7 @@ module.exports = {
     UserDash,
     categoryDash,
     ordersListing,
-    orderManage          
+    orderManage,
+    salesDash          
     
 }

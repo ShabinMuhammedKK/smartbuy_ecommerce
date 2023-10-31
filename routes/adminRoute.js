@@ -65,6 +65,7 @@ admin_route.get('/search',adminController.searchEasy);
 admin_route.get('/usersData',auth.isLogin,adminController.UserDash);
 admin_route.get('/productData',auth.isLogin,adminController.productDash); 
 admin_route.get('/categoryData',auth.isLogin,adminController.categoryDash);
+admin_route.get('/salesData',auth.isLogin,adminController.salesDash);
 
 admin_route.get("/ordersList",auth.isLogin,adminController.ordersListing);
 
