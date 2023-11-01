@@ -6,8 +6,6 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-
-
 let otp;
 
 //======================================================password bcrypting
@@ -303,6 +301,13 @@ const addToCart = async (req, res) => {
       // console.log("Product added to cart:", result);
     }
 
+    // console.log("produnct id"+req.body.id)
+    const producntQuantity = await Product.findOneAndUpdate(
+      { _id: req.body.id },
+      { $inc: { stock: -1 } }
+    );
+    // console.log("stock is now : " + producntQuantity.stock);
+
     res.json({ cart: 0 });
     // console.log(result);
   } catch (error) {
@@ -354,14 +359,16 @@ const addAddress = async (req, res) => {
   }
 };
 //==============================remove address
-const removeAddr = async(req,res)=>{
+const removeAddr = async (req, res) => {
   try {
     // const addrID = req.body.addrID;
-    const userID  = req.session.user_id
+    const userID = req.session.user_id;
     // console.log(userID);
-    const deliveryAddrs = await Address.findOne({user_id:req.session.user_id})
-    
-    const addressID = req.body
+    const deliveryAddrs = await Address.findOne({
+      user_id: req.session.user_id,
+    });
+
+    const addressID = req.body;
     const value = addressID.value;
     console.log(value);
 
@@ -375,7 +382,7 @@ const removeAddr = async(req,res)=>{
   } catch (error) {
     console.log(message.error);
   }
-}
+};
 //==============================load user address add page
 const loadAddressUploadPage = async (req, res) => {
   try {
@@ -411,8 +418,6 @@ const calculateTotalPrice = async (userId) => {
   }
 };
 
-
-
 //=================================================load cart page
 const loadCartPage = async (req, res) => {
   try {
@@ -426,106 +431,157 @@ const loadCartPage = async (req, res) => {
 
     if (userCart) {
       let total = await calculateTotalPrice(req.session.user_id);
-      res.render("userCart", { products: userCart.products, total,user_id: req.session.user_id });
+      res.render("userCart", {
+        products: userCart.products,
+        total,
+        user_id: req.session.user_id,
+      });
       // console.log(userCart.products);
-    }else{
+    } else {
       let total = 0;
-      res.render("userCart",{products:0,total});
+      res.render("userCart", { products: 0, total });
     }
   } catch (error) {
     console.log(error.message);
   }
 };
 //==============================================cart quantity and price
-const changeProductQuantity = async (userId,productId,newQuantityChange)=>{
-  try{
-    
-  const cart = await Cart.findOne({user_id:userId});
-  // console.log(cart);
+const changeProductQuantity = async (userId, productId, newQuantityChange) => {
+  try {
+    const cart = await Cart.findOne({ user_id: userId });
 
-  if(!cart){
-    console.log("user does not have a cart");
-    return;
+    if (!cart) {
+      // console.log("User does not have a cart");
+      return;
+    }
+
+    const productInCart = cart.products.find(
+      (cartProduct) => cartProduct.product.toString() === productId.toString()
+    );
+
+    if (!productInCart) {
+      // console.log("Product not found in the cart");
+      return;
+    }
+
+    const currentQuantity = productInCart.quantity;
+    const newQuantity = currentQuantity + newQuantityChange;
+
+    if (newQuantity < 1) {
+      // console.log("Quantity cannot be less than 1");
+      return;
+    }
+
+    if (newQuantity > 5) {
+      // console.log("Quantity cannot be greater than 5");
+      return;
+    }
+
+    // Calculate the change in quantity
+    const quantityChange = newQuantity - currentQuantity;
+
+    // Find the product in the database
+    const product = await Product.findOne({ _id: productId });
+
+    if (!product) {
+      // console.log("Product not found in the database");
+      return;
+    }
+
+    // Calculate the stock change based on quantity change
+    const stockChange = -quantityChange; // Increase stock when quantity decreases
+
+    if (product.stock + stockChange < 0) {
+      // console.log("Insufficient stock");
+      return;
+    }
+
+    // Update the product's stock in the database
+    product.stock += stockChange;
+    await product.save();
+
+    // Update the cart to reflect the new quantity
+    productInCart.quantity = newQuantity;
+    const result = await cart.save();
+
+    // console.log("Cart and product stock updated successfully");
+    return result;
+  } catch (error) {
+    console.log(error.message);
   }
-
-  const productInCart = cart.products.find(
-    (cartProduct)=>cartProduct.product.toString()===productId.toString()
-  );
-
-  if(!productInCart){
-    console.log("Product not found in the cart");
-    return;
-  }
-  const currentQuantity = productInCart.quantity;
-  const newQuantity = currentQuantity+newQuantityChange;
-
-  if(newQuantity<1){
-    console.log("Quantity cannot be less than 1")
-    return;
-  }
-
-  if(newQuantity>5){
-    console.log("Quantity cannot be greater than 5")
-    return;
-  }
-
-  productInCart.quantity = newQuantity;
-
-  let result = await  cart.save();
-  return result;
-}catch(error){
-  console.log(error.message);
-}
-}
+};
 
 //============================================== update quantity real
-const productQuantityHandling = async(req,res)=>{
+const productQuantityHandling = async (req, res) => {
   try {
     // console.log(req.body);
-    if(!req.session.user_id){
-      res.json({user:0});
-    }else{
-      let{userId,productId,qty}=req.body;
+    if (!req.session.user_id) {
+      res.json({ user: 0 });
+    } else {
+      let { userId, productId, qty } = req.body;
       qty = Number(qty);
       // console.log(qty);
 
-      let qtyChange = await changeProductQuantity(userId,productId,qty);
-      const cartDetails = await Cart.findOne({user_id:userId});
-     total = await calculateTotalPrice(userId);
-      res.json({cartItems:cartDetails,total});
+      let qtyChange = await changeProductQuantity(userId, productId, qty);
+      const cartDetails = await Cart.findOne({ user_id: userId });
+      total = await calculateTotalPrice(userId);
+      res.json({ cartItems: cartDetails, total });
     }
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 //============================================remove items from the cart
 const removeProductFromCart = async (req, res) => {
   try {
     const productId = req.params.productId;
-
-    const existingUserCart = await Cart.findOne({ user_id: req.session.user_id });
+    const existingUserCart = await Cart.findOne({
+      user_id: req.session.user_id,
+    });
 
     if (!existingUserCart) {
       console.log("This user's cart does not exist.");
-      return res.status(404).json({ success: false, message: "User's cart does not exist." });
+      return res
+        .status(404)
+        .json({ success: false, message: "User's cart does not exist." });
     }
 
-    // Use await for findOneAndUpdate and store the result
+    const product = await Cart.findOne({ user_id: req.session.user_id });
+    // console.log("this is product" + product);
+
+    // console.log(req.params.productId);
+    const qnty = product.products.find((product) => {
+      return product.product == req.params.productId;
+    });
+    const totalQuantity = qnty.quantity;
+    // console.log("Quantity : "+totalQuantity);
+
     const result = await Cart.findOneAndUpdate(
       { user_id: req.session.user_id },
       { $pull: { products: { product: productId } } },
-      { new: true } // To get the updated cart after removal
+      { new: true }
     );
 
     if (result) {
-      res.json({removed:1})
+      const producntQuantity = await Product.findOneAndUpdate(
+        { _id: req.params.productId },
+        { $inc: { stock: 1 } }
+      );
+
+      // console.log("stock is now : " + producntQuantity.stock);
+      res.json({ removed: 1 });
     } else {
-      console.log('Product not found in the cart.');
-      return res.status(404).json({ success: false, message: 'Product not found in the cart.' });
+      console.log("Product not found in the cart.");
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found in the cart." });
     }
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ success: false, message: 'Error while removing product from the cart.' });
+    return res.status(500).json({
+      success: false,
+      message: "Error while removing product from the cart.",
+    });
   }
 };
 //==============================================load user profile
@@ -539,19 +595,21 @@ const loadUserProfile = async (req, res) => {
 }; //======================================== load delivery address page
 const loadcheckoutPage = async (req, res) => {
   try {
-
-
-    const usersAddresses = await Address.findOne({ user_id: req.session.user_id });
+    const usersAddresses = await Address.findOne({
+      user_id: req.session.user_id,
+    });
     // console.log(usersAddresses.address);
     const totalamount = await calculateTotalPrice(req.session.user_id);
 
-
     if (usersAddresses) {
-      res.render("checkoutPage", { addresses: usersAddresses.address ,totalamount});
+      res.render("checkoutPage", {
+        addresses: usersAddresses.address,
+        totalamount,
+      });
       // console.log(usersAddresses.address)
     } else {
       console.log("User's addresses not found.");
-      res.render("checkoutPage", { addresses: [] ,totalamount});
+      res.render("checkoutPage", { addresses: [], totalamount });
     }
   } catch (error) {
     console.log(error.message);
@@ -630,5 +688,5 @@ module.exports = {
   addAddress,
   productQuantityHandling,
   removeProductFromCart,
-  removeAddr
+  removeAddr,
 };

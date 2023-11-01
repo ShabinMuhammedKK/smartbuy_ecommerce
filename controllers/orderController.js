@@ -1,15 +1,13 @@
 const Order = require("../models/orderModel");
 const Cart = require("../models/userCartModel");
 const Address = require("../models/userAddressModel");
-const Razorpay = require('razorpay');
+const Razorpay = require("razorpay");
 // const Product = require("../models/productModel");
 
 const instance = new Razorpay({
-  key_id: 'rzp_test_lrow7VIJwkZ3XE',
-  key_secret: '3F5xUM9pONfpz6QA0fAAaEYP',
+  key_id: "rzp_test_lrow7VIJwkZ3XE",
+  key_secret: "3F5xUM9pONfpz6QA0fAAaEYP",
 });
-
-
 
 //Oerder placing
 const placeOrderManage = async (req, res) => {
@@ -18,7 +16,6 @@ const placeOrderManage = async (req, res) => {
     const userSelectedData = req.body;
     const selectedAddressID = userSelectedData.selectedData;
     const selectedPaymentMethod = userSelectedData.selectedPaymentOptions;
-
 
     const cartDetails = await Cart.findOne({ user_id: req.session.user_id });
 
@@ -30,7 +27,6 @@ const placeOrderManage = async (req, res) => {
 
     let { country, fullName, mobileNo, pincode, city, state } = shipAddress;
 
-
     const cartProducts = cartDetails.products.map((productItem) => ({
       productId: productItem.product,
       quantity: productItem.quantity,
@@ -40,12 +36,11 @@ const placeOrderManage = async (req, res) => {
 
     let total = await calculateTotalPrice(req.session.user_id);
 
-
     const order = new Order({
       userId: req.session.user_id,
       "shippingAddress.country": country,
       "shippingAddress.fullName": fullName,
-      "shippingAddress.mobileNumber": mobileNo, 
+      "shippingAddress.mobileNumber": mobileNo,
       "shippingAddress.pincode": pincode,
       "shippingAddress.city": city,
       "shippingAddress.state": state,
@@ -62,23 +57,20 @@ const placeOrderManage = async (req, res) => {
     if (placeorder.paymentMethod === "COD") {
       await Order.updateOne(
         { _id: placeorder._id },
-        { $set: { OrderStatus: "success" }
-      });
+        { $set: { OrderStatus: "success" } }
+      );
 
       await Cart.deleteOne({ user_id: userID });
 
-      return res.json({ success: 'OrderPlaced' });
-
+      return res.json({ success: "OrderPlaced" });
 
       //=============================================================================
     } else if (placeorder.paymentMethod === "Online") {
       // Handle Razorpay Payment
       const orderID = placeorder._id;
-      generateRazorpay(orderID,total)
-      .then((order) => {
-        return res.json({ success: 'OnlinePayment',order });
-      })
-
+      generateRazorpay(orderID, total).then((order) => {
+        return res.json({ success: "OnlinePayment", order });
+      });
     } else {
       // Handle other payment methods or provide an appropriate response here
     }
@@ -105,19 +97,23 @@ function generateRazorpay(orderID, total) {
   });
 }
 
-verifyPayment:(details)=>{
+verifyPayment: (details) => {
   return new Promise((resolve, reject) => {
-    const crypto = require('crypto');
-    let hmac = crypto.createHmac('sha256', '3F5xUM9pONfpz6QA0fAAaEYP')
-    hmac.update(details['payment[razorpay_order_id]']+'|'+details['payment[razorpay_payment_id]'])
-    hmac=hmac.digest('hex');
-    if(hmac==details['payment[razorpay_signature]']){
+    const crypto = require("crypto");
+    let hmac = crypto.createHmac("sha256", "3F5xUM9pONfpz6QA0fAAaEYP");
+    hmac.update(
+      details["payment[razorpay_order_id]"] +
+        "|" +
+        details["payment[razorpay_payment_id]"]
+    );
+    hmac = hmac.digest("hex");
+    if (hmac == details["payment[razorpay_signature]"]) {
       resolve();
-    }else{
-      reject()
+    } else {
+      reject();
     }
-  })
-}
+  });
+};
 
 //orderpage displaying
 const orderUserProfile = async (req, res) => {
@@ -127,82 +123,77 @@ const orderUserProfile = async (req, res) => {
     }).populate("products.productId");
     if (!orderData) {
       console.log("no orders from database");
-    }else{
-      return res.render('userOrders',{orderData,products:orderData.products});
+    } else {
+      return res.render("userOrders", {
+        orderData,
+        products: orderData.products,
+      });
     }
   } catch (error) {
     console.log(error.message);
   }
 };
 
-
 //===============cancel the orders by user
-const cancelOrderByUser = async (req,res)=>{
+const cancelOrderByUser = async (req, res) => {
   const data = req.body;
   const productID = data.orderProdID;
   const orderID = data.OrderID;
 
-  const cancelingProduct = await Order.findOne({_id:orderID});
-  const cancelProductID = cancelingProduct.products.find((product)=>{
-  return product._id==productID;
-  })
+  const cancelingProduct = await Order.findOne({ _id: orderID });
+  const cancelProductID = cancelingProduct.products.find((product) => {
+    return product._id == productID;
+  });
 
- cancelProductID.OrderStatus="Canceled";
-const success = await cancelingProduct.save();
-if(success){
-  return res.json({result:"OK"});
-}
-
-
-
-}
+  cancelProductID.OrderStatus = "Canceled";
+  const success = await cancelingProduct.save();
+  if (success) {
+    return res.json({ result: "OK" });
+  }
+};
 
 //===============cancel order by admin
-const cancelOrderByAdmin = async (req,res)=>{
-try {
-
-  const productID = req.body.productID;
-  const orderID = req.body.orderID
-
-  const cancelingProduct = await Order.findOne({_id:orderID});
-  const cancelProductID = cancelingProduct.products.find((product)=>{
-  return product.productId==productID;
-  })
-
-
-  cancelProductID.OrderStatus="Canceled";
-const success = await cancelingProduct.save();
-if(success){
-  return res.json({result:"OK"});
-}
-  
-} catch (error) {
-  console.log(error.message);
-}
-}
-
-//==status change by admin===
-const statusChange = async(req,res)=>{
+const cancelOrderByAdmin = async (req, res) => {
   try {
-    const selectedValue = req.body.selectedValue;
     const productID = req.body.productID;
-    const orderID = req.body.orderID
+    const orderID = req.body.orderID;
 
-    const cancelingProduct = await Order.findOne({_id:orderID});
-  const cancelProductID = cancelingProduct.products.find((product)=>{
-  return product.productId==productID;
-  })
+    const cancelingProduct = await Order.findOne({ _id: orderID });
+    const cancelProductID = cancelingProduct.products.find((product) => {
+      return product.productId == productID;
+    });
 
-  cancelProductID.OrderStatus=selectedValue.toString();
-const success = await cancelingProduct.save();
-if(success){
-  return res.json({result:"OK"});
-}
-    
+    cancelProductID.OrderStatus = "Canceled";
+    const success = await cancelingProduct.save();
+    if (success) {
+      return res.json({ result: "OK" });
+    }
   } catch (error) {
     console.log(error.message);
   }
-}
+};
+
+//==status change by admin===
+const statusChange = async (req, res) => {
+  try {
+    const selectedValue = req.body.selectedValue;
+    const productID = req.body.productID;
+    const orderID = req.body.orderID;
+
+    const cancelingProduct = await Order.findOne({ _id: orderID });
+    const cancelProductID = cancelingProduct.products.find((product) => {
+      return product.productId == productID;
+    });
+
+    cancelProductID.OrderStatus = selectedValue.toString();
+    const success = await cancelingProduct.save();
+    if (success) {
+      return res.json({ result: "OK" });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 //============date function===
 function formatToDayMonthYear(inputDate) {
@@ -211,8 +202,18 @@ function formatToDayMonthYear(inputDate) {
 
   // Define an array of month names
   const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   // Get the day, month, and year components from the Date object
@@ -262,19 +263,16 @@ const paymentHandler = {
     try {
       const updatedOrder = await Order.findOneAndUpdate(
         { _id: orderID },
-        { $set: { OrderStatus: "Success",paymentStatus: "Paid" } },
+        { $set: { OrderStatus: "Success", paymentStatus: "Paid" } },
         { new: true }
       );
 
       if (updatedOrder) {
         console.log("Order updated successfully:", updatedOrder);
         // return 'Payment successful';
-        
-        
-
       } else {
         console.log("Order not found or update failed");
-        throw new Error('Payment failed');
+        throw new Error("Payment failed");
       }
     } catch (error) {
       console.error(error.message);
@@ -283,31 +281,27 @@ const paymentHandler = {
   },
 };
 
-
-
 const verifyPayment = (req, res) => {
-  const receipt = req.body.order['receipt'];
-  const userID = req.session.user_id
+  const receipt = req.body.order["receipt"];
+  const userID = req.session.user_id;
 
   if (!receipt) {
     console.log("Receipt not provided in the request.");
-    return res.status(400).json({ status: 'Payment failed' });
+    return res.status(400).json({ status: "Payment failed" });
   }
 
   paymentHandler
     .changePaymentStatus(receipt)
     .then((status) => {
-       Cart.deleteOne({ user_id: userID });
+      Cart.deleteOne({ user_id: userID });
 
-      return res.json({ success: 'OrderPlaced' });
+      return res.json({ success: "OrderPlaced" });
     })
     .catch((err) => {
-      console.log(err.message || 'Payment failed');
-      return res.status(500).json({ status: 'Payment failed' });
+      console.log(err.message || "Payment failed");
+      return res.status(500).json({ status: "Payment failed" });
     });
 };
-
-
 
 module.exports = {
   placeOrderManage,
@@ -316,5 +310,5 @@ module.exports = {
   cancelOrderByAdmin,
   formatToDayMonthYear,
   statusChange,
-  verifyPayment
+  verifyPayment,
 };
