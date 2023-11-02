@@ -2,6 +2,7 @@ const Order = require("../models/orderModel");
 const Cart = require("../models/userCartModel");
 const Address = require("../models/userAddressModel");
 const Razorpay = require("razorpay");
+const Transaction = require("../models/transationModel");
 // const Product = require("../models/productModel");
 
 const instance = new Razorpay({
@@ -59,18 +60,37 @@ const placeOrderManage = async (req, res) => {
         { _id: placeorder._id },
         { $set: { OrderStatus: "success" } }
       );
+      const transaction = new Transaction({
+        user_id: req.session.user_id,
+        order_id: placeorder._id,
+        paid_amount: total,
+        payment_method: "COD",
+        trans_id: 0,
+        products:cartProducts
+      });
+      await transaction.save();
 
       await Cart.deleteOne({ user_id: userID });
 
       return res.json({ success: "OrderPlaced" });
-
-      //=============================================================================
     } else if (placeorder.paymentMethod === "Online") {
       // Handle Razorpay Payment
       const orderID = placeorder._id;
+
+      const transaction = new Transaction({
+        user_id: req.session.user_id,
+        order_id: placeorder._id,
+        paid_amount: total,
+        payment_method: "Online",
+        trans_id: 0,
+        products:cartProducts
+      });
+      await transaction.save();
+
       generateRazorpay(orderID, total).then((order) => {
         return res.json({ success: "OnlinePayment", order });
       });
+      await Cart.deleteOne({ user_id: userID });
     } else {
       // Handle other payment methods or provide an appropriate response here
     }
@@ -78,7 +98,7 @@ const placeOrderManage = async (req, res) => {
     console.log(error.message);
   }
 };
-//Razorpay function=======================================
+//Razorpay function
 function generateRazorpay(orderID, total) {
   return new Promise((resolve, reject) => {
     const options = {
@@ -268,8 +288,8 @@ const paymentHandler = {
       );
 
       if (updatedOrder) {
-        console.log("Order updated successfully:", updatedOrder);
-        // return 'Payment successful';
+        // console.log("Order updated successfully");
+        return 'Payment successful';
       } else {
         console.log("Order not found or update failed");
         throw new Error("Payment failed");

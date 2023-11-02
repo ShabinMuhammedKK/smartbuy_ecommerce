@@ -2,13 +2,15 @@ const User = require("../models/userModel");
 const Product = require("../models/productModel");
 const Category = require("../models/categoryModel");
 const Order = require("../models/orderModel");
+const Transaction = require("../models/transationModel");
 const bcrypt = require("bcrypt");
+const Funcs = require("../public/assets/comfuncs.js/funcs");
 
 //=======================================user controller==================
 
 const loadLogin = async (req, res) => {
   try {
-    res.render("login");
+    return res.render("login");
   } catch (error) {
     console.log(error.message);
   }
@@ -23,16 +25,20 @@ const verifyLogin = async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, userData.password);
       if (passwordMatch) {
         if (userData.is_admin === 0) {
-          res.render("login", { message: "Email or password is incorrect" });
+          return res.render("login", {
+            message: "Email or password is incorrect",
+          });
         } else {
           req.session.user_id = userData._id;
-          res.redirect("/admin/home");
+          return res.redirect("/admin/dashboard");
         }
       } else {
-        res.render("login", { message: "Email or password is incorrect" });
+        return res.render("login", {
+          message: "Email or password is incorrect",
+        });
       }
     } else {
-      res.render("login", { message: "Email or password is incorrect" });
+      return res.render("login", { message: "Email or password is incorrect" });
     }
   } catch (error) {
     console.log(error.message);
@@ -42,7 +48,7 @@ const verifyLogin = async (req, res) => {
 const loadDashboard = async (req, res) => {
   try {
     const userData = await User.findById({ _id: req.session.user_id });
-    res.render("home", { admin: userData });
+    return res.render("home", { admin: userData });
   } catch (error) {
     console.log(error.message);
   }
@@ -51,7 +57,7 @@ const loadDashboard = async (req, res) => {
 const logout = async (req, res) => {
   try {
     req.session.destroy();
-    res.redirect("/admin");
+    return res.redirect("/admin");
   } catch (error) {
     console.log(error.message);
   }
@@ -59,16 +65,23 @@ const logout = async (req, res) => {
 
 const adminDashboard = async (req, res) => {
   try {
-    const usersData = await User.find({ is_admin: 0 });
+    const orderID = "651f2060c1a28f5885d5f95"
     const adminData = await User.findOne({ is_admin: 1 });
-    const productData = await Product.find();
-    const categoryData = await Category.find();
-    res.render("dashboard", {
-      users: usersData,
-      products: productData,
-      admin: adminData,
-      category: categoryData,
-    });
+    const ProductStock = await Funcs.productStock(Product); //array
+    const Transactions = await Funcs.transacHistory(Transaction); //array
+    const OrderListing = await Funcs.orderListing(Order); //array
+    const OrderProdQty = await Funcs.prodQty(Order);
+    console.log(OrderProdQty);
+    if (adminData && ProductStock && Transactions && OrderListing) {
+      res.render("dashboard", {
+        admin: adminData,
+        ProductStock,
+        Transactions,
+        OrderListing,
+      });
+    } else {
+      console.log(error.message);
+    }
   } catch (error) {
     console.log(error.message);
   }
@@ -82,9 +95,9 @@ const loadUserEdit = async (req, res) => {
     if (id) {
       const userData = await User.findById({ _id: id });
       if (userData) {
-        res.render("editUserData", { user: userData });
+        return res.render("editUserData", { user: userData });
       } else {
-        res.redirect("dashboard");
+        return res.redirect("dashboard");
       }
     } else console.log(error.message);
   } catch (error) {
@@ -130,9 +143,9 @@ const loadProductEdit = async (req, res) => {
     if (id) {
       const productData = await Product.findById({ _id: id });
       if (productData) {
-        res.render("editProductData", { product: productData });
+        return res.render("editProductData", { product: productData });
       } else {
-        res.redirect("dashboard");
+        return res.redirect("dashboard");
       }
     } else console.log(error.message);
   } catch (error) {
@@ -183,7 +196,7 @@ const searchEasy = async (req, res) => {
   try {
     const adminData = await User.findOne({ is_admin: 1 });
     let searchDatas = await searchBarData(req.body.searches);
-    res.render("dashboard", { users: searchDatas, admin: adminData });
+    return res.render("dashboard", { users: searchDatas, admin: adminData });
   } catch (error) {
     console.log(error.message);
   }
@@ -209,7 +222,7 @@ const searchBarData = async (searches) => {
 const loadProductAdd = async (req, res) => {
   try {
     const categoryDatas = await Category.find();
-    res.render("addProduct", { category: categoryDatas });
+    return res.render("addProduct", { category: categoryDatas });
   } catch (error) {
     console.log(error.message);
   }
@@ -235,9 +248,9 @@ const insertProduct = async (req, res) => {
     });
     const productData = await product.save();
     if (productData) {
-      res.redirect("/admin/dashboard#productsData");
+      return res.redirect("/admin/dashboard#productsData");
     } else {
-      res.render("addProduct", {
+      return res.render("addProduct", {
         message: "Product cano't add",
       });
     }
@@ -249,7 +262,7 @@ const insertProduct = async (req, res) => {
 //=====================================category=========================
 const loadCategoryAdd = async (req, res) => {
   try {
-    res.render("addCategory");
+    return res.render("addCategory");
   } catch (error) {
     console.log(error.message);
   }
@@ -263,11 +276,11 @@ const insertCategory = async (req, res) => {
     });
     const categoryData = await category.save();
     if (categoryData) {
-      res.render("addCategory", {
+      return res.render("addCategory", {
         message: "Your category is added",
       });
     } else {
-      res.render("addCategory", {
+      return res.render("addCategory", {
         message: "Category cano't add",
       });
     }
@@ -294,7 +307,7 @@ const userBlock = async (req, res) => {
     }
 
     let users = await User.find({});
-    res.json({ users: users });
+    return res.json({ users: users });
   } catch (error) {
     console.log(error.message);
   }
@@ -317,7 +330,7 @@ const productUnlist = async (req, res) => {
     }
 
     const products = await Product.find({});
-    res.json({ products: products });
+    return res.json({ products: products });
   } catch (error) {
     console.log(error.message);
   }
@@ -341,7 +354,7 @@ const categoryUnlist = async (req, res) => {
     }
 
     const category = await Category.find({});
-    res.json({ category: category });
+    return res.json({ category: category });
   } catch (error) {
     console.log(error.message);
   }
@@ -351,7 +364,10 @@ const productDash = async (req, res) => {
   try {
     const adminData = await User.findOne({ is_admin: 1 });
     const productData = await Product.find();
-    res.render("productDash", { products: productData, admin: adminData });
+    return res.render("productDash", {
+      products: productData,
+      admin: adminData,
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -360,7 +376,7 @@ const productDash = async (req, res) => {
 const salesDash = async (req, res) => {
   try {
     const adminData = await User.findOne({ is_admin: 1 });
-    res.render("salesReport", { admin: adminData });
+    return res.render("salesReport", { admin: adminData });
   } catch (error) {
     console.log(error.message);
   }
@@ -383,7 +399,7 @@ const UserDash = async (req, res) => {
       ],
     });
     const adminData = await User.findOne({ is_admin: 1 });
-    res.render("userDash", { users: usersData, admin: adminData });
+    return res.render("userDash", { users: usersData, admin: adminData });
   } catch (error) {
     console.log(error.message);
   }
@@ -392,7 +408,10 @@ const categoryDash = async (req, res) => {
   try {
     const adminData = await User.findOne({ is_admin: 1 });
     const categoryData = await Category.find();
-    res.render("categoryDash", { admin: adminData, category: categoryData });
+    return res.render("categoryDash", {
+      admin: adminData,
+      category: categoryData,
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -438,7 +457,7 @@ const ordersListing = async (req, res) => {
       }
     }
     // console.log(productWiseOrdersArray);
-    res.render("ordersDash", {
+    return res.render("ordersDash", {
       admin: adminData,
       products: productWiseOrdersArray,
     });
@@ -460,7 +479,7 @@ const orderManage = async (req, res) => {
       return pro.productId == req.query.productID;
     });
 
-    res.render("orderManagePage", {
+    return res.render("orderManagePage", {
       odrDatas: orderDatas,
       prodDatas: productDatas,
       status,

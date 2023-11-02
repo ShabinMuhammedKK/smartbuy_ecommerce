@@ -1,52 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <title>SmartBuy</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="../../assets/css/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css">
+    <link
+      rel="stylesheet"
+      href="../../assets/css/vendors/mdi/css/materialdesignicons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../assets/vendors/css/vendor.bundle.base.css"
+    />
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="../../assets/vendors/jvectormap/jquery-jvectormap.css">
-    <link rel="stylesheet" href="../../assets/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="../../assets/vendors/owl-carousel-2/owl.carousel.min.css">
-    <link rel="stylesheet" href="../../assets/vendors/owl-carousel-2/owl.theme.default.min.css">
+    <link
+      rel="stylesheet"
+      href="../../assets/vendors/jvectormap/jquery-jvectormap.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../assets/vendors/flag-icon-css/css/flag-icon.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../assets/vendors/owl-carousel-2/owl.carousel.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../assets/vendors/owl-carousel-2/owl.theme.default.min.css"
+    />
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="../../assets/css/style1.css">
+    <link rel="stylesheet" href="../../assets/css/style1.css" />
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/favicon.png" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
     <div class="container-scroller">
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" href="/" style="color: white;font-weight: 400;">SmartBuy</a>
-          <a class="sidebar-brand brand-logo-mini" href="index.html"><h2 style="color: white;">SB</h2></a>
+        <div
+          class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top"
+        >
+          <a
+            class="sidebar-brand brand-logo"
+            href="/"
+            style="color: white; font-weight: 400"
+            >SmartBuy</a
+          >
+          <a class="sidebar-brand brand-logo-mini" href="index.html"
+            ><h2 style="color: white">SB</h2></a
+          >
         </div>
         <ul class="nav">
           <li class="nav-item profile">
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src="/userImages/<%=admin.image%>" alt="">
+                  <img
+                    class="img-xs rounded-circle"
+                    src="/userImages/<%=admin.image%>"
+                    alt=""
+                  />
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
-                  <h5  class="mb-0 font-weight-medium"><%=admin.name%></h5>
-                  <span style="color: white;">Admin</span>
+                  <h5 class="mb-0 font-weight-medium"><%=admin.name%></h5>
+                  <span style="color: white">Admin</span>
                 </div>
               </div>
-              <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
-              <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
+              <a href="#" id="profile-dropdown" data-toggle="dropdown"
+                ><i class="mdi mdi-dots-vertical"></i
+              ></a>
+              <div
+                class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
+                aria-labelledby="profile-dropdown"
+              >
                 <a href="#" class="dropdown-item preview-item">
                   <div class="preview-thumbnail">
                     <div class="preview-icon bg-dark rounded-circle">
@@ -54,18 +93,22 @@
                     </div>
                   </div>
                   <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
+                    <p class="preview-subject ellipsis mb-1 text-small">
+                      Account settings
+                    </p>
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item preview-item">
                   <div class="preview-thumbnail">
                     <div class="preview-icon bg-dark rounded-circle">
-                      <i class="mdi mdi-onepassword  text-info"></i>
+                      <i class="mdi mdi-onepassword text-info"></i>
                     </div>
                   </div>
                   <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
+                    <p class="preview-subject ellipsis mb-1 text-small">
+                      Change Password
+                    </p>
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>
@@ -76,21 +119,23 @@
                     </div>
                   </div>
                   <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">To-do list</p>
+                    <p class="preview-subject ellipsis mb-1 text-small">
+                      To-do list
+                    </p>
                   </div>
                 </a>
               </div>
             </div>
           </li>
           <li class="nav-item nav-category">
-            <span style="color: white;" class="nav-link">Navigation</span>
+            <span style="color: white" class="nav-link">Navigation</span>
           </li>
           <li class="nav-item menu-items">
             <a class="nav-link" href="/admin/dashboard">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
-              <span style="color: white;" class="menu-title">DASHBOARD</span>
+              <span style="color: white" class="menu-title">DASHBOARD</span>
             </a>
           </li>
           <li class="nav-item menu-items">
@@ -98,22 +143,40 @@
               <span class="menu-icon">
                 <i class="mdi mdi-chart-bar"></i>
               </span>
-              <span style="color: white;" class="menu-title">SALES REPORT</span>
+              <span style="color: white" class="menu-title">SALES REPORT</span>
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="/admin/usersData" aria-expanded="false" aria-controls="ui-basic">
+            <a
+              class="nav-link"
+              data-toggle="collapse"
+              href="/admin/usersData"
+              aria-expanded="false"
+              aria-controls="ui-basic"
+            >
               <span class="menu-icon">
                 <i class="mdi mdi-human"></i>
               </span>
-              <span style="color: white;" class="menu-title">USERS</span>
+              <span style="color: white" class="menu-title">USERS</span>
               <!-- <i class="menu-arrow"></i> -->
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+                <li class="nav-item">
+                  <a class="nav-link" href="pages/ui-features/buttons.html"
+                    >Buttons</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="pages/ui-features/dropdowns.html"
+                    >Dropdowns</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="pages/ui-features/typography.html"
+                    >Typography</a
+                  >
+                </li>
               </ul>
             </div>
           </li>
@@ -122,7 +185,7 @@
               <span class="menu-icon">
                 <i class="mdi mdi-checkbox-multiple-blank"></i>
               </span>
-              <span style="color: white;" class="menu-title">PRODUCTS</span>
+              <span style="color: white" class="menu-title">PRODUCTS</span>
             </a>
           </li>
           <li class="nav-item menu-items">
@@ -130,7 +193,7 @@
               <span class="menu-icon">
                 <i class="mdi mdi-format-list-bulleted-type"></i>
               </span>
-              <span style="color: white;" class="menu-title">CATEGORY</span>
+              <span style="color: white" class="menu-title">CATEGORY</span>
             </a>
           </li>
           <li class="nav-item menu-items">
@@ -138,22 +201,28 @@
               <span class="menu-icon">
                 <i class="mdi mdi-checkbox-multiple-blank"></i>
               </span>
-              <span style="color: white;" class="menu-title">ORDERS</span>
+              <span style="color: white" class="menu-title">ORDERS</span>
             </a>
           </li>
-          
-
         </ul>
       </nav>
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar p-0 fixed-top d-flex flex-row">
-          <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>
+          <div
+            class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center"
+          >
+            <a class="navbar-brand brand-logo-mini" href="index.html"
+              ><img src="../../assets/images/logo-mini.svg" alt="logo"
+            /></a>
           </div>
           <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <button
+              class="navbar-toggler navbar-toggler align-self-center"
+              type="button"
+              data-toggle="minimize"
+            >
               <span class="mdi mdi-menu"></span>
             </button>
             <!-- <ul class="navbar-nav w-100">
@@ -166,16 +235,40 @@
             </ul> -->
             <ul class="navbar-nav navbar-nav-right">
               <li class="nav-item dropdown d-none d-lg-block">
-                <div style="display: flex;">
+                <div style="display: flex">
                   <!-- <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addUser">+ Add User</a> -->
-                  <a class="nav-link btn btn-outline-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addProduct">+ Add Product</a>
-                  <a class="nav-link btn btn-outline-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addCategory">+ Add Category</a>
-                  <a class="nav-link btn btn-danger create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/logout">Logout</a>
-              </div>
+                  <a
+                    class="nav-link btn btn-outline-success create-new-button"
+                    id="createbuttonDropdown"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                    href="/admin/addProduct"
+                    >+ Add Product</a
+                  >
+                  <a
+                    class="nav-link btn btn-outline-success create-new-button"
+                    id="createbuttonDropdown"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                    href="/admin/addCategory"
+                    >+ Add Category</a
+                  >
+                  <a
+                    class="nav-link btn btn-danger create-new-button"
+                    id="createbuttonDropdown"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                    href="/admin/logout"
+                    >Logout</a
+                  >
+                </div>
               </li>
-
             </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <button
+              class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+              type="button"
+              data-toggle="offcanvas"
+            >
               <span class="mdi mdi-format-line-spacing"></span>
             </button>
           </div>
@@ -183,203 +276,154 @@
         <!-- partial -->
         <div class="main-panel" id="usersData">
           <div class="content-wrapper">
-            
-<!-- ================================== === ====================================== -->
-<div class="row">
-  <div class="col-sm-4 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <h5>Revenue</h5>
-        <div class="row">
-          <div class="col-8 col-sm-12 col-xl-8 my-auto">
-            <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">₹32123</h2>
-              <!-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> -->
-            </div>
-            <!-- <h6 class="text-muted font-weight-normal">11.38% Since last month</h6> -->
-          </div>
-          <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-            <i class="icon-lg mdi mdi-codepen text-primary ml-auto"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <h5>Total Sales</h5>
-        <div class="row">
-          <div class="col-8 col-sm-12 col-xl-8 my-auto">
-            <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">₹45850</h2>
-              <!-- <p class="text-success ml-2 mb-0 font-weight-medium">+8.3%</p> -->
-            </div>
-            <!-- <h6 class="text-muted font-weight-normal"> 9.61% Since last month</h6> -->
-          </div>
-          <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-            <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <h5>Total Stock</h5>
-        <div class="row">
-          <div class="col-8 col-sm-12 col-xl-8 my-auto">
-            <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">₹2039</h2>
-              <!-- <p class="text-danger ml-2 mb-0 font-weight-medium">-2.1% </p> -->
-            </div>
-            <!-- <h6 class="text-muted font-weight-normal">2.27% Since last month</h6> -->
-          </div>
-          <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-            <i class="icon-lg mdi mdi-monitor text-success ml-auto"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="row">
-  <div class="col-md-4 col-xl-4 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">Transaction History</h4>
-        <canvas id="transaction-history" class="transaction-chart"></canvas>
-        <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-          <div class="text-md-center text-xl-left">
-            <h6 class="mb-1">Transfer to Paypal</h6>
-            <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
-          </div>
-          <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-            <h6 class="font-weight-bold mb-0">$236</h6>
-          </div>
-        </div>
-        <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-          <div class="text-md-center text-xl-left">
-            <h6 class="mb-1">Tranfer to Stripe</h6>
-            <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
-          </div>
-          <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-            <h6 class="font-weight-bold mb-0">$593</h6>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-8 col-xl-8 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex flex-row justify-content-between">
-          <h4 class="card-title mb-1">Recent Orders</h4>
-          <p class="text-muted mb-1">Your data status</p>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="preview-list">
-              <div class="preview-item border-bottom">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-primary">
-                    <i class="mdi mdi-file-document"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content d-sm-flex flex-grow">
-                  <div class="flex-grow">
-                    <h6 class="preview-subject">Admin dashboard design</h6>
-                    <p class="text-muted mb-0">Broadcast web app mockup</p>
-                  </div>
-                  <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                    <p class="text-muted">15 minutes ago</p>
-                    <p class="text-muted mb-0">30 tasks, 5 issues </p>
+            <!-- ================================== === ====================================== -->
+            <div class="row">
+              <div class="col-sm-4 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Revenue</h5>
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div
+                          class="d-flex d-sm-block d-md-flex align-items-center"
+                        >
+                          <h2 class="mb-0" id="revenue"></h2>
+                          <!-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> -->
+                        </div>
+                        <!-- <h6 class="text-muted font-weight-normal">11.38% Since last month</h6> -->
+                      </div>
+                      <div
+                        class="col-4 col-sm-12 col-xl-4 text-center text-xl-right"
+                      >
+                        <i
+                          class="icon-lg mdi mdi-codepen text-primary ml-auto"
+                        ></i>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="preview-item border-bottom">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-success">
-                    <i class="mdi mdi-cloud-download"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content d-sm-flex flex-grow">
-                  <div class="flex-grow">
-                    <h6 class="preview-subject">Wordpress Development</h6>
-                    <p class="text-muted mb-0">Upload new design</p>
-                  </div>
-                  <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                    <p class="text-muted">1 hour ago</p>
-                    <p class="text-muted mb-0">23 tasks, 5 issues </p>
-                  </div>
-                </div>
-              </div>
-              <div class="preview-item border-bottom">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-info">
-                    <i class="mdi mdi-clock"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content d-sm-flex flex-grow">
-                  <div class="flex-grow">
-                    <h6 class="preview-subject">Project meeting</h6>
-                    <p class="text-muted mb-0">New project discussion</p>
-                  </div>
-                  <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                    <p class="text-muted">35 minutes ago</p>
-                    <p class="text-muted mb-0">15 tasks, 2 issues</p>
+              <div class="col-sm-4 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Total Sales</h5>
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div
+                          class="d-flex d-sm-block d-md-flex align-items-center"
+                        >
+                          <h2 class="mb-0" id="sales"></h2>
+                          <!-- <p class="text-success ml-2 mb-0 font-weight-medium">+8.3%</p> -->
+                        </div>
+                        <h6 class="text-muted font-weight-normal">Products</h6>
+                      </div>
+                      <div
+                        class="col-4 col-sm-12 col-xl-4 text-center text-xl-right"
+                      >
+                        <i
+                          class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"
+                        ></i>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="preview-item border-bottom">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-danger">
-                    <i class="mdi mdi-email-open"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content d-sm-flex flex-grow">
-                  <div class="flex-grow">
-                    <h6 class="preview-subject">Broadcast Mail</h6>
-                    <p class="text-muted mb-0">Sent release details to team</p>
-                  </div>
-                  <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                    <p class="text-muted">55 minutes ago</p>
-                    <p class="text-muted mb-0">35 tasks, 7 issues </p>
-                  </div>
-                </div>
-              </div>
-              <div class="preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-warning">
-                    <i class="mdi mdi-chart-pie"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content d-sm-flex flex-grow">
-                  <div class="flex-grow">
-                    <h6 class="preview-subject">UI Design</h6>
-                    <p class="text-muted mb-0">New application planning</p>
-                  </div>
-                  <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                    <p class="text-muted">50 minutes ago</p>
-                    <p class="text-muted mb-0">27 tasks, 4 issues </p>
+              <div class="col-sm-4 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Total Stock</h5>
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto" >
+                      
+                        <h2 class="mb-0">gfhgc</h2>
+                        <!-- <h6 class="text-muted font-weight-normal">2.27% Since last month</h6> -->
+                      </div>
+                      <div
+                        class="col-4 col-sm-12 col-xl-4 text-center text-xl-right"
+                      >
+                        <i
+                          class="icon-lg mdi mdi-monitor text-success ml-auto"
+                        ></i>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+            <div class="row" style="padding-top: 21px;">
+              <div class="col-md-4 col-xl-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Transaction History</h4>
+                    <canvas
+                      id="myChart"
+                      class="transaction-chart"
+                    ></canvas>
+                    <% for (let i = 0; i < Transactions.length; i++) { %>
+                      <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                        <div class="text-md-center text-xl-left">
+                          <h6 class="mb-1"><%= Transactions[i]._id %></h6>
+                          <p class="text-muted mb-0"><%=Transactions[i].date %></p>
+                        </div>
+                        <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                          <h6 class="font-weight-bold mb-0"><%="₹"+Transactions[i].amount %></h6>
+                        </div>
+                      </div>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8 col-xl-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex flex-row justify-content-between">
+                      <h4 class="card-title mb-1">Recent Orders</h4>
+                      <p class="text-muted mb-1">Order Datas</p>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="preview-list">
 
 
+                          <% for (var i = 0; i < OrderListing.length; i++) { %>
+                            <div class="preview-item border-bottom">
+                              <div class="preview-thumbnail">
+                                <div class="preview-icon bg-primary" style="border-radius: 6px;">
+                                  <img style="border-radius: 6px;" src="/userImages/<%=OrderListing[i].product.image[0]%>" alt="">
+                                  
+                                </div>
+                              </div>
+                              <div class="preview-item-content d-sm-flex flex-grow">
+                                <div class="flex-grow">
+                                  <h6 class="preview-subject">
+                                    <%= OrderListing[i].product.name %>
+                                  </h6>
+                                  <p class="text-muted mb-0">
+                                    Payment : <%= OrderListing[i].paymentMethod %>
+                                  </p>
+                                </div>
+                                <div class="mr-auto text-sm-right pt-2 pt-sm-0">
+                                  <p class="text-muted">
+                                    Payment Status : <%= OrderListing[i].paymentStatus %>
+                                  </p>
+                                  <p class="text-muted mb-0">
+                                    Ordered on : <%= OrderListing[i].date %>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          <% } %>
 
-<!-- ================================== === ====================================== -->
-            
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ================================== === ====================================== -->
           </div>
         </div>
         <!-- main-panel ends -->
@@ -391,95 +435,58 @@
     <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-      function blockButton(id) {
-    // Send an AJAX request to update the user's block status
-    $.ajax({
-        url: '/admin/blockuser',
-        method: "post",
-        data: { id: id },
-        success: function (response) {
-            let users = response.users;
-            console.log(users);
-            let targetUser = users.find((user) => {
-                return user._id === id;
-            });
+      function fetchSalesData() {
+        fetch("/admin/dashDatas")
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("heloooo");
 
-            // Update the button class and text based on the user's block status
-            if (targetUser.is_blocked === 0) {
-                $(`button[data-id="${id}"]`).removeClass('btn-inverse-danger').addClass('btn-inverse-success').text('Block');
-            } else {
-                $(`button[data-id="${id}"]`).removeClass('btn-inverse-success').addClass('btn-inverse-danger').text('UnBlock');
-            }
-        },
-        error: function (error) {
-            console.error("Error:", error);
-        }
-    });
-}
+            const {
+              TotalRevenue,
+              TotalOdrProd,
+            } = data;
 
+            //passing values by IDS
+            const revenue = document.getElementById("revenue");
+            const sales = document.getElementById("sales");
+            
+            revenue.innerHTML ="₹"+TotalRevenue;
+            sales.innerHTML =TotalOdrProd;
+ 
+          })
+
+          .catch((error) => console.error("Error:", error));
+      }
+      fetchSalesData();
     </script>
-
 <script>
-  function unlistButton(id) {
-// Send an AJAX request to update the user's block status
-$.ajax({
-    url: '/admin/unlistproduct',
-    method: "post",
-    data: { id: id },
-    success: function (response) {
-        let products = response.products;
-        console.log(products);
-        let targetProduct = products.find((product) => {
-            return product._id === id;
-        });
-
-        // Update the button class and text based on the user's block status
-        if (targetProduct.is_unlisted === 0) {
-            $(`button[data-id="${id}"]`).removeClass('btn-inverse-danger').addClass('btn-inverse-success').text('Listed');
-        } else {
-            $(`button[data-id="${id}"]`).removeClass('btn-inverse-success').addClass('btn-inverse-danger').text('Unlisted');
-        }
+  var xValues = ["Cash On Delivery", "Online"];
+  var yValues = [55, 49];
+  var barColors = [
+    "#ff9203",
+    "#03ff5f"
+  ];
+  
+  new Chart("myChart", {
+    type: "doughnut",
+    data: {
+      labels: xValues,
+      datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+      }]
     },
-    error: function (error) {
-        console.error("Error:", error);
+    options: {
+      title: {
+        display: true,
+        text: "World Wide Wine Production 2018"
+      }
     }
-});
-}
-
-</script>
-
-<script>
-  function unlistButton1(id) {
-// Send an AJAX request to update the user's block status
-$.ajax({
-    url: '/admin/unlistcategory',
-    method: "post",
-    data: { id: id },
-    success: function (response) {
-        let category = response.category;
-        console.log(category);
-        let targetCategory = category.find((category) => {
-            return category._id === id;
-        });
-
-        // Update the button class and text based on the user's block status
-        if (targetCategory.is_unlisted === 0) {
-            $(`button[data-id="${id}"]`).removeClass('btn-inverse-danger').addClass('btn-inverse-success').text('Unlist');
-        } else {
-            $(`button[data-id="${id}"]`).removeClass('btn-inverse-success').addClass('btn-inverse-danger').text('List');
-        }
-    },
-    error: function (error) {
-        console.error("Error:", error);
-    }
-});
-}
-
-</script>
-
+  });
+  </script>
+  
 
 
 
@@ -490,7 +497,7 @@ $.ajax({
     <script src="../../assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
-    
+
     <script src="../../assets/js/off-canvas.js"></script>
     <script src="../../assets/js/hoverable-collapse.js"></script>
     <script src="../../assets/js/misc.js"></script>

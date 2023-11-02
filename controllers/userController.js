@@ -74,7 +74,7 @@ const verifyOTP = async (req, res) => {
   try {
     if (req.query.userid) {
       // console.log(req.query.userid);
-      res.render("emailVerification", { wrong: 1, userid: req.query.userid });
+      return res.render("emailVerification", { wrong: 1, userid: req.query.userid });
     } else {
       // console.log(req.body);
       let { a, b, c, d, e, f } = req.body;
@@ -92,10 +92,10 @@ const verifyOTP = async (req, res) => {
           { $set: { is_verified: 1 } }
         );
         // console.log(updateInfo);
-        res.render("emailVerification", { wrong: 0 });
+        return res.render("emailVerification", { wrong: 0 });
       } else {
         console.log("otp not matched");
-        res.render("emailVerification", { wrong: 2 });
+        return res.render("emailVerification", { wrong: 2 });
       }
     }
   } catch (error) {
@@ -110,7 +110,7 @@ const resendOTP = async (req, res) => {
     const userData = await User.findOne({ _id: userResendID });
     if (userData) {
       sendVerifyMail(userData.name, userData.email);
-      res.render("otpPage", { userData });
+      return res.render("otpPage", { userData });
     } else {
       console.log("resend otp error and email sending error");
     }
@@ -122,7 +122,7 @@ const resendOTP = async (req, res) => {
 
 const loadRegister = async (req, res) => {
   try {
-    res.render("registration");
+    return res.render("registration");
   } catch (error) {
     console.log(error.message);
   }
@@ -149,7 +149,7 @@ const insertUser = async (req, res) => {
     if (userData) {
       sendVerifyMail(req.body.name, req.body.email, userData._id);
 
-      res.render("otpPage", { userData });
+      return res.render("otpPage", { userData });
     } else {
       res.render("registration", {
         message: "your registration has been failed",
@@ -163,7 +163,7 @@ const insertUser = async (req, res) => {
 const loadProductListingPage = async (req, res) => {
   try {
     const productDatas = await Product.find({});
-    res.render("productListing", { products: productDatas });
+    return  res.render("productListing", { products: productDatas });
   } catch (error) {
     console.log(error.message);
   }
@@ -173,7 +173,7 @@ const lodadProductDetails = async (req, res) => {
   try {
     const productDetails = await Product.findOne({ _id: req.query.id });
     // console.log(productDetails);
-    res.render("product", { product: productDetails });
+    return res.render("product", { product: productDetails });
   } catch (error) {
     console.log(error.message);
   }
@@ -181,7 +181,7 @@ const lodadProductDetails = async (req, res) => {
 //===lead login===
 const loginLoad = async (req, res) => {
   try {
-    res.render("login");
+    return  res.render("login");
   } catch (error) {
     console.log(error.message);
   }
@@ -202,22 +202,22 @@ const verifyLogin = async (req, res) => {
 
         if (passwordMatch) {
           if (userData.is_verified === 0) {
-            res.render("login", { message: "Please verify your email" });
+            return  res.render("login", { message: "Please verify your email" });
           } else {
-            res.redirect("/home");
+            return res.redirect("/home");
           }
         } else {
-          res.render("login", { message: "Email and password are incorrect" });
+          return res.render("login", { message: "Email and password are incorrect" });
         }
       } else {
         // Account is blocked
-        res.render("login", {
+        return res.render("login", {
           message: "Your account is temporarily suspended",
         });
       }
     } else {
       // User not found
-      res.render("login", { message: "Email and password are incorrect" });
+      return res.render("login", { message: "Email and password are incorrect" });
     }
   } catch (error) {
     console.log(error.message);
@@ -229,14 +229,14 @@ const loadHome = async (req, res) => {
     const productData = await Product.find({ is_unlisted: 0 });
     if (req.session.user_id) {
       let userData = await User.findOne({ _id: req.session.user_id });
-      res.render("home", {
+      return res.render("home", {
         user: req.session.user,
         products: productData,
         userData,
       });
     } else {
       let userData = await User.findOne({ _id: req.session.user_id });
-      res.render("home", { user: req.session.user, products: productData });
+      return res.render("home", { user: req.session.user, products: productData });
     }
   } catch (error) {
     console.log(error.message);
@@ -246,7 +246,7 @@ const loadHome = async (req, res) => {
 const userLogout = async (req, res) => {
   try {
     req.session.destroy();
-    res.redirect("/");
+    return res.redirect("/");
   } catch (error) {
     console.log(error.message);
   }
@@ -254,7 +254,7 @@ const userLogout = async (req, res) => {
 //==================================================load product
 const loadProduct = async (req, res) => {
   try {
-    res.render("product");
+    return res.render("product");
   } catch (error) {
     console.log(error.message);
   }
@@ -282,14 +282,14 @@ const addToCart = async (req, res) => {
 
       let result = await cart.save();
       // console.log(result);
-      res.json({ cart: 1 });
+      return res.json({ cart: 1 });
     } else {
       const productInCart = existingCart.products.find(
         (item) => item.product.toString() === req.body.id.toString()
       );
 
       if (productInCart) {
-        res.json({ cart: 2 });
+        return res.json({ cart: 2 });
       } else {
         existingCart.products.push({
           product: req.body.id,
@@ -308,7 +308,7 @@ const addToCart = async (req, res) => {
     );
     // console.log("stock is now : " + producntQuantity.stock);
 
-    res.json({ cart: 0 });
+    return res.json({ cart: 0 });
     // console.log(result);
   } catch (error) {
     console.log(error.message);
@@ -355,7 +355,7 @@ const addAddress = async (req, res) => {
     // console.log("Address added:", savedAddress);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 };
 //==============================remove address
@@ -386,7 +386,7 @@ const removeAddr = async (req, res) => {
 //==============================load user address add page
 const loadAddressUploadPage = async (req, res) => {
   try {
-    res.render("addressAdding");
+    return res.render("addressAdding");
   } catch (error) {
     console.log(error.message);
   }
@@ -431,7 +431,7 @@ const loadCartPage = async (req, res) => {
 
     if (userCart) {
       let total = await calculateTotalPrice(req.session.user_id);
-      res.render("userCart", {
+      return res.render("userCart", {
         products: userCart.products,
         total,
         user_id: req.session.user_id,
@@ -439,7 +439,7 @@ const loadCartPage = async (req, res) => {
       // console.log(userCart.products);
     } else {
       let total = 0;
-      res.render("userCart", { products: 0, total });
+      return res.render("userCart", { products: 0, total });
     }
   } catch (error) {
     console.log(error.message);
@@ -516,7 +516,7 @@ const productQuantityHandling = async (req, res) => {
   try {
     // console.log(req.body);
     if (!req.session.user_id) {
-      res.json({ user: 0 });
+      return res.json({ user: 0 });
     } else {
       let { userId, productId, qty } = req.body;
       qty = Number(qty);
@@ -525,7 +525,7 @@ const productQuantityHandling = async (req, res) => {
       let qtyChange = await changeProductQuantity(userId, productId, qty);
       const cartDetails = await Cart.findOne({ user_id: userId });
       total = await calculateTotalPrice(userId);
-      res.json({ cartItems: cartDetails, total });
+      return res.json({ cartItems: cartDetails, total });
     }
   } catch (error) {
     console.log(error.message);
@@ -569,7 +569,7 @@ const removeProductFromCart = async (req, res) => {
       );
 
       // console.log("stock is now : " + producntQuantity.stock);
-      res.json({ removed: 1 });
+      return res.json({ removed: 1 });
     } else {
       console.log("Product not found in the cart.");
       return res
@@ -588,7 +588,7 @@ const removeProductFromCart = async (req, res) => {
 const loadUserProfile = async (req, res) => {
   try {
     let userData = await User.findOne({ _id: req.session.user_id });
-    res.render("userProfile", { userData });
+    return res.render("userProfile", { userData });
   } catch (error) {
     console.log(error.message);
   }
@@ -602,18 +602,18 @@ const loadcheckoutPage = async (req, res) => {
     const totalamount = await calculateTotalPrice(req.session.user_id);
 
     if (usersAddresses) {
-      res.render("checkoutPage", {
+      return  res.render("checkoutPage", {
         addresses: usersAddresses.address,
         totalamount,
       });
       // console.log(usersAddresses.address)
     } else {
       console.log("User's addresses not found.");
-      res.render("checkoutPage", { addresses: [], totalamount });
+      return  res.render("checkoutPage", { addresses: [], totalamount });
     }
   } catch (error) {
     console.log(error.message);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
 };
 //=================================================user edit
@@ -621,9 +621,9 @@ const loadUserEdit = async (req, res) => {
   try {
     const userData = await User.findById({ _id: req.session.user_id });
     if (userData) {
-      res.render("editUserData", { user: userData });
+      return res.render("editUserData", { user: userData });
     } else {
-      res.redirect("dashboard");
+      return res.redirect("dashboard");
     }
   } catch (error) {
     console.log(error.message);

@@ -33,6 +33,7 @@ const upload = multer({storage:storage})
 
 const adminController = require('../controllers/adminController');
 const orderController = require('../controllers/orderController');
+const salesReport = require('../controllers/salesReportController');
 
 
 
@@ -42,7 +43,15 @@ admin_route.post('/',adminController.verifyLogin);
 admin_route.get('/home',auth.isLogin,adminController.adminDashboard);
 admin_route.get('/logout',adminController.logout);
 
-admin_route.get('/dashboard',auth.isLogin,adminController.adminDashboard)
+// admin_route.get('/dashboard',auth.isLogin,salesReport.dashboardDisplayData);
+// admin_route.route('/dashboard')
+//   .get(auth.isLogin, adminController.adminDashboard)
+//   .get(auth.isLogin, salesReport.dashboardDisplayData);
+admin_route.route('/dashboard')
+  .get(auth.isLogin, adminController.adminDashboard);
+admin_route.route('/dashDatas')
+  .get(auth.isLogin,salesReport.dashboardDisplayData);
+
 admin_route.post('/blockuser',adminController.userBlock);
 
 admin_route.post('/unlistproduct',adminController.productUnlist);
@@ -74,6 +83,8 @@ admin_route.get("/manageOrders",auth.isLogin,adminController.orderManage);
 admin_route.post('/cancelOrders',auth.isLogin,orderController.cancelOrderByAdmin);
 admin_route.post('/statusChange',auth.isLogin,orderController.statusChange);
 
+
+admin_route.get('/dashDetails',salesReport.dashboardDisplayData);
 
 
 
