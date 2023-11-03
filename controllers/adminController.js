@@ -65,13 +65,12 @@ const logout = async (req, res) => {
 
 const adminDashboard = async (req, res) => {
   try {
-    const orderID = "651f2060c1a28f5885d5f95"
     const adminData = await User.findOne({ is_admin: 1 });
     const ProductStock = await Funcs.productStock(Product); //array
     const Transactions = await Funcs.transacHistory(Transaction); //array
     const OrderListing = await Funcs.orderListing(Order); //array
-    const OrderProdQty = await Funcs.prodQty(Order);
-    console.log(OrderProdQty);
+    
+
     if (adminData && ProductStock && Transactions && OrderListing) {
       res.render("dashboard", {
         admin: adminData,
@@ -376,7 +375,16 @@ const productDash = async (req, res) => {
 const salesDash = async (req, res) => {
   try {
     const adminData = await User.findOne({ is_admin: 1 });
-    return res.render("salesReport", { admin: adminData });
+    const OrderProdQty = await Funcs.prodQty(Order);//object
+    // console.log(OrderProdQty);
+    if (adminData && OrderProdQty) {
+      return res.render("salesReport",{
+        admin: adminData,
+        OrderProdQty
+      });
+    } else {
+      console.log(error.message);
+    }
   } catch (error) {
     console.log(error.message);
   }

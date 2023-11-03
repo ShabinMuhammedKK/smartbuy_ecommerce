@@ -281,7 +281,7 @@
               <div class="col-sm-4 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h5>Revenue</h5>
+                    <h5>Net Revenue</h5>
                     <div class="row">
                       <div class="col-8 col-sm-12 col-xl-8 my-auto">
                         <div
@@ -320,9 +320,7 @@
                       <div
                         class="col-4 col-sm-12 col-xl-4 text-center text-xl-right"
                       >
-                        <i
-                          class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"
-                        ></i>
+                        <i class="icon-lg mdi mdi-cart text-danger ml-auto"></i>
                       </div>
                     </div>
                   </div>
@@ -331,18 +329,17 @@
               <div class="col-sm-4 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h5>Total Stock</h5>
+                    <h5>Profit</h5>
                     <div class="row">
-                      <div class="col-8 col-sm-12 col-xl-8 my-auto" >
-                      
-                        <h2 class="mb-0">gfhgc</h2>
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <h2 class="mb-0" id="profit"></h2>
                         <!-- <h6 class="text-muted font-weight-normal">2.27% Since last month</h6> -->
                       </div>
                       <div
                         class="col-4 col-sm-12 col-xl-4 text-center text-xl-right"
                       >
                         <i
-                          class="icon-lg mdi mdi-monitor text-success ml-auto"
+                          class="icon-lg mdi mdi-arrow-top-right text-success ml-auto"
                         ></i>
                       </div>
                     </div>
@@ -350,25 +347,30 @@
                 </div>
               </div>
             </div>
-            <div class="row" style="padding-top: 21px;">
+            <div class="row" style="padding-top: 21px">
               <div class="col-md-4 col-xl-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Transaction History</h4>
-                    <canvas
-                      id="myChart"
-                      class="transaction-chart"
-                    ></canvas>
+                    <canvas id="myChart" class="transaction-chart"></canvas>
                     <% for (let i = 0; i < Transactions.length; i++) { %>
-                      <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                        <div class="text-md-center text-xl-left">
-                          <h6 class="mb-1"><%= Transactions[i]._id %></h6>
-                          <p class="text-muted mb-0"><%=Transactions[i].date %></p>
-                        </div>
-                        <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                          <h6 class="font-weight-bold mb-0"><%="₹"+Transactions[i].amount %></h6>
-                        </div>
+                    <div
+                      class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3"
+                    >
+                      <div class="text-md-center text-xl-left">
+                        <h6 class="mb-1"><%= Transactions[i]._id %></h6>
+                        <p class="text-muted mb-0">
+                          <%=Transactions[i].date %>
+                        </p>
                       </div>
+                      <div
+                        class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0"
+                      >
+                        <h6 class="font-weight-bold mb-0">
+                          <%="₹"+Transactions[i].amount %>
+                        </h6>
+                      </div>
+                    </div>
                     <% } %>
                   </div>
                 </div>
@@ -383,38 +385,43 @@
                     <div class="row">
                       <div class="col-12">
                         <div class="preview-list">
-
-
                           <% for (var i = 0; i < OrderListing.length; i++) { %>
-                            <div class="preview-item border-bottom">
-                              <div class="preview-thumbnail">
-                                <div class="preview-icon bg-primary" style="border-radius: 6px;">
-                                  <img style="border-radius: 6px;" src="/userImages/<%=OrderListing[i].product.image[0]%>" alt="">
-                                  
-                                </div>
-                              </div>
-                              <div class="preview-item-content d-sm-flex flex-grow">
-                                <div class="flex-grow">
-                                  <h6 class="preview-subject">
-                                    <%= OrderListing[i].product.name %>
-                                  </h6>
-                                  <p class="text-muted mb-0">
-                                    Payment : <%= OrderListing[i].paymentMethod %>
-                                  </p>
-                                </div>
-                                <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                                  <p class="text-muted">
-                                    Payment Status : <%= OrderListing[i].paymentStatus %>
-                                  </p>
-                                  <p class="text-muted mb-0">
-                                    Ordered on : <%= OrderListing[i].date %>
-                                  </p>
-                                </div>
+                          <div class="preview-item border-bottom">
+                            <div class="preview-thumbnail">
+                              <div
+                                class="preview-icon bg-primary"
+                                style="border-radius: 6px"
+                              >
+                                <img
+                                  style="border-radius: 6px"
+                                  src="/userImages/<%=OrderListing[i].product.image[0]%>"
+                                  alt=""
+                                />
                               </div>
                             </div>
+                            <div
+                              class="preview-item-content d-sm-flex flex-grow"
+                            >
+                              <div class="flex-grow">
+                                <h6 class="preview-subject">
+                                  <%= OrderListing[i].product.name %>
+                                </h6>
+                                <p class="text-muted mb-0">
+                                  Payment : <%= OrderListing[i].paymentMethod %>
+                                </p>
+                              </div>
+                              <div class="mr-auto text-sm-right pt-2 pt-sm-0">
+                                <p class="text-muted">
+                                  Payment Status : <%=
+                                  OrderListing[i].paymentStatus %>
+                                </p>
+                                <p class="text-muted mb-0">
+                                  Ordered on : <%= OrderListing[i].date %>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
                           <% } %>
-
-                          
                         </div>
                       </div>
                     </div>
@@ -443,52 +450,52 @@
           .then((data) => {
             console.log("heloooo");
 
-            const {
-              TotalRevenue,
-              TotalOdrProd,
-            } = data;
+            const { TotalRevenue, TotalOdrProd, ChartDatas } = data;
 
             //passing values by IDS
             const revenue = document.getElementById("revenue");
             const sales = document.getElementById("sales");
-            
-            revenue.innerHTML ="₹"+TotalRevenue;
-            sales.innerHTML =TotalOdrProd;
- 
+            const profit = document.getElementById("profit");
+
+            revenue.innerHTML = "₹" + TotalRevenue[0];
+            sales.innerHTML = TotalOdrProd;
+            profit.innerHTML = "₹" + TotalRevenue[1];
+
+            const CODcount = data.ChartDatas[0].cashOnDeliveryCount;
+            const online = data.ChartDatas[0].onlineCount;
+
+            createDoughnutChart(CODcount, online);
           })
 
           .catch((error) => console.error("Error:", error));
+
+        function createDoughnutChart(CODcount, online) {
+          var xValues = ["CASH ON DELIVERY", "ONLINE"];
+          var yValues = [CODcount, online];
+          var barColors = ["#ff9203", "#03ff5f"];
+
+          new Chart("myChart", {
+            type: "doughnut",
+            data: {
+              labels: xValues,
+              datasets: [
+                {
+                  backgroundColor: barColors,
+                  data: yValues,
+                },
+              ],
+            },
+            options: {
+              title: {
+                display: true,
+                text: "World Wide Wine Production 2018",
+              },
+            },
+          });
+        }
       }
       fetchSalesData();
     </script>
-<script>
-  var xValues = ["Cash On Delivery", "Online"];
-  var yValues = [55, 49];
-  var barColors = [
-    "#ff9203",
-    "#03ff5f"
-  ];
-  
-  new Chart("myChart", {
-    type: "doughnut",
-    data: {
-      labels: xValues,
-      datasets: [{
-        backgroundColor: barColors,
-        data: yValues
-      }]
-    },
-    options: {
-      title: {
-        display: true,
-        text: "World Wide Wine Production 2018"
-      }
-    }
-  });
-  </script>
-  
-
-
 
     <script src="../../assets/vendors/chart.js/Chart.min.js"></script>
     <script src="../../assets/vendors/progressbar.js/progressbar.min.js"></script>

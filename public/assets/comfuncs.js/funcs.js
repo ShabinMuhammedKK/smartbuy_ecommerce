@@ -1,5 +1,6 @@
 //COMMON FUNCTIONS
 
+
 const totalOrderedProductCount = async (Order) => {
   try {
     const result = await Order.aggregate([
@@ -136,13 +137,15 @@ const calculateTotalRevenue = async (Order) => {
       {
         $group: {
           _id: null,
-          totalAmount: { $sum: { $multiply: ["$totalAmount", 0.3] } },
+          totalAmount: { $sum: "$totalAmount" },
+          totalProfit: { $sum: { $multiply: ["$totalAmount", 0.3] } },
+
         },
       },
     ]).exec();
 
     if (orders.length > 0) {
-      const totalRevenue = orders[0].totalAmount;
+      const totalRevenue = [orders[0].totalAmount,orders[0].totalProfit];
       // console.log("Total Revenue:", totalRevenue);
       return totalRevenue;
     } else {
@@ -159,31 +162,122 @@ const prodQty = async (Order) => {
   try {
     const result = await Order.aggregate([
       {
-        $unwind: "$products",
+        $unwind: "$products"
       },
       {
-        $match: {
-          "products.productId": "651f2060c1a28f5885d5f95",
-        },
+        $lookup: {
+          from: "products",
+          localField: "products.productId",
+          foreignField: "_id",
+          as: "productInfo"
+        }
+      },
+      {
+        $unwind: "$productInfo"
       },
       {
         $group: {
-          _id: null,
+          _id: "$products.productId",
+          productName: { $first: "$productInfo.name" },
+          stock:{$first:"$productInfo.stock"},
           totalQuantity: { $sum: "$products.quantity" },
-        },
-      },
-    ]);
-
-    if (result.length > 0) {
-      return result[0].totalQuantity;
-    }
-
-    return 0;
+          orderedDate: { $push:{ $dateToString: { format: "%d-%m-%Y", date: "$orderDate" } } },
+          image:{$first:"$productInfo.image"},
+          price:{$first:"$productInfo.price"},
+          totalPrice: { $sum: { $multiply: ["$products.quantity", { $sum: { $multiply: ["$productInfo.price", 0.3] } }] } }
+          
+        }
+      }
+    ]).exec()
+    return result;
   } catch (error) {
     console.log(error.message);
   }
 };
-
+//COUNT OF PAYMENTS TO CHART
+const chartCount = async (Transaction)=>{
+  try {
+    const countOfBoth = Transaction.aggregate([{
+      $group: {
+        _id: null,  // Group all documents together
+        cashOnDeliveryCount: {
+          $sum: {
+            $cond: [{ $eq: ["$payment_method", "COD"] }, 1, 0]
+          }
+        },
+        onlineCount: {
+          $sum: {
+            $cond: [{ $eq: ["$payment_method", "Online"] }, 1, 0]
+          }
+        }
+      }
+    }]).exec();
+    return countOfBoth;
+  } catch (error) {
+     console.log(error.message);
+  }
+}
+//TOP SELLING PRODUCT FOR SALES REPORT PAGE
+const topProducts = async(Order)=>{
+  try {
+    const result = await Order.aggregate([
+      { $unwind: "$products" },
+      {
+        $lookup: {
+          from: "products",
+          localField: "products.productId",
+          foreignField: "_id",
+          as: "productInfo"
+        }
+      },
+      {
+        $group: {
+          _id: "$products.productId",
+          productName: { $first: "$productInfo.name" },
+          soldCount: { $sum: "$products.quantity" },
+        },
+      },
+      { $sort: { soldCount: -1 } },
+    ]);
+    // console.log(result);
+    return result;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+//SALES DATE WISE DISPLAY
+const salesDateWise = async(Order)=>{
+  try {
+    const result = await Order.aggregate([{
+      $unwind:"$products"
+    },
+    {
+      $project: {
+        formattedOrderDate: {
+          $dateToString: {
+            format: "%d-%m-%Y",
+            date: "$orderDate"
+          }
+        },
+        
+      }
+    },
+    {
+      $group: {
+        _id: "$formattedOrderDate",
+        quantity:"$product.quantity"
+      }
+    }
+    ]).exec();
+    if(result){
+      return result;
+    }else{
+      console.log("salesDateWise data not found");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 module.exports = {
   totalOrderedProductCount,
   productStock,
@@ -191,4 +285,7 @@ module.exports = {
   orderListing,
   calculateTotalRevenue,
   prodQty,
+  chartCount,
+  topProducts,
+  salesDateWise
 };

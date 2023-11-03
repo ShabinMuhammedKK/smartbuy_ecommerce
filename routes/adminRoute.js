@@ -43,10 +43,7 @@ admin_route.post('/',adminController.verifyLogin);
 admin_route.get('/home',auth.isLogin,adminController.adminDashboard);
 admin_route.get('/logout',adminController.logout);
 
-// admin_route.get('/dashboard',auth.isLogin,salesReport.dashboardDisplayData);
-// admin_route.route('/dashboard')
-//   .get(auth.isLogin, adminController.adminDashboard)
-//   .get(auth.isLogin, salesReport.dashboardDisplayData);
+
 admin_route.route('/dashboard')
   .get(auth.isLogin, adminController.adminDashboard);
 admin_route.route('/dashDatas')
@@ -74,7 +71,15 @@ admin_route.get('/search',adminController.searchEasy);
 admin_route.get('/usersData',auth.isLogin,adminController.UserDash);
 admin_route.get('/productData',auth.isLogin,adminController.productDash); 
 admin_route.get('/categoryData',auth.isLogin,adminController.categoryDash);
-admin_route.get('/salesData',auth.isLogin,adminController.salesDash);
+
+
+admin_route.route('/salesData')
+  .get(auth.isLogin, adminController.salesDash);
+
+admin_route.route('/salesReportData')
+  .get(auth.isLogin, salesReport.salesReportDisplayData);
+
+  
 
 admin_route.get("/ordersList",auth.isLogin,adminController.ordersListing);
 

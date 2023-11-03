@@ -1,5 +1,6 @@
 const Order = require("../models/orderModel");
 const Funcs = require("../public/assets/comfuncs.js/funcs");
+const Transaction = require('../models/transationModel');
 
 
 /*_____________________________________________________
@@ -15,8 +16,10 @@ const dashboardDisplayData = async (req, res) => {
   try {
     const TotalRevenue = await Funcs.calculateTotalRevenue(Order); //sum
     const TotalOdrProd = await Funcs.totalOrderedProductCount(Order); //count
-    if(TotalRevenue && TotalOdrProd){
-     return res.json({TotalRevenue,TotalOdrProd});
+    const ChartDatas = await Funcs.chartCount(Transaction); 
+    // console.log(ChartDatas);
+    if(TotalRevenue && TotalOdrProd && ChartDatas){
+     return res.json({TotalRevenue,TotalOdrProd,ChartDatas});
     }else{
       return console.log(`datas not found from "dashboardDisplayData"`);
     }
@@ -25,8 +28,24 @@ const dashboardDisplayData = async (req, res) => {
   }
 };
 
+const salesReportDisplayData = async (req,res)=>{
+  try {
+    const TopSoldProduct = await Funcs.topProducts(Order);
+    const DateWiseDatas = await Funcs.salesDateWise(Order);
+    console.log(DateWiseDatas);
+
+    if(TopSoldProduct && DateWiseDatas){
+      return res.json({TopSoldProduct,DateWiseDatas});
+    }else{
+      console.log("TopSoldProduct content not founded");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 
 module.exports = {
   dashboardDisplayData,
+  salesReportDisplayData
 };
