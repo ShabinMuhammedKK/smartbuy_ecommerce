@@ -32,7 +32,7 @@ const salesReportDisplayData = async (req,res)=>{
   try {
     const TopSoldProduct = await Funcs.topProducts(Order);
     const DateWiseDatas = await Funcs.salesDateWise(Order);
-    console.log(DateWiseDatas);
+    // console.log(DateWiseDatas);
 
     if(TopSoldProduct && DateWiseDatas){
       return res.json({TopSoldProduct,DateWiseDatas});
@@ -45,7 +45,10 @@ const salesReportDisplayData = async (req,res)=>{
 }
 
 
+
+
+
 module.exports = {
   dashboardDisplayData,
-  salesReportDisplayData
+  salesReportDisplayData,
 };

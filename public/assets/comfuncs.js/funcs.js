@@ -1,5 +1,5 @@
 //COMMON FUNCTIONS
-
+const Order = require("../../../models/orderModel");
 
 const totalOrderedProductCount = async (Order) => {
   try {
@@ -139,13 +139,12 @@ const calculateTotalRevenue = async (Order) => {
           _id: null,
           totalAmount: { $sum: "$totalAmount" },
           totalProfit: { $sum: { $multiply: ["$totalAmount", 0.3] } },
-
         },
       },
     ]).exec();
 
     if (orders.length > 0) {
-      const totalRevenue = [orders[0].totalAmount,orders[0].totalProfit];
+      const totalRevenue = [orders[0].totalAmount, orders[0].totalProfit];
       // console.log("Total Revenue:", totalRevenue);
       return totalRevenue;
     } else {
@@ -158,67 +157,70 @@ const calculateTotalRevenue = async (Order) => {
   }
 };
 //EACH PRODUCT QTY
-const prodQty = async (Order) => {
+const prodQty = async (Order, interval) => {
   try {
-    const result = await Order.aggregate([
-      {
-        $unwind: "$products"
-      },
-      {
-        $lookup: {
-          from: "products",
-          localField: "products.productId",
-          foreignField: "_id",
-          as: "productInfo"
-        }
-      },
-      {
-        $unwind: "$productInfo"
-      },
-      {
-        $group: {
-          _id: "$products.productId",
-          productName: { $first: "$productInfo.name" },
-          stock:{$first:"$productInfo.stock"},
-          totalQuantity: { $sum: "$products.quantity" },
-          orderedDate: { $push:{ $dateToString: { format: "%d-%m-%Y", date: "$orderDate" } } },
-          image:{$first:"$productInfo.image"},
-          price:{$first:"$productInfo.price"},
-          totalPrice: { $sum: { $multiply: ["$products.quantity", { $sum: { $multiply: ["$productInfo.price", 0.3] } }] } }
-          
-        }
-      }
-    ]).exec()
-    return result;
+    // const result = await Order.aggregate([
+    //   {
+    //     $unwind: "$products"
+    //   },
+    //   {
+    //     $lookup: {
+    //       from: "products",
+    //       localField: "products.productId",
+    //       foreignField: "_id",
+    //       as: "productInfo"
+    //     }
+    //   },
+    //   {
+    //     $unwind: "$productInfo"
+    //   },
+    //   {
+    //     $group: {
+    //       _id: "$products.productId",
+    //       productName: { $first: "$productInfo.name" },
+    //       stock:{$first:"$productInfo.stock"},
+    //       totalQuantity: { $sum: "$products.quantity" },
+    //       orderedDate: { $push:{ $dateToString: { format: "%d-%m-%Y", date: "$orderDate" } } },
+    //       image:{$first:"$productInfo.image"},
+    //       price:{$first:"$productInfo.price"},
+    //       totalPrice: { $sum: { $multiply: ["$products.quantity", { $sum: { $multiply: ["$productInfo.price", 0.3] } }] } }
+
+    //     }
+    //   }
+    // ]).exec()
+    const filteredData = await getFilteredData(Order, interval);
+    return filteredData;
   } catch (error) {
     console.log(error.message);
   }
 };
 //COUNT OF PAYMENTS TO CHART
-const chartCount = async (Transaction)=>{
+const chartCount = async (Transaction) => {
   try {
-    const countOfBoth = Transaction.aggregate([{
-      $group: {
-        _id: null,  // Group all documents together
-        cashOnDeliveryCount: {
-          $sum: {
-            $cond: [{ $eq: ["$payment_method", "COD"] }, 1, 0]
-          }
+    const countOfBoth = Transaction.aggregate([
+      {
+        $group: {
+          _id: null, // Group all documents together
+          cashOnDeliveryCount: {
+            $sum: {
+              $cond: [{ $eq: ["$payment_method", "COD"] }, 1, 0],
+            },
+          },
+          onlineCount: {
+            $sum: {
+              $cond: [{ $eq: ["$payment_method", "Online"] }, 1, 0],
+            },
+          },
         },
-        onlineCount: {
-          $sum: {
-            $cond: [{ $eq: ["$payment_method", "Online"] }, 1, 0]
-          }
-        }
-      }
-    }]).exec();
+      },
+    ]).exec();
     return countOfBoth;
   } catch (error) {
-     console.log(error.message);
+    console.log(error.message);
   }
-}
+};
 //TOP SELLING PRODUCT FOR SALES REPORT PAGE
-const topProducts = async(Order)=>{
+const topProducts = async (Order) => {
   try {
     const result = await Order.aggregate([
       { $unwind: "$products" },
@@ -227,8 +229,8 @@ const topProducts = async(Order)=>{
           from: "products",
           localField: "products.productId",
           foreignField: "_id",
-          as: "productInfo"
-        }
+          as: "productInfo",
+        },
       },
       {
         $group: {
@@ -238,46 +240,160 @@ const topProducts = async(Order)=>{
         },
       },
       { $sort: { soldCount: -1 } },
+      { $limit: 6 },
     ]);
     // console.log(result);
     return result;
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 //SALES DATE WISE DISPLAY
-const salesDateWise = async(Order)=>{
+const salesDateWise = async (Order) => {
   try {
-    const result = await Order.aggregate([{
-      $unwind:"$products"
-    },
-    {
-      $project: {
-        formattedOrderDate: {
-          $dateToString: {
-            format: "%d-%m-%Y",
-            date: "$orderDate"
-          }
+    const result = await Order.aggregate([
+      {
+        $unwind: "$products",
+      },
+      {
+        $group: {
+          _id: "$_id",
+          date: {
+            $first: {
+              $dateToString: {
+                format: "%d %b %Y",
+                date: "$orderDate",
+              },
+            },
+          },
+          totalQuantity: { $sum: "$products.quantity" },
         },
-        
-      }
-    },
-    {
-      $group: {
-        _id: "$formattedOrderDate",
-        quantity:"$product.quantity"
-      }
-    }
+      },
+
+      { $sort: { date: 1 } },
+      { $limit: 7 },
     ]).exec();
-    if(result){
+    if (result) {
       return result;
-    }else{
+    } else {
       console.log("salesDateWise data not found");
     }
   } catch (error) {
     console.log(error.message);
   }
-}
+};
+
+//FILTER PRODUCTS
+const getFilteredData = async (Order, interval) => {
+  try {
+    let filterCriteria = {};
+
+    switch (interval) {
+      case "daily":
+        // Construct filterCriteria for daily filtering
+        const currentDateDaily = new Date();
+        const yesterdayDaily = new Date(currentDateDaily);
+        yesterdayDaily.setDate(yesterdayDaily.getDate() - 1);
+        filterCriteria = {
+          orderDate: {
+            $gte: yesterdayDaily,
+            $lte: currentDateDaily,
+          },
+        };
+        break;
+
+      case "weekly":
+        // Construct filterCriteria for weekly filtering
+        const currentWeekStart = new Date();
+        currentWeekStart.setHours(0, 0, 0, 0);
+        currentWeekStart.setDate(
+          currentWeekStart.getDate() - currentWeekStart.getDay()
+        );
+        const currentWeekEnd = new Date(currentWeekStart);
+        currentWeekEnd.setDate(currentWeekStart.getDate() + 7);
+
+        filterCriteria = {
+          orderDate: {
+            $gte: currentWeekStart,
+            $lte: currentWeekEnd,
+          },
+        };
+        break;
+
+      case "monthly":
+        // Construct filterCriteria for monthly filtering
+        const currentDateMonthly = new Date();
+        const lastMonthMonthly = new Date(currentDateMonthly);
+        lastMonthMonthly.setMonth(lastMonthMonthly.getMonth() - 1);
+
+        filterCriteria = {
+          orderDate: {
+            $gte: lastMonthMonthly,
+            $lt: currentDateMonthly,
+          },
+        };
+        break;
+
+      default:
+        // Invalid interval
+        return { error: "Invalid interval" };
+    }
+
+    // Use the filterCriteria in the $match stage of your aggregation pipeline
+    const result = await Order.aggregate([
+      // Your aggregation stages
+      {
+        $unwind: "$products",
+      },
+      {
+        $match: filterCriteria, // Apply the selected filter criteria
+      },
+
+      {
+        $lookup: {
+          from: "products",
+          localField: "products.productId",
+          foreignField: "_id",
+          as: "productInfo",
+        },
+      },
+      {
+        $unwind: "$productInfo",
+      },
+      {
+        $group: {
+          _id: "$products.productId",
+          productName: { $first: "$productInfo.name" },
+          stock: { $first: "$productInfo.stock" },
+          totalQuantity: { $sum: "$products.quantity" },
+          orderedDate: {
+            $push: {
+              $dateToString: { format: "%d-%m-%Y", date: "$orderDate" },
+            },
+          },
+          image: { $first: "$productInfo.image" },
+          price: { $first: "$productInfo.price" },
+          totalPrice: {
+            $sum: {
+              $multiply: [
+                "$products.quantity",
+                { $sum: { $multiply: ["$productInfo.price", 0.3] } },
+              ],
+            },
+          },
+        },
+      },
+    ]).exec();
+
+    // console.log(result);
+    // console.log("Selected Interval:", interval);
+    // console.log("Filter Criteria:", filterCriteria);
+    return result;
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+
 module.exports = {
   totalOrderedProductCount,
   productStock,
@@ -287,5 +403,6 @@ module.exports = {
   prodQty,
   chartCount,
   topProducts,
-  salesDateWise
+  salesDateWise,
+  getFilteredData,
 };

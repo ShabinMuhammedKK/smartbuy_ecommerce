@@ -375,20 +375,22 @@ const productDash = async (req, res) => {
 const salesDash = async (req, res) => {
   try {
     const adminData = await User.findOne({ is_admin: 1 });
-    const OrderProdQty = await Funcs.prodQty(Order);//object
-    // console.log(OrderProdQty);
-    if (adminData && OrderProdQty) {
-      return res.render("salesReport",{
+    const interval = req.query.interval || 'monthly'; // Get the selected interval from the request
+
+    if (adminData) {
+      const OrderProdQty = await Funcs.prodQty(Order, interval); // Pass the interval to prodQty
+      return res.render("salesReport", {
         admin: adminData,
-        OrderProdQty
+        OrderProdQty,
       });
     } else {
-      console.log(error.message);
+      console.log("Data not found");
     }
   } catch (error) {
     console.log(error.message);
   }
 };
+
 
 //==================================user dash
 const UserDash = async (req, res) => {
