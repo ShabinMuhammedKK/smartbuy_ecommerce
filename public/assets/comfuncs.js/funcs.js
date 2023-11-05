@@ -159,35 +159,6 @@ const calculateTotalRevenue = async (Order) => {
 //EACH PRODUCT QTY
 const prodQty = async (Order, interval) => {
   try {
-    // const result = await Order.aggregate([
-    //   {
-    //     $unwind: "$products"
-    //   },
-    //   {
-    //     $lookup: {
-    //       from: "products",
-    //       localField: "products.productId",
-    //       foreignField: "_id",
-    //       as: "productInfo"
-    //     }
-    //   },
-    //   {
-    //     $unwind: "$productInfo"
-    //   },
-    //   {
-    //     $group: {
-    //       _id: "$products.productId",
-    //       productName: { $first: "$productInfo.name" },
-    //       stock:{$first:"$productInfo.stock"},
-    //       totalQuantity: { $sum: "$products.quantity" },
-    //       orderedDate: { $push:{ $dateToString: { format: "%d-%m-%Y", date: "$orderDate" } } },
-    //       image:{$first:"$productInfo.image"},
-    //       price:{$first:"$productInfo.price"},
-    //       totalPrice: { $sum: { $multiply: ["$products.quantity", { $sum: { $multiply: ["$productInfo.price", 0.3] } }] } }
-
-    //     }
-    //   }
-    // ]).exec()
     const filteredData = await getFilteredData(Order, interval);
     return filteredData;
   } catch (error) {
@@ -310,12 +281,12 @@ const getFilteredData = async (Order, interval) => {
           currentWeekStart.getDate() - currentWeekStart.getDay()
         );
         const currentWeekEnd = new Date(currentWeekStart);
-        currentWeekEnd.setDate(currentWeekStart.getDate() + 7);
+        currentWeekEnd.setDate(currentWeekStart.getDate() - 7);
 
         filterCriteria = {
           orderDate: {
-            $gte: currentWeekStart,
-            $lte: currentWeekEnd,
+            $lte: currentWeekStart,
+            $gte: currentWeekEnd,
           },
         };
         break;
@@ -329,7 +300,7 @@ const getFilteredData = async (Order, interval) => {
         filterCriteria = {
           orderDate: {
             $gte: lastMonthMonthly,
-            $lt: currentDateMonthly,
+            $lte: currentDateMonthly,
           },
         };
         break;
@@ -339,14 +310,14 @@ const getFilteredData = async (Order, interval) => {
         return { error: "Invalid interval" };
     }
 
-    // Use the filterCriteria in the $match stage of your aggregation pipeline
+    
     const result = await Order.aggregate([
-      // Your aggregation stages
+      
       {
         $unwind: "$products",
       },
       {
-        $match: filterCriteria, // Apply the selected filter criteria
+        $match: filterCriteria,
       },
 
       {
@@ -405,4 +376,5 @@ module.exports = {
   topProducts,
   salesDateWise,
   getFilteredData,
+  
 };

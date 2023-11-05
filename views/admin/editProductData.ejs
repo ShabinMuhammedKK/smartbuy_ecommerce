@@ -8,8 +8,35 @@
     <!-- plugins:css -->
     <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="../../assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="../../assets/vendors/owl-carousel-2/owl.carousel.min.css">
+
  
     <link rel="stylesheet" href="../../assets/css/style1.css">
+    <style>
+      .image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.add-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.image-container:hover .add-button {
+  opacity: 1;
+}
+    </style>
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/favicon.png" />
   </head>
@@ -18,7 +45,7 @@
       <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="row w-100 m-0">
           <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
-            <div class="card col-lg-4 mx-auto">
+            <div class="card col-lg-6 mx-auto">
               <div class="card-body px-5 py-5">
                 <h3 class="card-title text-left mb-3">Edit Product Details</h3>
                 <form action="" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
@@ -43,8 +70,54 @@
                     background-color: #1d2f36;
                     color: #fff;
                     cursor: pointer;
-                    border-radius: 3px;">
-                  </div>
+                    border-radius: 3px;"> 
+
+<div class="form-group d-flex flex-wrap mt-2 justify-content-sm-between">
+  <div class="image-container" style="margin: 5px;">
+      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image[0]%>" alt="Image">
+      
+      <label for="file-input" class="add-button btn btn-success">Upload</label>
+  <input type="file" id="file-input" name="image" multiple style="display: none;" />
+
+      <div class="buttons d-flex justify-content-center mt-1">
+        <button class="button btn btn-danger" data-id="0d">X</button>
+      </div>
+  </div>
+  <div class="image-container"style="margin: 5px;">
+      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image[1]%>" alt="Image">
+       <label for="file-input" class="add-button btn btn-success">Upload</label>
+  <input type="file" id="file-input" name="image" style="display: none;" />
+      <div class="buttons d-flex justify-content-center mt-1">
+        <button class="button btn btn-danger " data-id="1d">X</button>
+      </div>
+  </div>
+  <div class="image-container"style="margin: 5px;" >
+      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image[2]%>" alt="Image">
+      <label for="file-input" class="add-button btn btn-success">Upload</label>
+  <input type="file" id="file-input" name="image" style="display: none;" />
+      <div class="buttons d-flex justify-content-center mt-1">
+        <button class="button btn btn-danger" data-id="2d">X</button>
+      </div>
+  </div>
+  <div class="image-container" style="margin: 5px;">
+      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image[3]%>" alt="Image">
+      <label for="file-input" class="add-button btn btn-success">Upload</label>
+      <input type="file" id="file-input" name="image" style="display: none;" />
+      <div class="buttons d-flex justify-content-center mt-1">
+        <button class="button btn btn-danger" data-id="3d">X</button>
+      </div>
+  </div>
+  <div class="image-container" style="margin: 5px;">
+      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image[4]%>" alt="Image">
+      <label for="file-input" class="add-button btn btn-success">Upload</label>
+      <input type="file" id="file-input" name="image" multiple style="display: none;" />
+      <div class="buttons d-flex justify-content-center mt-1">
+        <button class="button btn btn-danger" data-id="4d">X</button>
+      </div>
+  </div>
+</div>
+                    
+                  
                   <div class="form-group">
                     <label>Quantity *</label>
                     <input type="number" class="form-control p_input" value="<%=product.stock%>" style="color: white;" name="stock" required>
@@ -85,15 +158,56 @@
     <!-- plugins:js -->
     
     <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
+
     <script src="../../assets/js/off-canvas.js"></script>
     <script src="../../assets/js/hoverable-collapse.js"></script>
     <script src="../../assets/js/misc.js"></script>
     <script src="../../assets/js/settings.js"></script>
     <script src="../../assets/js/todolist.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+      let id;
+      document.addEventListener("click", function (event) {
+          if (event.target.classList.contains("button")) {
+              id = event.target.getAttribute("data-id");
+              sendSelectedImageToServer(id)
+          }   
+      });
+   
+      function sendSelectedImageToServer(id) {
+          const data = { id };
+          
+          fetch('/admin/imageEdit', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+          })
+          .then(response => response.json())
+          .then(result => {
+              // Handle the server's response here
+              if (result.response=="OK") {
+                  location.reload();
+                  // alert("OK KITTY");
+              } else {
+                  // Handle errors
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+      }
+
+  </script>
+
+
+
+
+
     <script>
         function validateForm() {
             const phone = document.getElementById('phone').value;

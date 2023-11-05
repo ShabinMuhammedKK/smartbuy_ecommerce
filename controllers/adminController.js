@@ -72,17 +72,20 @@ const adminDashboard = async (req, res) => {
     
 
     if (adminData && ProductStock && Transactions && OrderListing) {
-      res.render("dashboard", {
+      return res.render("dashboard", {
         admin: adminData,
         ProductStock,
         Transactions,
         OrderListing,
       });
+      
     } else {
-      console.log(error.message);
+      return console.log(error.message);
+      
     }
   } catch (error) {
-    console.log(error.message);
+    return console.log(error.message);
+    
   }
 };
 
@@ -154,6 +157,7 @@ const loadProductEdit = async (req, res) => {
 
 const updateProductEdit = async (req, res) => {
   try {
+    
     if (req.file) {
       const productUpdatedData = await Product.findByIdAndUpdate(
         { _id: req.body.product_id },
@@ -383,13 +387,29 @@ const salesDash = async (req, res) => {
         admin: adminData,
         OrderProdQty,
       });
+      
     } else {
       console.log("Data not found");
     }
+    return
+  } catch (error) {
+    console.log(error.message);
+    return
+  }
+  
+};
+
+//IMAGE EDIT FROM PRODUCT EDIT
+const imageEdit = async(req,res)=>{
+  try {
+    const data = req.body.id;
+    console.log(data);
+    res.json({response:"OK"});
+    return;
   } catch (error) {
     console.log(error.message);
   }
-};
+}
 
 
 //==================================user dash
@@ -528,4 +548,5 @@ module.exports = {
   ordersListing,
   orderManage,
   salesDash,
+  imageEdit
 };

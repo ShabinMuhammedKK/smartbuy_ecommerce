@@ -6,6 +6,8 @@ const path = require('path');
 require("dotenv").config();
 
 
+
+
 admin_route.use(express.json());
 admin_route.use(express.urlencoded({extended:true}));
 
@@ -88,8 +90,9 @@ admin_route.get("/manageOrders",auth.isLogin,adminController.orderManage);
 admin_route.post('/cancelOrders',auth.isLogin,orderController.cancelOrderByAdmin);
 admin_route.post('/statusChange',auth.isLogin,orderController.statusChange);
 
-
 admin_route.get('/dashDetails',salesReport.dashboardDisplayData);
+
+admin_route.post('/imageEdit',auth.isLogin,adminController.imageEdit);
 
 
 
