@@ -112,7 +112,7 @@ z-index: 0
                 <% const product = order.products[j]; %>
                 <div class="col-md-10 col-lg-4 col-xl-9" style="margin-bottom: 20px;">
                   <div class="card card-stepper" style="border-radius: 16px;">
-                    <div class="card-body p-4">
+                    <div class="card-body p-4" style="height:fit-content;">
                       <div class="d-flex flex-row mb-4 pb-2">
                         <div class="flex-fill">
                           <h5 class="bold"><%= product.productId.name %></h5>
@@ -121,7 +121,7 @@ z-index: 0
                           <p style="font-weight: 600;border: 2px solid;margin-right: 78%;padding: 2%;border-radius: 8px;" class="text-muted">Status : <span class="text-body"><%= product.OrderStatus %></span></p>
                         </div>
                         <div>
-                          <img style="border-radius: 8px;" class="align-self-center img-fluid" src="/userImages/<%= product.productId.image[0] %>" width="150">
+                          <img style="border-radius: 8px;" class="align-self-center img-fluid" src="/crop/<%= product.productId.image1 %>" width="150">
                         </div>
                       </div>
                       <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">

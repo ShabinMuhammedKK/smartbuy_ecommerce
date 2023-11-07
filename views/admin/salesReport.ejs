@@ -219,12 +219,12 @@
             <ul class="navbar-nav navbar-nav-right">
               <li class="nav-item dropdown d-none d-lg-block">
                 <div style="display: flex">
-                  <button class="btn btn-outline-secondary" style="width:max-content;">
+                  <!-- <button class="btn btn-outline-secondary" style="width:max-content;">
                     <i
                       class="mdi mdi-download"
                     ></i>
                     Print Sales Report
-                  </button>
+                  </button> -->
                   <!-- <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addUser">+ Add User</a> -->
                   <!-- <a class="nav-link btn btn-outline-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addProduct">+ Add Product</a> -->
                   <!-- <a class="nav-link btn btn-outline-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addCategory">+ Add Category</a> -->
@@ -287,7 +287,7 @@
                       <div>
                         <img
                           style="height: 60px; width: 60px; border-radius: 8px"
-                          src="/userImages/<%= OrderProdQty[i].image[i] %>"
+                          src="/userImages/<%= OrderProdQty[i].image[1] %>"
                           alt="image"
                         />
                       </div>
@@ -356,7 +356,7 @@
                               width: 60px;
                               border-radius: 8px;
                             "
-                            src="/userImages/<%= OrderProdQty[i].image[i] %>"
+                            src="/userImages/<%= OrderProdQty[i].image[1] %>"
                             alt="image"
                           />
                         </div>

@@ -216,12 +216,13 @@
                 <% } else { %>
                 
                 <% for(let i=0;i<products.length;i++) { %>
+                 
                   <tr style="background-color: rgb(235, 239, 241);">
                     <td style="padding-top: 0px;padding-bottom: 0px;">
-                      <img src="/userImages/<%=products[i].product.image[0] %>" alt="Product Image" style="width: 90px;height: 90px;">
+                      <img src="/crop/<%=products[i].product.image1%>" alt="image" style="width: 90px;height: 90px;">
+                    
                       <td style="font-size: larger;font-weight: bold;"><%= products[i].product.name %></td>
                     </td>
-                    
                     <td style="font-size: larger;font-weight:bold;" id="singleProductPrice<%=products[i].product._id%>" >₹<%=products[i].product.price %></td>
                     <td>
                       <div class="input-group quantity mx-auto" style="padding-left: 25%;">

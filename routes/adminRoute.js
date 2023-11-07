@@ -66,7 +66,13 @@ admin_route.get('/loadUserEdit',adminController.loadUserEdit);
 admin_route.post('/loadUserEdit',upload.single('image'),adminController.loadUserEdit);
 
 admin_route.get('/loadProductEdit',adminController.loadProductEdit);
-admin_route.post('/loadProductEdit',upload.array('image',5),adminController.updateProductEdit);
+admin_route.post('/loadProductEdit',upload.fields([
+  { name: 'image1', maxCount: 1 },
+  { name: 'image2', maxCount: 1 },
+  { name: 'image3', maxCount: 1 },
+  { name: 'image4', maxCount: 1 },
+  { name: 'image5', maxCount: 1 },
+]),adminController.updateProductEdit);
 
 admin_route.get('/search',adminController.searchEasy);
 
@@ -93,6 +99,7 @@ admin_route.post('/statusChange',auth.isLogin,orderController.statusChange);
 admin_route.get('/dashDetails',salesReport.dashboardDisplayData);
 
 admin_route.post('/imageEdit',auth.isLogin,adminController.imageEdit);
+
 
 
 

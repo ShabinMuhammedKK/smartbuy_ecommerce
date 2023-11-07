@@ -5,6 +5,7 @@ const Order = require("../models/orderModel");
 const Transaction = require("../models/transationModel");
 const bcrypt = require("bcrypt");
 const Funcs = require("../public/assets/comfuncs.js/funcs");
+const sharp = require('sharp');
 
 //=======================================user controller==================
 
@@ -69,7 +70,6 @@ const adminDashboard = async (req, res) => {
     const ProductStock = await Funcs.productStock(Product); //array
     const Transactions = await Funcs.transacHistory(Transaction); //array
     const OrderListing = await Funcs.orderListing(Order); //array
-    
 
     if (adminData && ProductStock && Transactions && OrderListing) {
       return res.render("dashboard", {
@@ -78,14 +78,11 @@ const adminDashboard = async (req, res) => {
         Transactions,
         OrderListing,
       });
-      
     } else {
       return console.log(error.message);
-      
     }
   } catch (error) {
     return console.log(error.message);
-    
   }
 };
 
@@ -155,43 +152,54 @@ const loadProductEdit = async (req, res) => {
   }
 };
 
+
 const updateProductEdit = async (req, res) => {
   try {
+    // Check if files are present for each image field
+    const image1 = req.files['image1'] ? req.files['image1'][0].filename : undefined;
+    const image2 = req.files['image2'] ? req.files['image2'][0].filename : undefined;
+    const image3 = req.files['image3'] ? req.files['image3'][0].filename : undefined;
+    const image4 = req.files['image4'] ? req.files['image4'][0].filename : undefined;
+    const image5 = req.files['image5'] ? req.files['image5'][0].filename : undefined;
+
+    // Construct the update object for the product
     
-    if (req.file) {
-      const productUpdatedData = await Product.findByIdAndUpdate(
-        { _id: req.body.product_id },
-        {
-          $set: {
-            name: req.body.name,
-            description: req.body.description,
-            sellername: req.body.sellername,
-            stock: req.body.stock,
-            image: req.file.filename,
-            category: req.body.category,
-            price: req.body.price,
-          },
-        }
-      );
+    const updateObject = {
+      name: req.body.name,
+      description: req.body.description,
+      sellername: req.body.sellername,
+      stock: req.body.stock,
+      category: req.body.category,
+      price: req.body.price,
+    };
+
+    // Add image fields to the update object if files were uploaded
+    if (image1) updateObject.image1 = image1;
+    if (image2) updateObject.image2 = image2;
+    if (image3) updateObject.image3 = image3;
+    if (image4) updateObject.image4 = image4;
+    if (image5) updateObject.image5 = image5;
+
+    // Update the product using the Product model
+    const productUpdatedData = await Product.findByIdAndUpdate(
+      { _id: req.body.product_id },
+      { $set: updateObject },
+      { new: true } // To return the updated product
+    );
+
+    if (productUpdatedData) {
+      return res.redirect("/admin/dashboard#productsData");
     } else {
-      const productUpdatedData = await Product.findByIdAndUpdate(
-        { _id: req.body.product_id },
-        {
-          $set: {
-            name: req.body.name,
-            description: req.body.description,
-            sellername: req.body.sellername,
-            stock: req.body.stock,
-            category: req.body.category,
-            price: req.body.price,
-          },
-        }
-      );
+      return res.render("addProduct", {
+        message: "Product can't be updated",
+      });
     }
   } catch (error) {
     console.log(error.message);
+    return res.status(500).json({ error: error.message }); // Handle errors
   }
 };
+
 
 //===search bar===========================================
 
@@ -236,15 +244,27 @@ const insertProduct = async (req, res) => {
     const images = req.files;
     const imageFilenames = [];
 
+   
+
     for (const image of images) {
       imageFilenames.push(image.filename);
     }
+
+    for (let i = 0; i < imageFilenames.length; i++) {
+      await sharp("public/userImages/" + imageFilenames[i])
+       .resize(250, 250)
+       .toFile("public/crop/" + imageFilenames[i]);
+    }
 
     const product = new Product({
       name: req.body.name,
       description: req.body.description,
       price: req.body.price,
-      image: imageFilenames,
+      image1: imageFilenames[0],
+      image2: imageFilenames[1],
+      image3: imageFilenames[2],
+      image4: imageFilenames[3],
+      image5: imageFilenames[4],
       stock: req.body.stock,
       sellername: req.body.sellername,
       category: req.body.category,
@@ -379,7 +399,7 @@ const productDash = async (req, res) => {
 const salesDash = async (req, res) => {
   try {
     const adminData = await User.findOne({ is_admin: 1 });
-    const interval = req.query.interval || 'monthly'; // Get the selected interval from the request
+    const interval = req.query.interval || "monthly"; // Get the selected interval from the request
 
     if (adminData) {
       const OrderProdQty = await Funcs.prodQty(Order, interval); // Pass the interval to prodQty
@@ -387,30 +407,27 @@ const salesDash = async (req, res) => {
         admin: adminData,
         OrderProdQty,
       });
-      
     } else {
       console.log("Data not found");
     }
-    return
+    return;
   } catch (error) {
     console.log(error.message);
-    return
+    return;
   }
-  
 };
 
 //IMAGE EDIT FROM PRODUCT EDIT
-const imageEdit = async(req,res)=>{
+const imageEdit = async (req, res) => {
   try {
     const data = req.body.id;
     console.log(data);
-    res.json({response:"OK"});
+    res.json({ response: "OK" });
     return;
   } catch (error) {
     console.log(error.message);
   }
-}
-
+};
 
 //==================================user dash
 const UserDash = async (req, res) => {
@@ -548,5 +565,5 @@ module.exports = {
   ordersListing,
   orderManage,
   salesDash,
-  imageEdit
+  imageEdit,
 };

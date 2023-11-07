@@ -64,55 +64,55 @@
                     <input type="number" class="form-control p_input" value="<%=product.price%>" style="color: white;" name="price" required>
                   </div>
                   <div class="form-group">
-                    <label>Product Picture  (5 or fewer) *</label>
+                    <!-- <label>Product Picture  (5 or fewer) *</label>
                     <input type="file" class="form-control p_input" placeholder="Upload maximum 5 pictures" name="image" multiple style="display: inline-block;
                     padding: 10px 20px;
                     background-color: #1d2f36;
                     color: #fff;
                     cursor: pointer;
-                    border-radius: 3px;"> 
+                    border-radius: 3px;">  -->
 
 <div class="form-group d-flex flex-wrap mt-2 justify-content-sm-between">
   <div class="image-container" style="margin: 5px;">
-      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image[0]%>" alt="Image">
+      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image1%>" alt="Image">
       
-      <label for="file-input" class="add-button btn btn-success">Upload</label>
-  <input type="file" id="file-input" name="image" multiple style="display: none;" />
+      <label for="file-input1" class="add-button btn btn-success">Upload</label>
+  <input type="file" id="file-input1" name="image1" multiple style="display: none;" />
 
       <div class="buttons d-flex justify-content-center mt-1">
-        <button class="button btn btn-danger" data-id="0d">X</button>
+        <!-- <button class="button btn btn-danger" data-id="0d">X</button> -->
       </div>
   </div>
   <div class="image-container"style="margin: 5px;">
-      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image[1]%>" alt="Image">
-       <label for="file-input" class="add-button btn btn-success">Upload</label>
-  <input type="file" id="file-input" name="image" style="display: none;" />
+      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image2%>" alt="Image">
+       <label for="file-input2" class="add-button btn btn-success">Upload</label>
+  <input type="file" id="file-input2" name="image2" style="display: none;" />
       <div class="buttons d-flex justify-content-center mt-1">
-        <button class="button btn btn-danger " data-id="1d">X</button>
+        <!-- <button class="button btn btn-danger " data-id="1d">X</button> -->
       </div>
   </div>
   <div class="image-container"style="margin: 5px;" >
-      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image[2]%>" alt="Image">
-      <label for="file-input" class="add-button btn btn-success">Upload</label>
-  <input type="file" id="file-input" name="image" style="display: none;" />
+      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image3%>" alt="Image">
+      <label for="file-input3" class="add-button btn btn-success">Upload</label>
+  <input type="file" id="file-input3" name="image3" style="display: none;" />
       <div class="buttons d-flex justify-content-center mt-1">
-        <button class="button btn btn-danger" data-id="2d">X</button>
+        <!-- <button class="button btn btn-danger" data-id="2d">X</button> -->
       </div>
   </div>
   <div class="image-container" style="margin: 5px;">
-      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image[3]%>" alt="Image">
-      <label for="file-input" class="add-button btn btn-success">Upload</label>
-      <input type="file" id="file-input" name="image" style="display: none;" />
+      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image4%>" alt="Image">
+      <label for="file-input4" class="add-button btn btn-success">Upload</label>
+      <input type="file" id="file-input4" name="image4" style="display: none;" />
       <div class="buttons d-flex justify-content-center mt-1">
-        <button class="button btn btn-danger" data-id="3d">X</button>
+        <!-- <button class="button btn btn-danger" data-id="3d">X</button> -->
       </div>
   </div>
   <div class="image-container" style="margin: 5px;">
-      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image[4]%>" alt="Image">
-      <label for="file-input" class="add-button btn btn-success">Upload</label>
-      <input type="file" id="file-input" name="image" multiple style="display: none;" />
+      <img class="image" style="height: 7em;width: 7em;margin-left: 2px;border-radius: 8px;" src="/userImages/<%=product.image5%>" alt="Image">
+      <label for="file-input5" class="add-button btn btn-success">Upload</label>
+      <input type="file" id="file-input5" name="image4" multiple style="display: none;" />
       <div class="buttons d-flex justify-content-center mt-1">
-        <button class="button btn btn-danger" data-id="4d">X</button>
+        <!-- <button class="button btn btn-danger" data-id="4d">X</button> -->
       </div>
   </div>
 </div>
@@ -169,41 +169,64 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-      let id;
       document.addEventListener("click", function (event) {
-          if (event.target.classList.contains("button")) {
-              id = event.target.getAttribute("data-id");
-              sendSelectedImageToServer(id)
-          }   
-      });
-   
-      function sendSelectedImageToServer(id) {
-          const data = { id };
-          
-          fetch('/admin/imageEdit', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(data),
-          })
-          .then(response => response.json())
-          .then(result => {
-              // Handle the server's response here
-              if (result.response=="OK") {
-                  location.reload();
-                  // alert("OK KITTY");
-              } else {
-                  // Handle errors
-              }
-          })
-          .catch(error => {
-              console.error('Error:', error);
-          });
-      }
+    if (event.target.classList.contains("button")) {
+        const id = event.target.getAttribute("data-id");
+        sendDeleteRequest(id);
+    }
+});
+
+function sendDeleteRequest(id) {
+    const data = { product_id: '<%= product._id %>', image_id: id };
+
+    fetch('/admin/deleteImage', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.message === 'Image deleted successfully') {
+            location.reload(); // Reload the page after deletion
+        } else {
+            // Handle errors
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
 
   </script>
 
+<script>
+  // JavaScript variables that hold the URLs of existing images
+  var existingImage1 = "/userImages/<%= product.image1 %>";
+  var existingImage2 = "/userImages/<%= product.image2 %>";
+  var existingImage3 = "/userImages/<%= product.image3 %>";
+  var existingImage4 = "/userImages/<%= product.image4 %>";
+  var existingImage5 = "/userImages/<%= product.image5 %>";
+
+  // Function to set the default values of file input elements
+  function setDefaultImageValues() {
+    // Set the value of file input for image 1
+    document.getElementById("file-input1").value = existingImage1;
+    // Set the value of file input for image 2
+    document.getElementById("file-input2").value = existingImage2;
+    // Set the value of file input for image 3
+    document.getElementById("file-input3").value = existingImage3;
+    // Set the value of file input for image 4
+    document.getElementById("file-input4").value = existingImage4;
+    // Set the value of file input for image 5
+    document.getElementById("file-input5").value = existingImage5;
+  }
+
+  // Call the function to set default values when the page loads
+  setDefaultImageValues();
+</script>
 
 
 

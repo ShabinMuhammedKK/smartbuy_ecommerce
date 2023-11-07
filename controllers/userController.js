@@ -171,9 +171,39 @@ const loadProductListingPage = async (req, res) => {
 //=========================================================load product details
 const lodadProductDetails = async (req, res) => {
   try {
-    const productDetails = await Product.findOne({ _id: req.query.id });
-    // console.log(productDetails);
-    return res.render("product", { product: productDetails });
+
+    const currentPage = parseInt(req.query.page) || 1;
+    const itemsPerPage = parseInt(req.query.limit) || 10;
+  
+    const skip = (currentPage - 1) * itemsPerPage;
+    
+    Product.find()
+      .skip(skip)
+      .limit(itemsPerPage)
+      .exec((err, data) => {
+        if (err) {
+          return res.status(500).json({ error: 'Internal server error' });
+        }
+        
+        Product.countDocuments().exec((countError, count) => {
+          if (countError) {
+            return res.status(500).json({ error: 'Internal server error' });
+          }
+  
+          return res.json({
+            data,
+            currentPage,
+            itemsPerPage,
+            totalItems: count,
+          });
+        });
+      });
+
+
+
+    // const productDetails = await Product.findOne({ _id: req.query.id });
+    // // console.log(productDetails);
+    // return res.render("product", { product: productDetails });
   } catch (error) {
     console.log(error.message);
   }
@@ -276,6 +306,7 @@ const addToCart = async (req, res) => {
           {
             product: req.body.id,
             quantity: 1,
+            image:image1
           },
         ],
       });
@@ -425,7 +456,7 @@ const loadCartPage = async (req, res) => {
       .populate({
         path: "products.product",
         model: "Product",
-        select: "name price description image",
+        select: "name price description image1",
       })
       .exec();
 

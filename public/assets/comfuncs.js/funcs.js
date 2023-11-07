@@ -58,28 +58,26 @@ const productStock = async (Product) => {
 //TRANSACTIONS
 const transacHistory = async (Transaction) => {
   try {
+
     const transactions = await Transaction.aggregate([
       {
-        $group: {
-          _id: "$payment_method",
-          amount: { $sum: "$paid_amount" },
+        $project: {
+          payment_method: 1,
+          paid_amount: 1,
           date: {
-            $push: {
-              $dateToString: {
-                format: "%d-%b-%Y",
-                date: "$date",
-                timezone: "Asia/Kolkata",
-              },
+            $dateToString: {
+              format: "%d-%b-%Y",
+              date: "$date",
+              timezone: "Asia/Kolkata",
             },
           },
         },
       },
     ]).exec();
+    
 
     if (transactions) {
-      // for(let i=0;i<transactions.length;i++){
-      //   console.log(transactions[i]._id+"=="+transactions[i].amount+"=="+transactions[i].date)
-      // }
+      
       return transactions;
     }
   } catch (error) {
@@ -267,8 +265,8 @@ const getFilteredData = async (Order, interval) => {
         yesterdayDaily.setDate(yesterdayDaily.getDate() - 1);
         filterCriteria = {
           orderDate: {
-            $gte: yesterdayDaily,
             $lte: currentDateDaily,
+            $gte: yesterdayDaily,
           },
         };
         break;
@@ -281,11 +279,11 @@ const getFilteredData = async (Order, interval) => {
           currentWeekStart.getDate() - currentWeekStart.getDay()
         );
         const currentWeekEnd = new Date(currentWeekStart);
-        currentWeekEnd.setDate(currentWeekStart.getDate() - 7);
+        currentWeekEnd.setDate(currentWeekStart.getDate() - 6);
 
         filterCriteria = {
           orderDate: {
-            $lte: currentWeekStart,
+            // $lte: currentWeekStart,
             $gte: currentWeekEnd,
           },
         };
@@ -299,7 +297,7 @@ const getFilteredData = async (Order, interval) => {
 
         filterCriteria = {
           orderDate: {
-            $gte: lastMonthMonthly,
+            // $gte: lastMonthMonthly,
             $lte: currentDateMonthly,
           },
         };
