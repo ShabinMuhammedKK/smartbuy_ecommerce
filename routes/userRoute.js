@@ -3,6 +3,7 @@ const user_route = express();
 const userController = require("../controllers/userController");
 const multer = require('multer');
 const orderController = require("../controllers/orderController");
+const couponController = require('../controllers/couponController')
 const path = require('path');
 const session = require('express-session');
 const auth = require('../middleware/auth');
@@ -76,6 +77,8 @@ user_route.post('/cancelOrder',auth.isLogin,orderController.cancelOrderByUser);
 user_route.post('/deleteAddr',auth.isLogin,userController.removeAddr);
 
 user_route.post('/verifyPayment',orderController.verifyPayment);
+
+user_route.get('/coupons',auth.isLogin,couponController.userCouponDisplay);
 
 
 module.exports = user_route;

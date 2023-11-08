@@ -36,6 +36,7 @@ const upload = multer({storage:storage})
 const adminController = require('../controllers/adminController');
 const orderController = require('../controllers/orderController');
 const salesReport = require('../controllers/salesReportController');
+const couponController = require('../controllers/couponController');
 
 
 
@@ -100,7 +101,11 @@ admin_route.get('/dashDetails',salesReport.dashboardDisplayData);
 
 admin_route.post('/imageEdit',auth.isLogin,adminController.imageEdit);
 
-
+admin_route.get('/createCoupon',auth.isLogin,couponController.load_coupenCreate);
+admin_route.post('/createCoupon',auth.isLogin,couponController.create_coupon);
+admin_route.get('/couponDash',auth.isLogin,couponController.load_couponDash);
+admin_route.get('/loadcopEdit',auth.isLogin,couponController.loadCouponEdit);
+admin_route.post('/loadcopEdit',auth.isLogin,couponController.updateCoupon);
 
 
 admin_route.get('*',function(req,res){

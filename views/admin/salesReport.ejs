@@ -175,9 +175,17 @@
           <li class="nav-item menu-items">
             <a class="nav-link" href="/admin/ordersList">
               <span class="menu-icon">
-                <i class="mdi mdi-checkbox-multiple-blank"></i>
+                <i class="mdi mdi-cart"></i>
               </span>
-              <span style="color: white" class="menu-title">ORDERS</span>
+              <span style="color: white;" class="menu-title">ORDERS</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="/admin/couponDash">
+              <span class="menu-icon">
+                <i class="mdi mdi-ticket"></i>
+              </span>
+              <span style="color: white;" class="menu-title">COUPONS</span>
             </a>
           </li>
         </ul>
@@ -287,7 +295,7 @@
                       <div>
                         <img
                           style="height: 60px; width: 60px; border-radius: 8px"
-                          src="/userImages/<%= OrderProdQty[i].image[1] %>"
+                          src="/crop/<%= OrderProdQty[i].image1 %>"
                           alt="image"
                         />
                       </div>
@@ -356,7 +364,7 @@
                               width: 60px;
                               border-radius: 8px;
                             "
-                            src="/userImages/<%= OrderProdQty[i].image[1] %>"
+                            src="/crop/<%= OrderProdQty[i].image1 %>"
                             alt="image"
                           />
                         </div>

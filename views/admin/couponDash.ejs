@@ -173,7 +173,7 @@
             <ul class="navbar-nav navbar-nav-right">
               <li class="nav-item dropdown d-none d-lg-block">
                 <div style="display: flex;">
-                  <!-- <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addProduct">+ Add Product</a> -->
+                  <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/createCoupon">+ Add Coupon</a>
                   <a class="nav-link btn btn-danger create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/logout">Logout</a>
               </div>
               </li>
@@ -188,95 +188,92 @@
        
              
 <!-- ===============================products========================================= -->
-<div class="main-panel" id="productsData">
-    <div class="content-wrapper">
-      <div class="row">
-        <div class="col-12 grid-margin">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">Products</h4>
-              <div class="table-responsive">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>
-                        <!-- <div class="form-check form-check-muted m-0">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input">
-                          </label>
-                        </div> -->
-                      </th>
-                      <th style="color: white;">NAME</th>
-                      <th style="color: white;">PRICE PER ONE</th>
-                      <th style="color: white;">QUANTITY</th>
-                      <th style="color: white;">ORDER STATUS</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% if (products.length > 0) { %>
-                      <% for (let i = 0; i < products.length; i++) { %>
-                        <tr>
-                          <td>
-                            <!-- <div class="form-check form-check-muted m-0">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                              </label>
-                            </div> -->
-                          </td>
-                          
-                          <td>
-                            <!-- <img src="/crop/<%= products[i].product.image1 %>" alt="image"/> -->
-                            <span class="pl-2"><%= products[i].product.name %></span>
-                          </td>
-                          <td><%=products[i].product.price%></td>
-                          <td><%=products[i].orderDetails.quantity%></td>
-                         
-                          <!-- <td><div>
-                            <% if (products[i].stock === 0) { %>
-                              <p style="color: rgb(255, 81, 81);">Out of Stock</p>
-                            <% } else { %>
-                              <p style="color: rgb(27, 255, 27);">InStock</p>                                       
-                               <% } %>
-                          </div></td> -->
-                          <td>
-                            <div class="btn-group" role="group" aria-label="User Actions">
-                              <% if (products[i].is_unlisted === 1) { %>
-                                <button data-id="<%= products[i]._id %>" onclick="unlistButton('<%= products[i]._id %>')" class="btn btn-inverse-danger">Unlisted</button>
+
+              <div class="main-panel" id="productsData">
+                <div class="content-wrapper">
+                  <div class="row">
+                    <div class="col-12 grid-margin">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title">Products</h4>
+                          <div class="table-responsive">
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th>
+                                    <!-- <div class="form-check form-check-muted m-0">
+                                      <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input">
+                                      </label>
+                                    </div> -->
+                                  </th>
+                                  <th style="color: white;">COUPON CODE</th>
+                                  <th style="color: white;">DESCRIPTION</th>
+                                  <th style="color: white;">DISCOUNT AMOUNT</th>
+                                  <th style="color: white;">STARTING DATE</th>
+                                  <th style="color: white;">END DATE</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <% if (listingCoupons.length > 0) { %>
+                                  <% for (let i = 0; i < listingCoupons.length; i++) { %>
+                                    <tr>
+                                      <td>
+                                        <!-- <div class="form-check form-check-muted m-0">
+                                          <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input">
+                                          </label>
+                                        </div> -->
+                                      </td>
+                                      <td>
+                                        <span class="pl-2"><%= listingCoupons[i].coupon_code %></span>
+                                      </td>
+                                      <td><%= listingCoupons[i].description %></td>
+                                      <td><%= listingCoupons[i].discount_price %></td>
+                                      <td><%= listingCoupons[i].start_date %></td>
+                                      <td><%= listingCoupons[i].end_date %></td>
+                                      <!-- <td><div>
+                                        <% if (listingCoupons[i].stock === 0) { %>
+                                          <p style="color: rgb(255, 81, 81);">Out of Stock</p>
+                                        <% } else { %>
+                                          <p style="color: rgb(27, 255, 27);">InStock</p>                                       
+                                           <% } %>
+                                      </div></td> -->
+                                      <!-- <td>
+                                        <div class="btn-group" role="group" aria-label="User Actions">
+                                          <% if (listingCoupons[i].is_unlisted === 1) { %>
+                                            <button data-id="<%= listingCoupons[i]._id %>" onclick="unlistButton('<%= listingCoupons[i]._id %>')" class="btn btn-inverse-danger">Unlisted</button>
+                                            <% } else { %>
+                                              <button data-id="<%= listingCoupons[i]._id %>" onclick="unlistButton('<%= listingCoupons[i]._id %>')" class="btn btn-inverse-success">Listed</button>
+                                          <% } %>
+                                        </div>
+                                      </td> -->
+                                      <td>
+                                  
+                                        <a href="loadcopEdit?id=<%= listingCoupons[i]._id %>"><button  class="btn btn-secondary"><i class="mdi mdi-grease-pencil" style="font-size: 15px;"></i></button>
+                                        </a> 
+                                       </td>
+                                    </tr>
+                                  <% } %>
                                 <% } else { %>
-                                  <button data-id="<%= products[i]._id %>" onclick="unlistButton('<%= products[i]._id %>')" class="btn btn-inverse-success">Listed</button>
-                              <% } %>
-                            </div>
-                          </td>
-                          <td>
-                      
-                            <!-- <a href="loadProductEdit?id=<%= products[i]._id %>"> -->
-                              <button  class="btn btn-secondary">
-                                <a href="/admin/manageOrders?productID=<%=products[i].product._id%>&orderID=<%=products[i].orderDetails._id%>">Manage</a>
-                              </button>
-                            <!-- </a>  -->
-                           </td>
-                        </tr>
-                      <% } %>
-                    <% } else { %>
-                      <tr>
-                        <td colspan="5">Products Not Found</td>
-                      </tr>
-                    <% } %>
-                  </tbody>
-                </table>
+                                  <tr>
+                                    <td colspan="5">Products Not Found</td>
+                                  </tr>
+                                <% } %>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>      
+                </div>
               </div>
+
             </div>
+            
+          
           </div>
-        </div>
-      </div>      
-    </div>
-  </div>
-
-</div>
-
-
-</div>
-             
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
           <!-- <footer class="footer">

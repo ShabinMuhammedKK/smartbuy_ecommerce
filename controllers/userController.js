@@ -172,32 +172,7 @@ const loadProductListingPage = async (req, res) => {
 const lodadProductDetails = async (req, res) => {
   try {
 
-    const currentPage = parseInt(req.query.page) || 1;
-    const itemsPerPage = parseInt(req.query.limit) || 10;
-  
-    const skip = (currentPage - 1) * itemsPerPage;
-    
-    Product.find()
-      .skip(skip)
-      .limit(itemsPerPage)
-      .exec((err, data) => {
-        if (err) {
-          return res.status(500).json({ error: 'Internal server error' });
-        }
-        
-        Product.countDocuments().exec((countError, count) => {
-          if (countError) {
-            return res.status(500).json({ error: 'Internal server error' });
-          }
-  
-          return res.json({
-            data,
-            currentPage,
-            itemsPerPage,
-            totalItems: count,
-          });
-        });
-      });
+    const page = parseInt(req.query)
 
 
 
