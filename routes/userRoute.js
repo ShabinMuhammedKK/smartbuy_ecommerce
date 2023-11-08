@@ -79,6 +79,7 @@ user_route.post('/deleteAddr',auth.isLogin,userController.removeAddr);
 user_route.post('/verifyPayment',orderController.verifyPayment);
 
 user_route.get('/coupons',auth.isLogin,couponController.userCouponDisplay);
+user_route.post('/coupeonApply',auth.isLogin,couponController.ApplyCoupon);
 
 
 module.exports = user_route;

@@ -129,11 +129,11 @@
     
         <!-- Checkout Start -->
         <div class="container-fluid">
-            <div class="row px-lg-11">
+            <div class="row px-lg-12">
 
-                <div class="col-12 col-md-8 mb-3" style="border: 5px solid rgb(88, 3, 6);;">
+                <div class="col-12" >
                     <div class="mb-5  col-lg-12" style="padding-left: 0%;padding-right: 0%;">
-                        <h5 style="background-color: rgb(88, 3, 6);color: white;height: 45px;text-align:center;padding-top: 14px;">DELIVERY ADDRESS</h5>
+                        <h5 style="background-color: rgb(96, 94, 94);color: white;height: 45px;text-align:center;padding-top: 14px;">DELIVERY ADDRESS</h5>
                         <!-- <h5 class="section-title position-relative  mb-3" style="padding-left: 20px;">Select Shipping Address </h5> -->
                         <div class="" p-30" style="padding-left: 20px;padding-right: 20px;">
                             <% for (let i = addresses.length - 1; i >= 0; i--) { %>
@@ -152,8 +152,8 @@
                             
     
                         </div>
-                        <button class="btn btn-dark" style="width: 30%;height: 40px;background-color: rgb(88, 3, 6);color: white;margin-left: 16%;" id="refreshButton">↻ Refresh</button>
-                        <button style="width: 30%;height: 40px;background-color: rgb(88, 3, 6);color: white;margin-left: 2%;" data-toggle="collapse" data-target="#shipping-address">+ New Address</button>
+                        <button class="btn btn-dark" style="width: 30%;height: 40px;background-color: rgb(96, 94, 94);color: white;margin-left: 16%;" id="refreshButton">↻ Refresh</button>
+                        <button style="width: 30%;height: 40px;background-color: rgb(96, 94, 94);color: white;margin-left: 2%;" data-toggle="collapse" data-target="#shipping-address">+ New Address</button>
 
                         
 
@@ -230,7 +230,7 @@
                                         <input  style="color: #000000;font-weight: bold;" class="form-control" type="number" name="pin" placeholder="000000">
                                     </div>
                                 </div>
-                                <button type="submit" style="width: 30%;height: 40px;background-color: rgb(88, 3, 6);color: white;margin-left: 36%;">Save</button>
+                                <button type="submit" style="width: 30%;height: 40px;background-color: rgb(96, 94, 94);color: white;margin-left: 36%;">Save</button>
 
                             </form>
                         </div>
@@ -238,53 +238,58 @@
                     </div>
                     
                 </div>
+
+               <div class="col-lg-12 col-md-6" style="height: 100px;margin-bottom: 10px;display: flex;justify-content:center;">
+                <div style="border: solid 1px #000000;font-weight: 600;color: #000000;width: 20%;display: flex;justify-content: center;align-items: center;">Enter Coupon Here</div>
+                <div style="background-color: chartreuse;width: 25%;">
+                    <input style="height: 100%;width:100%;font-size: xx-large;" id="couponInput" type="text">
+                </div>
+                <div style="background-color: rgb(9, 9, 8);width:10%;">
+                <button onclick="couponApply()" style="height: 100%;width: 100%;" class="btn btn-dark">REDEEM</button>
             </div>
 
+               </div>
 
-
-
-
-                <div class="col-lg-4 ">
-                    <div style="border: 5px solid rgb(88, 3, 6);">
-                        <h5 style="background-color: rgb(88, 3, 6);color: white;height: 45px;text-align:center;padding-top: 14px;">ORDER TOTAL</h5>
-                    <div class=" p-30 mb-5">
-                        <!-- <div class="border-bottom" style="padding-left: 30px;padding-right: 30px;">
-                            <h6 class="mb-3">Products</h6>
-                            <div class="d-flex justify-content-between">
-                                <p style="color: #000000;">Product Name 1</p>
-                                <p style="color: #000000;">$150</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <p style="color: #000000;">Product Name 2</p>
-                                <p style="color: #000000;">$150</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <p style="color: #000000;">Product Name 3</p>
-                                <p style="color: #000000;">$150</p>
-                            </div>
-                        </div> -->
-                        <div class="border-bottom pt-3 pb-2" style="padding-left: 30px;padding-right: 30px;">
-                            <div class="d-flex justify-content-between mb-3">
-                                <h6 style="color: #000000;">Subtotal</h6>
-                                <h6 style="color: #000000;">₹ <%=totalamount%></h6>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <h6 style="color: #000000;" class="font-weight-medium">Shipping</h6>
-                                <h6  style="color: #000000;"class="font-weight-medium">Free</h6>
-                            </div>
+                  <div>
+                    <h5 style="background-color: rgb(96, 94, 94);color: white;height: 45px;text-align:center;padding-top: 14px;">ORDER TOTAL</h5>
+                <div class=" p-30 mb-5">
+                    <!-- <div class="border-bottom" style="padding-left: 30px;padding-right: 30px;">
+                        <h6 class="mb-3">Products</h6>
+                        <div class="d-flex justify-content-between">
+                            <p style="color: #000000;">Product Name 1</p>
+                            <p style="color: #000000;">$150</p>
                         </div>
-                        
-                    </div>
-                    <div class="pt-2">
-                        <div class="d-flex justify-content-between mt-2" style="padding-left: 30px;padding-right: 30px;">
-                            <h5 style="font-weight: 700;font-size: x-large;color: #000000;">Total</h5>
-                            <h5 style="font-weight: 700;font-size: x-large;color: #000000;">₹ <%=totalamount%></h5>
+                        <div class="d-flex justify-content-between">
+                            <p style="color: #000000;">Product Name 2</p>
+                            <p style="color: #000000;">$150</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p style="color: #000000;">Product Name 3</p>
+                            <p style="color: #000000;">$150</p>
+                        </div>
+                    </div> -->
+                    <div class="border-bottom pt-3 pb-2" style="padding-left: 30px;padding-right: 30px;">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6 style="color: #000000;">Subtotal</h6>
+                            <h6 style="color: #000000;">₹ <%=totalamount%></h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 style="color: #000000;" class="font-weight-medium">Discount</h6>
+                            <h6 id="discount" style="color: #000000;"class="font-weight-medium">Free</h6>
                         </div>
                     </div>
+                    
+                </div>
+                <div class="pt-2">
+                    <div class="d-flex justify-content-between mt-2" style="padding-left: 30px;padding-right: 30px;">
+                        <h5 style="font-weight: 700;font-size: x-large;color: #000000;">Total</h5>
+                        <h5 id="total" style="font-weight: 700;font-size: x-large;color: #000000;">₹ <%=totalamount%></h5>
                     </div>
-                   <div style="border: 5px solid rgb(88, 3, 6);margin-top: 5px;">
+                </div>
+                </div>
+                <div style="margin-top: 5px;">
                     <div class="mb-5">
-                        <h5 style="background-color: rgb(88, 3, 6);color: white;height: 45px;text-align:center;padding-top: 14px;">PAYMENT</h5>
+                        <h5 style="background-color: rgb(96, 94, 94);color: white;height: 45px;text-align:center;padding-top: 14px;">PAYMENT</h5>
                         <div class=" p-30">
                             <div class="form-group" style="padding-left: 30px; padding-right: 30px; padding-top:20px;">
                                 <div class="custom-control custom-radio">
@@ -307,10 +312,24 @@
                         </div>
                     </div>
                    </div>
+
+            </div>
+
+
+
+
+            
+                <div class="col-lg-4 ">
+                    
+                    
+                   
                 </div>
             </div>
         </div>
-        <button onclick="orderPlace()" class="btn btn-success font-weight-bold" style="width:70%;height: 60px;margin-left: 15%;margin-top: 20px;" id="submitBothSets">Place Order</button>
+       
+        
+        
+        <button onclick="orderPlace()" class="btn btn-dark font-weight-bold" style="width:70%;height: 60px;margin-left: 15%;margin-top: 20px;" id="submitBothSets">Place Order</button>
 
 
         <footer class="footer">
@@ -695,7 +714,7 @@
           </div>
         </div>
       </div>
-
+      <input type="text" id="couponApplyedCode" >
     <!-- Plugins JS File -->
 
    
@@ -705,9 +724,13 @@
        const optionss = document.querySelectorAll('input[type="radio"][name="options"]');
         const paymentOptions = document.querySelectorAll('input[type="radio"][name="payment"]');
         const submitBothSets = document.getElementById("submitBothSets");
+        
+
 
         // Add event listener for the combined submit button
         submitBothSets.addEventListener("click", function () {
+          const couponApplyedCode = document.getElementById("couponApplyedCode").value
+          console.log(couponApplyedCode);
             // Initialize arrays to store selected data from both sets
             let selectedData;
             let selectedPaymentOptions;
@@ -731,7 +754,8 @@
             // Combine both sets of data
             const combinedData = {
                 selectedData: selectedData,
-                selectedPaymentOptions: selectedPaymentOptions
+                selectedPaymentOptions: selectedPaymentOptions,
+                coupon:couponApplyedCode
             };
 
             // Create an XMLHttpRequest object for the combined data
@@ -861,6 +885,61 @@
     <script src="assets/js/jquery.magnific-popup.min.js"></script>
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+
+    <script>
+        function couponApply(){
+    let code = document.getElementById("couponInput").value
+    // alert(code)
+    let discount = document.getElementById("discount")
+    // let discount2 = document.getElementById("dicountDisplay2")
+    let total = document.getElementById('total')
+    // let total2 = document.getElementById('totalDisplay2')
+
+    let MessDis = document.getElementById('MessDis')
+    let couponInDiv = document.getElementById("couponInDiv")
+    let couponShow = document.getElementById("couponShow")
+    let appliedCouponInput = document.getElementById("couponApInput")
+    let couponPass = document.getElementById("couponPass")
+    let validMessage = document.getElementById('CouponValidMessage')
+    let couponInvalidMess = document.getElementById("couponInvalidMess")
+    let couponApplyedCode = document.getElementById("couponApplyedCode")
+
+
+    // alert(couponInput)
+    $.ajax({
+        url:'/coupeonApply',
+        method:'post',
+        data:{code},
+        success:(response)=>{
+            console.log(response);
+            if(!response.valid){
+                alert("Code not Valid")
+
+                // validMessage.innerHTML=response.message
+                // couponInvalidMess.classList.remove("couponHide")
+                // setTimeout(() => {
+                //     couponInvalidMess.classList.add("couponHide")
+                // }, 5000);
+                
+
+            }else{
+                // alert("Valid")
+                // console.log(response.redeem);
+                discount.innerHTML=response.redeem.discount
+                total.innerHTML = response.redeem.total
+                couponApplyedCode.value=response.redeem._id
+                // discount2.innerHTML=response.redeem.discount
+                // total2.innerHTML = response.redeem.total
+                // MessDis.innerHTML =response.redeem.discount
+                // couponInDiv.classList.add("couponHide")
+                // couponShow.classList.remove("couponHide")
+                // appliedCouponInput.value=response.redeem.code
+                // couponPass.value = response.redeem._id
+            }
+        }
+    })
+}
+    </script>
 </body>
 
 

@@ -281,7 +281,7 @@ const addToCart = async (req, res) => {
           {
             product: req.body.id,
             quantity: 1,
-            image:image1
+            // image:image2,
           },
         ],
       });

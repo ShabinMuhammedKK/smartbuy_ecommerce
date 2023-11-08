@@ -1,7 +1,32 @@
 const Coupon = require("../models/couponModel");
 const User = require("../models/userModel")
+const Cart = require("../models/userCartModel");
 
-
+//calculate function
+const calculateTotalPrice = async (userId) => {
+    try {
+      const cart = await Cart.findOne({ user_id: userId }).populate(
+        "products.product"
+      );
+      // console.log(cart);
+      if (!cart) {
+        console.log("User does not have a cart.");
+      }
+  
+      let totalPrice = 0;
+      for (const cartProduct of cart.products) {
+        const { product, quantity } = cartProduct;
+        const productSubtotal = product.price * quantity;
+        totalPrice += productSubtotal;
+      }
+  
+      // console.log('Total Price:', totalPrice);
+      return totalPrice;
+    } catch (error) {
+      console.error("Error calculating total price:", error.message);
+      return 0;
+    }
+  };
 //coupen create page load
 const load_coupenCreate = async (req,res)=>{
     try {
@@ -99,11 +124,69 @@ const userCouponDisplay = async(req,res)=>{
         console.log(error.message);
     }
 }
+
+//coupon application here
+const ApplyCoupon = async (req, res) => {
+    try {
+        console.log(req.body.code);
+      let couponCode = req.body.code;
+      let userId = req.session.user_id;
+      let cartTotalAmount = await calculateTotalPrice(userId);
+  
+      const coupon = await Coupon.findOne({coupon_code: couponCode });
+      console.log(coupon);
+      if (coupon == null) {
+        console.log("condition called ..");
+        return res.json({ valid: false, message: "Coupon not Valid" });
+      }
+  
+      if (coupon.usersUsed.includes(userId)) {
+        return res.json({
+          valid: false,
+          message: "You have already claimed this coupon",
+        });
+      }
+  
+      const currentDate = new Date();
+      if (currentDate < coupon.start_date || currentDate > coupon.end_date) {
+        return res.json({ valid: false, message: "Coupon is not valid" });
+      }
+  
+      if (cartTotalAmount < coupon.min_purchase_amount) {
+        return res.json({
+          valid: false,
+          message: "The minimum spend has not been met",
+        });
+      }
+  
+      // Check if the maximum number of users have already redeemed the coupon
+      if (coupon.usersUsed.length >= coupon.maxUsers) {
+        return res.json({
+          valid: false,
+          message: "Coupon has reached the maximum usage limit",
+        });
+      }
+  
+      let redeem = {
+        code: coupon.coupon_code,
+        discount: coupon.discount_price,
+        total: cartTotalAmount - coupon.discount_price,
+        _id: coupon._id,
+      };
+      return res.json({ valid: true, redeem });
+    } catch (error) {
+      console.log(error.message);
+  }
+  };
+
+
+
 module.exports = {
     create_coupon,
     load_coupenCreate,
     load_couponDash,
     loadCouponEdit,
     updateCoupon,
-    userCouponDisplay
+    userCouponDisplay,
+    ApplyCoupon
 }
