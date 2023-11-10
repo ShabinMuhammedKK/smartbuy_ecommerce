@@ -9,6 +9,10 @@ const productSchema = new mongoose.Schema({
     type:String,
     required:true
   },
+  basePrice:{
+    type:Number,
+    required:true
+  },
   price:{
     type:Number,
     required:true
@@ -49,7 +53,12 @@ const productSchema = new mongoose.Schema({
   is_unlisted:{
     type:Number,
     default:0
+  },
+  appliedOfferID:{
+    type:String,
+    default:null,
   }
+  
 });
 
 module.exports = mongoose.model('Product',productSchema)

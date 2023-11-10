@@ -204,23 +204,23 @@
                   </div>
                   <!-- End .toolbox-left -->
 
-                  <div class="toolbox-right" style="margin-right: 10%">
+                  <div class="toolbox-right" style="margin-right: 6%">
                     <div class="toolbox-sort">
                       <label for="sortby" style="font-weight: 900"
-                        >Sort by:</label
+                        >Sort by Price:</label
                       >
                       <div class="select-custom">
                         <select
                           name="sortby"
                           id="sortby"
                           class="form-control"
-                          style="font-weight: 900"
+                          style="font-weight: 900; color: #000"
+                          onchange="applySort()"
                         >
-                          <option value="popularity" selected="selected">
-                            Most Popular
+                          <option value="priceLowToHigh" selected="selected">
+                            Low to High
                           </option>
-                          <option value="rating">Most Rated</option>
-                          <option value="date">Date</option>
+                          <option value="priceHighToLow">High to Low</option>
                         </select>
                       </div>
                     </div>
@@ -230,7 +230,7 @@
                 </div>
                 <!-- End .toolbox -->
 
-                <div class="products col-lg-12">
+                <div class="products col-12 d-flex justify-content-center">
                   <div class="row ustify-content-cjenter" sty>
                     <% for (let i = 0; i < products.length; i++) { %>
                     <div
@@ -246,7 +246,7 @@
                         <figure
                           class="product-media"
                           style="
-                            height: 250px;
+                            height: 150px;
                             background-color: white;
                             justify-content: center;
                           "
@@ -259,18 +259,14 @@
                               class="product-image"
                             />
                           </a>
-                          <div class="product-action">
-                            <a href="#" class="btn-product btn-cart"
-                              ><span>add to cart</span></a
-                            >
-                          </div>
+                          
                           <!-- End .product-action -->
                         </figure>
                         <!-- End .product-media -->
 
                         <div
                           class="product-body"
-                          style="background-color: #ffffff; height: 200px"
+                          style="background-color: #ffffff; height: 150px"
                         >
                           <h3
                             class="product-title"
@@ -297,6 +293,11 @@
                           >
                             RS.<%=products[i].price%>
                           </div>
+                          <div class="product-action">
+                            <a href="#" class="btn-product btn-cart"
+                              ><span>add to cart</span></a
+                            >
+                          </div>
                         </div>
                       </div>
                       <!-- End .product -->
@@ -307,57 +308,57 @@
                   <!-- End .row -->
                 </div>
                 <!-- End .products -->
-
                 <nav aria-label="Page navigation">
                   <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                      <a
-                        class="page-link page-link-prev"
-                        href="#"
-                        aria-label="Previous"
-                        tabindex="-1"
-                        aria-disabled="true"
-                      >
-                        <span aria-hidden="true"
-                          ><i class="icon-long-arrow-left"></i></span
-                        >Prev
-                      </a>
-                    </li>
-                    <li class="page-item active" aria-current="page">
-                      <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item-total">of 6</li>
-                    <li class="page-item">
-                      <a
-                        class="page-link page-link-next"
-                        href="#"
-                        aria-label="Next"
-                      >
-                        Next
-                        <span aria-hidden="true"
-                          ><i class="icon-long-arrow-right"></i
-                        ></span>
-                      </a>
-                    </li>
+                      <li class="page-item <%if(curentPage==1){%> disabled<%}%>">
+                          <a class="page-link page-link-prev" href="/Allproducts?page=<%= Number(curentPage) - 1 %>" aria-label="Previous" tabindex="-1"
+                                                                                                                                                                                                                                                                                         aria-disabled="true">
+                              <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                          </a>
+                      </li>
+
+                      <%for(let i=Math.max(1, curentPage - 1); i <=Math.min(totalPage, curentPage + 2); i++){%>
+                          <%if(i===curentPage){%>
+                              <li class="page-item active" aria-current="page">
+                                  <a class="page-link">
+                                      <%= i %>
+                                  </a>
+                              </li>
+                              <%}else{%>
+                                  <li class="page-item">
+                                      <a class="page-link" href="/Allproducts?page=<%= i %>">
+                                          <%= i %>
+                                      </a>
+                                  </li>
+                                  <%}%>
+                                      <%}%>
+
+                                          <li class="page-item-total">of <%= totalPage %>
+                                          </li>
+                                          <li class="page-item <%if(curentPage === totalPage){%> disabled<%}%>">
+                                              <a class="page-link page-link-next" href="/Allproducts?page=<%= Number(curentPage) + 1 %>"
+                                                                                                                                                                                                                                                                                                             aria-label="Next">
+                                                  Next <span aria-hidden="true"><i
+                                                                                                                                                                                                                                                                                                                     class="icon-long-arrow-right"></i></span>
+                                              </a>
+                                          </li>
                   </ul>
-                </nav>
+              </nav>
+
               </div>
               <!-- End .col-lg-9 -->
               <aside class="col-lg-1 order-lg-first">
                 <div>
+                 
                   <div class="widget widget-clean">
+                    
                     <label>Filters:</label>
-                    <a href="#" class="sidebar-filter-clear">Clean All</a>
+                    
                   </div>
                   <!-- End .widget widget-clean -->
 
                   <div class="widget widget-collapsible">
+                    
                     <h3 class="widget-title">
                       <a
                         data-toggle="collapse"
@@ -380,6 +381,8 @@
                                 type="checkbox"
                                 class="custom-control-input"
                                 id="brand-1"
+                                data-brand="SAMSUNG"
+                         
                               />
                               <label class="custom-control-label" for="brand-1"
                                 >SAMSUNG</label
@@ -395,6 +398,8 @@
                                 type="checkbox"
                                 class="custom-control-input"
                                 id="brand-2"
+                                data-brand="REDMI"
+                              
                               />
                               <label class="custom-control-label" for="brand-2"
                                 >REDMI</label
@@ -402,7 +407,6 @@
                             </div>
                             <!-- End .custom-checkbox -->
                           </div>
-                          <!-- End .filter-item -->
 
                           <div class="filter-item">
                             <div class="custom-control custom-checkbox">
@@ -410,14 +414,15 @@
                                 type="checkbox"
                                 class="custom-control-input"
                                 id="brand-3"
+                                data-brand="LENOVO"
+                               
                               />
                               <label class="custom-control-label" for="brand-3"
-                                >APPLE</label
+                                >LENOVO</label
                               >
                             </div>
                             <!-- End .custom-checkbox -->
                           </div>
-                          <!-- End .filter-item -->
 
                           <div class="filter-item">
                             <div class="custom-control custom-checkbox">
@@ -425,74 +430,18 @@
                                 type="checkbox"
                                 class="custom-control-input"
                                 id="brand-4"
+                                data-brand="APPLE"
+                              
                               />
                               <label class="custom-control-label" for="brand-4"
-                                >LENOVO</label
+                                >APPLE</label
                               >
                             </div>
                             <!-- End .custom-checkbox -->
                           </div>
                           <!-- End .filter-item -->
 
-                          <div class="filter-item">
-                            <div class="custom-control custom-checkbox">
-                              <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="brand-5"
-                              />
-                              <label class="custom-control-label" for="brand-5"
-                                >VU</label
-                              >
-                            </div>
-                            <!-- End .custom-checkbox -->
-                          </div>
-                          <!-- End .filter-item -->
-
-                          <div class="filter-item">
-                            <div class="custom-control custom-checkbox">
-                              <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="brand-6"
-                              />
-                              <label class="custom-control-label" for="brand-6"
-                                >DELL</label
-                              >
-                            </div>
-                            <!-- End .custom-checkbox -->
-                          </div>
-                          <!-- End .filter-item -->
-
-                          <div class="filter-item">
-                            <div class="custom-control custom-checkbox">
-                              <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="brand-7"
-                              />
-                              <label class="custom-control-label" for="brand-7"
-                                >ASUS</label
-                              >
-                            </div>
-                            <!-- End .custom-checkbox -->
-                          </div>
-                          <!-- End .filter-item -->
-
-                          <div class="filter-item">
-                            <div class="custom-control custom-checkbox">
-                              <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="brand-7"
-                              />
-                              <label class="custom-control-label" for="brand-7"
-                                >REALME</label
-                              >
-                            </div>
-                            <!-- End .custom-checkbox -->
-                          </div>
-                          <!-- End .filter-item -->
+                          <!-- Add similar filter items for other brands -->
                         </div>
                         <!-- End .filter-items -->
                       </div>
@@ -501,6 +450,7 @@
                     <!-- End .collapse -->
                   </div>
                   <!-- End .widget -->
+                 
 
                   <div class="widget widget-collapsible">
                     <h3 class="widget-title">
@@ -525,6 +475,8 @@
                                 type="checkbox"
                                 class="custom-control-input"
                                 id="cat-1"
+                                data-category="MOBILE PHONE"
+                              
                               />
                               <label class="custom-control-label" for="cat-1"
                                 >MOBILE PHONE</label
@@ -541,6 +493,8 @@
                                 type="checkbox"
                                 class="custom-control-input"
                                 id="cat-2"
+                                data-category="LAPTOP"
+                                
                               />
                               <label class="custom-control-label" for="cat-2"
                                 >LAPTOP</label
@@ -557,6 +511,8 @@
                                 type="checkbox"
                                 class="custom-control-input"
                                 id="cat-3"
+                                data-category="TELEVISION"
+                                
                               />
                               <label class="custom-control-label" for="cat-3"
                                 >TELEVISION</label
@@ -573,6 +529,8 @@
                                 type="checkbox"
                                 class="custom-control-input"
                                 id="cat-4"
+                                data-category="SPEAKERS"
+                                
                               />
                               <label class="custom-control-label" for="cat-4"
                                 >SPEAKERS</label
@@ -581,8 +539,10 @@
                             <!-- End .custom-checkbox -->
                             <!-- <span class="item-count">2</span> -->
                           </div>
+                          <button class="btn btn-dark" style="width:10px;" id="applyFiltersButton">Apply Filters</button>
                           <!-- End .filter-item -->
                         </div>
+                        
                         <!-- End .filter-items -->
                       </div>
                       <!-- End .widget-body -->
@@ -591,40 +551,9 @@
                   </div>
                   <!-- End .widget -->
 
-                  <div class="widget widget-collapsible">
-                    <h3 class="widget-title">
-                      <a
-                        data-toggle="collapse"
-                        href="#widget-5"
-                        role="button"
-                        aria-expanded="true"
-                        aria-controls="widget-5"
-                      >
-                        Price
-                      </a>
-                    </h3>
-                    <!-- End .widget-title -->
-
-                    <div class="collapse show" id="widget-5">
-                      <div class="widget-body">
-                        <div class="filter-price">
-                          <div class="filter-price-text">
-                            Price Range:
-                            <span id="filter-price-range"></span>
-                          </div>
-                          <!-- End .filter-price-text -->
-
-                          <div id="price-slider"></div>
-                          <!-- End #price-slider -->
-                        </div>
-                        <!-- End .filter-price -->
-                      </div>
-                      <!-- End .widget-body -->
-                    </div>
-                    <!-- End .collapse -->
-                  </div>
                   <!-- End .widget -->
                 </div>
+                
                 <!-- End .sidebar sidebar-shop -->
               </aside>
               <!-- End .col-lg-3 -->
@@ -1274,54 +1203,37 @@
     <script src="assets/js/nouislider.min.js"></script>
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-      const dataContainer = document.getElementById("data-container");
-      const paginationContainer = document.getElementById("pagination");
-      let currentPage = 1; // Initial page
-      const itemsPerPage = 10; // Items to show per page
 
-      // Function to fetch and display data
-      const fetchData = (page) => {
-        fetch(`/product?page=${page}&limit=${itemsPerPage}`)
-          .then((response) => response.json())
-          .then((data) => {
-            const { data: items, currentPage, itemsPerPage, totalItems } = data;
-            // Clear the data container
-            dataContainer.innerHTML = "";
-            // Display data on the page
-            items.forEach((item) => {
-              const itemDiv = document.createElement("div");
-              itemDiv.textContent = item.name; // Modify this based on your data
-              dataContainer.appendChild(itemDiv);
-            });
+<script>
+function applyFilters() {
+  
+  try {
+    // Get selected categories and brands
+    const selectedCategories = Array.from(document.querySelectorAll('.custom-control-input[data-category]:checked'))
+      .map(checkbox => checkbox.dataset.category);
+    const selectedBrands = Array.from(document.querySelectorAll('.custom-control-input[data-brand]:checked'))
+      .map(checkbox => checkbox.dataset.brand);
 
-            // Update pagination controls
-            paginationContainer.innerHTML = "";
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
-            for (let i = 1; i <= totalPages; i++) {
-              const pageButton = document.createElement("button");
-              pageButton.textContent = i;
-              if (i === currentPage) {
-                pageButton.disabled = true;
-              }
-              pageButton.addEventListener("click", () => {
-                currentPage = i;
-                fetchData(currentPage);
-              });
-              paginationContainer.appendChild(pageButton);
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      };
+    // Construct the query string
+    const queryString = `array1=${encodeURIComponent(selectedCategories.join(','))}&array2=${encodeURIComponent(selectedBrands.join(','))}`;
 
-      // Initial data fetch
-      fetchData(currentPage);
-    </script> -->
+    // Construct the full URL with the query string
+    const url = `/Allproducts?${queryString}`;
+
+    // Check if the current URL is already the filtered URL
+    if (window.location.href !== url) {
+      // Set the new URL only if it's different to avoid continuous reloading
+      window.location.href = url;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+const applyFiltersButton = document.getElementById('applyFiltersButton');
+  applyFiltersButton.addEventListener('click', applyFilters);
+</script>
+
   </body>
-
-  <!-- molla/category.html  22 Nov 2019 10:02:52 GMT -->
 </html>

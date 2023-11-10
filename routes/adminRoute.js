@@ -37,6 +37,7 @@ const adminController = require('../controllers/adminController');
 const orderController = require('../controllers/orderController');
 const salesReport = require('../controllers/salesReportController');
 const couponController = require('../controllers/couponController');
+const offerController = require('../controllers/offerController');
 
 
 
@@ -106,6 +107,11 @@ admin_route.post('/createCoupon',auth.isLogin,couponController.create_coupon);
 admin_route.get('/couponDash',auth.isLogin,couponController.load_couponDash);
 admin_route.get('/loadcopEdit',auth.isLogin,couponController.loadCouponEdit);
 admin_route.post('/loadcopEdit',auth.isLogin,couponController.updateCoupon);
+
+
+//offer adding 
+admin_route.get('/offerAdd',auth.isLogin,offerController.loadOfferCreation);
+admin_route.post('/offerAdd',auth.isLogin,offerController.createOffer);
 
 
 admin_route.get('*',function(req,res){

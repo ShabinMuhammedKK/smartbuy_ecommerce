@@ -30,10 +30,24 @@
                     <label>Description *</label>
                     <input type="text" class="form-control p_input" style="color: white;" name="description" required>
                   </div>
+                  <div class="form-group">
+                    <label>Offer Data (if any)</label>
+                    <!-- Assuming you have input fields for offer data -->
+                    <input type="text" class="form-control p_input" name="offerData[0][title]" placeholder="Offer Title">
+                    <input type="text" class="form-control p_input" name="offerData[0][description]" placeholder="Offer Description">
+                    <select class="form-control p_input" name="offerData[0][type]">
+                      <option value="percentage">Percentage</option>
+                      <option value="fixed_amount">Fixed Amount</option>
+                      <option value="bundle">Bundle</option>
+                    </select>
+                    <input type="number" class="form-control p_input" name="offerData[0][value]" placeholder="Offer Value">
+                    <!-- Add more fields as needed -->
+                  </div>
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-block enter-btn">Add Category</button>
                   </div>
-                  <p class="sign-up text-center">Go Back To <a href="/admin/dashboard">DASHBOARD</a></p>                </form>
+                  <p class="sign-up text-center">Go Back To <a href="/admin/dashboard">DASHBOARD</a></p>                
+                </form>
 
                   <% if (typeof message !== 'undefined') { %>
                     <div style="border: 1px solid #ccc; padding: 10px; background-color: #991c1c; text-align: center;">

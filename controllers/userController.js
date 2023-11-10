@@ -74,7 +74,10 @@ const verifyOTP = async (req, res) => {
   try {
     if (req.query.userid) {
       // console.log(req.query.userid);
-      return res.render("emailVerification", { wrong: 1, userid: req.query.userid });
+      return res.render("emailVerification", {
+        wrong: 1,
+        userid: req.query.userid,
+      });
     } else {
       // console.log(req.body);
       let { a, b, c, d, e, f } = req.body;
@@ -159,26 +162,128 @@ const insertUser = async (req, res) => {
     console.log(error.message);
   }
 };
+//===========================funs
+async function yourProductFetchingFunction(selectedCategories, selectedBrands) {
+  try {
+    const filteredDocs = await Product.aggregate([
+      {
+        $match: {
+          category: { $in: selectedCategories },
+          sellername: { $in: selectedBrands },
+        },
+      },
+    ]).exec();
+
+    console.log("Filtered Docs:", filteredDocs);
+
+    // Return the filtered products or perform any other necessary operations
+    return filteredDocs;
+  } catch (error) {
+    console.error("Error in yourProductFetchingFunction:", error);
+    throw error; // Propagate the error up to the calling function
+  }
+}
 //===================================================load product listing page
+
 const loadProductListingPage = async (req, res) => {
   try {
-    const productDatas = await Product.find({});
-    return  res.render("productListing", { products: productDatas });
+    // Sorting
+    const category = req.query.array1 ? req.query.array1.split(",") : [];
+    const brand = req.query.array2 ? req.query.array2.split(",") : [];
+
+    const matchCriteria = {};
+
+    if (category.length > 0) {
+      matchCriteria.category = { $in: category };
+    }
+
+    if (brand.length > 0) {
+      matchCriteria.sellername = { $in: brand };
+    }
+
+    const filteredDocs = await Product.aggregate([
+      {
+        $match: matchCriteria,
+      },
+      // {
+      //   $sort: {
+      //     fieldName: 1, // 1 for ascending, -1 for descending
+      //   },
+      // },
+    ]).exec();
+
+    // console.log(category);
+    // console.log(brand);
+
+    // Pagination
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+    const skip = (page - 1) * limit;
+
+    const productDatas = await Product.find()
+      .where('_id')
+      .in(filteredDocs.map((product) => product._id))
+      .limit(limit)
+      .skip(skip)
+      .exec();
+
+    const totalPage = Math.ceil(filteredDocs.length / limit);
+
+    return res.render("productListing", {
+      products: productDatas,
+      curentPage: Number(page),
+      totalPage,
+    });
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
+    return res.status(500).send('Internal Server Error');
   }
 };
+
+
+// const loadProductListingPage = async (req, res) => {
+//   try {
+//     //sorting
+//     const category = req.query.array1 ? req.query.array1.split(",") : [];
+//     const brand = req.query.array2 ? req.query.array2.split(",") : [];
+
+//     const filteredDocs = await Product.aggregate([
+//       {
+//         $match: {
+//           category: { $in: [] },
+//           sellername: { $in: [] },
+//         },
+//       },
+//     ]).exec();
+
+//     console.log(filteredDocs);
+
+//     //pagination
+//     const limit = req.query.limit || 10;
+//     const page = req.query.page || 1;
+//     const skip = page * 10 - 10;
+
+//     // const productCount = await Product.countDocuments();
+//     const productDatas = await Product.find().limit(10).skip(skip);
+
+//     const totalPage = Math.ceil(filteredDocs.length / limit);
+
+//     return res.render("productListing", {
+//       products: productDatas,
+//       curentPage: Number(page),
+//       totalPage,
+//     });
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
+
 //=========================================================load product details
 const lodadProductDetails = async (req, res) => {
   try {
-
-    const page = parseInt(req.query)
-
-
-
-    // const productDetails = await Product.findOne({ _id: req.query.id });
-    // // console.log(productDetails);
-    // return res.render("product", { product: productDetails });
+    const productDetails = await Product.findOne({ _id: req.query.id });
+    // console.log(productDetails);
+    return res.render("product", { product: productDetails });
   } catch (error) {
     console.log(error.message);
   }
@@ -186,7 +291,7 @@ const lodadProductDetails = async (req, res) => {
 //===lead login===
 const loginLoad = async (req, res) => {
   try {
-    return  res.render("login");
+    return res.render("login");
   } catch (error) {
     console.log(error.message);
   }
@@ -207,12 +312,14 @@ const verifyLogin = async (req, res) => {
 
         if (passwordMatch) {
           if (userData.is_verified === 0) {
-            return  res.render("login", { message: "Please verify your email" });
+            return res.render("login", { message: "Please verify your email" });
           } else {
             return res.redirect("/home");
           }
         } else {
-          return res.render("login", { message: "Email and password are incorrect" });
+          return res.render("login", {
+            message: "Email and password are incorrect",
+          });
         }
       } else {
         // Account is blocked
@@ -222,7 +329,9 @@ const verifyLogin = async (req, res) => {
       }
     } else {
       // User not found
-      return res.render("login", { message: "Email and password are incorrect" });
+      return res.render("login", {
+        message: "Email and password are incorrect",
+      });
     }
   } catch (error) {
     console.log(error.message);
@@ -241,7 +350,10 @@ const loadHome = async (req, res) => {
       });
     } else {
       let userData = await User.findOne({ _id: req.session.user_id });
-      return res.render("home", { user: req.session.user, products: productData });
+      return res.render("home", {
+        user: req.session.user,
+        products: productData,
+      });
     }
   } catch (error) {
     console.log(error.message);
@@ -608,14 +720,14 @@ const loadcheckoutPage = async (req, res) => {
     const totalamount = await calculateTotalPrice(req.session.user_id);
 
     if (usersAddresses) {
-      return  res.render("checkoutPage", {
+      return res.render("checkoutPage", {
         addresses: usersAddresses.address,
         totalamount,
       });
       // console.log(usersAddresses.address)
     } else {
       console.log("User's addresses not found.");
-      return  res.render("checkoutPage", { addresses: [], totalamount });
+      return res.render("checkoutPage", { addresses: [], totalamount });
     }
   } catch (error) {
     console.log(error.message);

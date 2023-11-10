@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SmartBuy</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css">
+ 
+    <link rel="stylesheet" href="../../assets/css/style1.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="../../assets/images/favicon.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="row w-100 m-0">
+          <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+            <div class="card col-lg-4 mx-auto">
+              <div class="card-body px-5 py-5">
+                <h3 class="card-title text-left mb-3">Add New Offer</h3>
+                <form action="" method="post" onsubmit="return validateForm()">
+                    <div class="form-group">
+                        <label>Offer Tittle *</label>
+                        <input type="text" class="form-control p_input" style="color: white;" name="title" required>
+                      </div>
+                      <div class="form-group">
+                        <label>Description *</label>
+                        <input type="text" class="form-control p_input" style="color: white;" name="description" required>
+    
+                      </div>
+                      <div class="form-group">
+                        <label>Offer Percentage *</label>
+                        <input type="number" class="form-control p_input" style="color: white;" name="offerPercentage" required>
+                      </div>
+                      <div class="form-group">
+                        <label>Offer Starting Date *</label>
+                        <input type="date" class="form-control p_input" style="color: white;" name="startDate" required>
+                      </div>
+                      <div class="form-group">
+                        <label>Offer Ending Date *</label>
+                        <input type="date" class="form-control p_input" style="color: white;" name="endDate" required>
+                      </div>
+                      <div class="form-group">
+                        <label>Offer ID *</label>
+                        <input type="text" class="form-control p_input" style="color: white;" name="ID" required>
+                      </div>
+                      
+                  
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-block enter-btn">Add Offer</button>
+                  </div>
+                  <p class="sign-up text-center">Go Back To <a href="/admin/dashboard">DASHBOARD</a></p>                 
+                </form>
+
+                <% if (typeof message !== 'undefined') { %>
+                  <div style="border: 1px solid #ccc; padding: 10px; background-color: #991c1c; text-align: center;">
+                    <p style="margin: 0; color: #ffff;"><%= message %></p>
+                  </div>
+                <% } %>
+
+
+                
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+        </div>
+        <!-- row ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    
+    <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../../assets/js/off-canvas.js"></script>
+    <script src="../../assets/js/hoverable-collapse.js"></script>
+    <script src="../../assets/js/misc.js"></script>
+    <script src="../../assets/js/settings.js"></script>
+    <script src="../../assets/js/todolist.js"></script>
+    <script>
+        function validateForm() {
+            const phone = document.getElementById('phone').value;
+            if (!/^\d{10}$/.test(phone)) {
+                alert("Invalid phone number");
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <!-- endinject -->
+  </body>
+</html>
+

@@ -12,7 +12,13 @@ const categorySchema = new mongoose.Schema({
   is_unlisted:{
     type:Number,
     default:0
-  }
+  },
+  offers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Offer',
+    },
+  ],
 });
 
 module.exports = mongoose.model('Category',categorySchema)

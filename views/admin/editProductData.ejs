@@ -51,6 +51,7 @@
                 <form action="" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
                   <div class="form-group">
                     <input type="hidden" name="product_id" value="<%=product._id%>">
+                    <input type="hidden" name="basePrice" value="<%=product.basePrice%>">
                     <label>Product Name *</label>
                     <input type="text" class="form-control p_input" value="<%=product.name%>" style="color: white;" name="name" required>
                   </div>
@@ -116,7 +117,12 @@
       </div>
   </div>
 </div>
-                    
+
+<div class="form-group">
+  <label>Offer ID (if any)</label>
+  <input type="text" class="form-control p_input" value="<%=product.appliedOfferID%>" style="color: white;" name="offerID">
+
+</div>
                   
                   <div class="form-group">
                     <label>Quantity *</label>
@@ -128,7 +134,15 @@
                   </div>
                   <div class="form-group">
                     <label>Product Category *</label>
-                    <input type="text" class="form-control p_input" value="<%=product.category%>" style="color: white;" name="category" required>
+                    <select class="form-control p_input" style="color: white;" name="category" required>
+                      <option value="" selected disabled>Select category</option>
+                      <% for (let i = 0; i < category.length; i++) { %>
+                        <% console.log(category); %>
+                        <% if (category[i].is_unlisted === 0) { %>
+                          <option><%= category[i].category %></option>
+                        <% } %>
+                      <% } %>
+                    </select>
                   </div>
                   
                   <div class="text-center">

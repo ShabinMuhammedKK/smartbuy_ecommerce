@@ -6,6 +6,8 @@ const Transaction = require("../models/transationModel");
 const bcrypt = require("bcrypt");
 const Funcs = require("../public/assets/comfuncs.js/funcs");
 const sharp = require('sharp');
+const OfferController = require("../controllers/offerController")
+const Offer = require('../models/offerModel');
 
 //=======================================user controller==================
 
@@ -141,8 +143,9 @@ const loadProductEdit = async (req, res) => {
     const id = req.query.id;
     if (id) {
       const productData = await Product.findById({ _id: id });
+      const category = await Category.find();
       if (productData) {
-        return res.render("editProductData", { product: productData });
+        return res.render("editProductData", { product: productData,category });
       } else {
         return res.redirect("dashboard");
       }
@@ -151,8 +154,13 @@ const loadProductEdit = async (req, res) => {
     console.log(error.message);
   }
 };
+//percentage calculation
+function calculatePercentageChange(existPrice, offPerce) {
+  const percentageChange = ((existPrice) /100  * Math.abs(offPerce));
+  return percentageChange;
+}
 
-
+//product edit
 const updateProductEdit = async (req, res) => {
   try {
     // Check if files are present for each image field
@@ -162,7 +170,19 @@ const updateProductEdit = async (req, res) => {
     const image4 = req.files['image4'] ? req.files['image4'][0].filename : undefined;
     const image5 = req.files['image5'] ? req.files['image5'][0].filename : undefined;
 
-    // Construct the update object for the product
+    let priceOfProduct;
+    let toReducePrice;
+    if(req.body.offerID != ""){
+      const fieldValue = req.body.offerID
+      const checkOfferIn = await  Offer.findOne({offerID:fieldValue})
+      if(checkOfferIn != null){
+        toReducePrice = calculatePercentageChange(req.body.price, checkOfferIn.offerPercentage);
+        priceOfProduct = req.body.price - toReducePrice;
+         
+      }
+    }else{
+      priceOfProduct = req.body.basePrice;
+    }
     
     const updateObject = {
       name: req.body.name,
@@ -170,7 +190,8 @@ const updateProductEdit = async (req, res) => {
       sellername: req.body.sellername,
       stock: req.body.stock,
       category: req.body.category,
-      price: req.body.price,
+      price: priceOfProduct,
+      appliedOfferID:req.body.offerID
     };
 
     // Add image fields to the update object if files were uploaded
@@ -259,6 +280,7 @@ const insertProduct = async (req, res) => {
     const product = new Product({
       name: req.body.name,
       description: req.body.description,
+      basePrice:req.body.price,
       price: req.body.price,
       image1: imageFilenames[0],
       image2: imageFilenames[1],
@@ -270,6 +292,13 @@ const insertProduct = async (req, res) => {
       category: req.body.category,
     });
     const productData = await product.save();
+
+    //  // Add associated offers
+    //  const offerData = req.body.offerData || []; // Assuming you have an input field for offer data in your form
+    //  const productOffers = await Promise.all(offerData.map(offer => OfferController.createOffer(offer)));
+    //  product.offers = productOffers.map(offer => offer._id);
+    //  await product.save();
+
     if (productData) {
       return res.redirect("/admin/dashboard#productsData");
     } else {
@@ -298,6 +327,13 @@ const insertCategory = async (req, res) => {
       description: req.body.description,
     });
     const categoryData = await category.save();
+
+// Add associated offers
+const offerData = req.body.offerData || []; // Assuming you have an input field for offer data in your form
+const categoryOffers = await Promise.all(offerData.map(offer => OfferController.createOffer(offer)));
+category.offers = categoryOffers.map(offer => offer._id);
+await category.save();
+
     if (categoryData) {
       return res.render("addCategory", {
         message: "Your category is added",

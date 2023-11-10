@@ -52,6 +52,7 @@ user_route.get('/login',auth.isLogout,userController.loginLoad);
 user_route.post('/login',auth.isLogout,userController.verifyLogin);
 
 user_route.get('/Allproducts',userController.loadProductListingPage);
+user_route.post('/Allproducts',userController.loadProductListingPage);
 user_route.get('/home',auth.isLogin,userController.loadHome)
 user_route.get('/logout',auth.isLogin,userController.userLogout)
 user_route.get('/userProfile',auth.isLogin,userController.loadUserProfile)

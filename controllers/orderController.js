@@ -44,16 +44,13 @@ const placeOrderManage = async (req, res) => {
 
     if (req.body.coupon != "") {
       const couponDetails = await Coupon.findById(req.body.coupon);
-      console.log("zzz : "+couponDetails.discount_price);
-      console.log("befor apply "+total);
       total -= couponDetails.discount_price;
-      console.log("After apply "+total);
       // discountDetails.codeId = couponDetails._id;
       // discountDetails.amount = couponDetails.discount_amount;
       couponDetails.usersUsed.push(req.session.user_id);
       await couponDetails.save();
     }
-    const temp = await Cart.findOne({ user_id: req.session.user_id });
+    // const temp = await Cart.findOne({ user_id: req.session.user_id });
 
     const order = new Order({
       userId: req.session.user_id,
