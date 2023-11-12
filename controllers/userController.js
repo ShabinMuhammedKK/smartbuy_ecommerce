@@ -899,6 +899,14 @@ const removefromWishList = async (req,res)=>{
     console.log(error.message);
   }
 }
+//wallet
+const loadWalled = async (req,res)=>{
+  try {
+    res.render('wallet');
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 //=====================END=================================//
 
@@ -928,5 +936,6 @@ module.exports = {
   removeAddr,
   leadWishList,
   addToWishlist,
-  removefromWishList
+  removefromWishList,
+  loadWalled
 };

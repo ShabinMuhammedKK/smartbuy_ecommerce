@@ -48,7 +48,6 @@
                         <input type="text" class="form-control p_input" style="color: white;" name="ID" required>
                       </div>
                       
-                  
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-block enter-btn">Add Offer</button>
                   </div>
@@ -86,15 +85,34 @@
     <script src="../../assets/js/settings.js"></script>
     <script src="../../assets/js/todolist.js"></script>
     <script>
-        function validateForm() {
-            const phone = document.getElementById('phone').value;
-            if (!/^\d{10}$/.test(phone)) {
-                alert("Invalid phone number");
-                return false;
-            }
-            return true;
-        }
-    </script>
+      function validateForm() {
+          var title = document.forms[0]["title"].value;
+          var description = document.forms[0]["description"].value;
+          var offerPercentage = document.forms[0]["offerPercentage"].value;
+          var ID = document.forms[0]["ID"].value;
+
+          // Validate Offer Title and Description as string
+          if (!/^[a-zA-Z\s]+$/.test(title) || !/^[a-zA-Z\s]+$/.test(description)) {
+              alert("Please enter only letters and spaces for Offer Title and Description.");
+              return false;
+          }
+
+          // Validate Offer Percentage as a number between 1 and 99
+          if (isNaN(offerPercentage) || offerPercentage < 1 || offerPercentage > 99) {
+              alert("Please enter a valid offer percentage between 1 and 99.");
+              return false;
+          }
+
+          // Validate Offer ID as capital letters only
+          if (!/^[A-Z]+$/.test(ID)) {
+              alert("Please enter capital letters only for Offer ID.");
+              return false;
+          }
+
+          return true;
+      }
+  </script>
+    
     <!-- endinject -->
   </body>
 </html>

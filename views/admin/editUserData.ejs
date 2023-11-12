@@ -91,15 +91,34 @@
     <script src="../../assets/js/settings.js"></script>
     <script src="../../assets/js/todolist.js"></script>
     <script>
-        function validateForm() {
-            const phone = document.getElementById('phone').value;
-            if (!/^\d{10}$/.test(phone)) {
-                alert("Invalid phone number");
-                return false;
-            }
-            return true;
-        }
-    </script>
+      function validateForm() {
+          var name = document.forms[0]["name"].value;
+          var email = document.forms[0]["email"].value;
+          var mno = document.forms[0]["mno"].value;
+
+          // Validate Name as letters
+          if (!/^[a-zA-Z\s]+$/.test(name)) {
+              alert("Please enter only letters for Name.");
+              return false;
+          }
+
+          // Validate Email in email format
+          var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email)) {
+              alert("Please enter a valid email address.");
+              return false;
+          }
+
+          // Validate Phone with 10 numbers
+          var phoneRegex = /^\d{10}$/;
+          if (!phoneRegex.test(mno)) {
+              alert("Please enter a valid 10-digit phone number.");
+              return false;
+          }
+
+          return true;
+      }
+  </script>
     <!-- endinject -->
   </body>
 </html>

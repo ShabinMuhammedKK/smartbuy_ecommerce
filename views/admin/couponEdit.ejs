@@ -21,7 +21,7 @@
             <div class="card col-lg-4 mx-auto">
               <div class="card-body px-5 py-5">
                 <h3 class="card-title text-left mb-3">Edit Coupon</h3>
-                <form action="" method="post" >
+                <form action="" method="post" onsubmit="return validateForm()">
                   <div class="form-group">
                     <input type="hidden" name="_id" value="<%=datas._id%>">
                     <label>Coupon Code *</label>
@@ -91,6 +91,29 @@
     <script src="../../assets/js/settings.js"></script>
     <script src="../../assets/js/todolist.js"></script>
     <!-- endinject -->
+    <script>
+      function validateForm() {
+          var descr = document.forms[0]["descr"].value;
+          var disAmo = document.forms[0]["disAmo"].value;
+          var minPur = document.forms[0]["minPur"].value;
+          var userLim = document.forms[0]["userLim"].value;
+          var usageLim = document.forms[0]["usageLim"].value;
+
+          // Validate Description as letters
+          if (!/^[a-zA-Z\s]+$/.test(descr)) {
+              alert("Please enter only letters for Description.");
+              return false;
+          }
+
+          // Validate Discount Amount, Minimum Purchase Amount, Usage Limit Per User, and Total Usage Limit as positive numbers
+          if (isNaN(disAmo) || disAmo < 0 || isNaN(minPur) || minPur < 0 || isNaN(userLim) || userLim < 0 || isNaN(usageLim) || usageLim < 0) {
+              alert("Please enter valid positive numbers for Discount Amount, Minimum Purchase Amount, Usage Limit Per User, and Total Usage Limit.");
+              return false;
+          }
+
+          return true;
+      }
+  </script>
   </body>
 </html>
 

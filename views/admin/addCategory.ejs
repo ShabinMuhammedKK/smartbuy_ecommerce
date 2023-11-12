@@ -21,7 +21,7 @@
             <div class="card col-lg-4 mx-auto">
               <div class="card-body px-5 py-5">
                 <h3 class="card-title text-left mb-3">Add New Category</h3>
-                <form action="" method="post" >
+                <form action="" method="post" onsubmit="return validateForm()">
                   <div class="form-group">
                     <label>Category Name *</label>
                     <input type="text" class="form-control p_input" style="color: white;" name="category" required>
@@ -67,6 +67,21 @@
     <script src="../../assets/js/settings.js"></script>
     <script src="../../assets/js/todolist.js"></script>
     <!-- endinject -->
+
+    <script>
+      function validateForm() {
+          var category = document.forms[0]["category"].value;
+          var description = document.forms[0]["description"].value;
+  
+          // Validate that only text is entered
+          if (!/^[a-zA-Z\s]+$/.test(category) || !/^[a-zA-Z\s]+$/.test(description)) {
+              alert("Please enter only text for Category Name and Description.");
+              return false;
+          }
+  
+          return true;
+      }
+  </script>
   </body>
 </html>
 

@@ -87,5 +87,8 @@ user_route.post('/coupeonApply',auth.isLogin,couponController.ApplyCoupon);
 user_route.get('/wishlist',auth.isLogin,userController.leadWishList);
 user_route.post('/remFromWish',auth.isLogin,userController.removefromWishList);
 
+user_route.get('/loadWallet',auth.isLogin,userController.loadWalled);
+
+
 
 module.exports = user_route;

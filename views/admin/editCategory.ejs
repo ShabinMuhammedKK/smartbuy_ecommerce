@@ -21,11 +21,11 @@
             <div class="card col-lg-4 mx-auto">
               <div class="card-body px-5 py-5">
                 <h3 class="card-title text-left mb-3">Edit Category</h3>
-                <form action="" method="post">
+                <form action="" method="post" onsubmit="return validateForm()">
                   <div class="form-group">
                     <label>Category Name *</label>
                     <input type="text" hidden value="<%=category._id %>" name="id">
-                    <p><%=category.basePrice %></p>
+                   
                     <input type="text" class="form-control p_input" value="<%=category.category %>" style="color: white;" name="name" required>
                   </div>
                   <div class="form-group">
@@ -71,6 +71,20 @@
     <script src="../../assets/js/misc.js"></script>
     <script src="../../assets/js/settings.js"></script>
     <script src="../../assets/js/todolist.js"></script>
+    <script>
+      function validateForm() {
+          var category = document.forms[0]["category"].value;
+          var description = document.forms[0]["description"].value;
+  
+          // Validate that only text is entered
+          if (!/^[a-zA-Z\s]+$/.test(category) || !/^[a-zA-Z\s]+$/.test(description)) {
+              alert("Please enter only text for Category Name and Description.");
+              return false;
+          }
+  
+          return true;
+      }
+  </script>
     <!-- endinject -->
   </body>
 </html>

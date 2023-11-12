@@ -245,16 +245,29 @@ function sendDeleteRequest(id) {
 
 
 
-    <script>
-        function validateForm() {
-            const phone = document.getElementById('phone').value;
-            if (!/^\d{10}$/.test(phone)) {
-                alert("Invalid phone number");
-                return false;
-            }
-            return true;
-        }
-    </script>
+<script>
+  function validateForm() {
+      var name = document.forms[0]["name"].value;
+      var description = document.forms[0]["description"].value;
+      var price = document.forms[0]["price"].value;
+      var stock = document.forms[0]["stock"].value;
+      var sellername = document.forms[0]["sellername"].value;
+
+      // Validate Product Name, Description, and Sellername as strings
+      if (!/^[a-zA-Z\s]+$/.test(name) || !/^[a-zA-Z\s]+$/.test(description) || !/^[a-zA-Z\s]+$/.test(sellername)) {
+          alert("Please enter only letters and spaces for Product Name, Description, and Sellername.");
+          return false;
+      }
+
+      // Validate Price and Quantity as positive numbers
+      if (isNaN(price) || price < 0 || isNaN(stock) || stock < 0) {
+          alert("Please enter valid positive numbers for Price and Quantity.");
+          return false;
+      }
+
+      return true;
+  }
+</script>
     <!-- endinject -->
   </body>
 </html>
