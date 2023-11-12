@@ -398,8 +398,23 @@ const addToCart = async (req, res) => {
         ],
       });
 
-      let result = await cart.save();
-      // console.log(result);
+      await cart.save();
+
+      //clear product from wishlist
+      const haveWishlist = await Wishlist.findOne({user_id:req.session.user_id})
+      if(haveWishlist){
+        const romoving = await Wishlist.findOneAndUpdate(
+          {user_id:req.session.user_id},
+          {$pull:{products:{product:req.body.id}}},
+          {new:true}
+        )
+        console.log(romoving);
+
+      }else{
+      console.log("this product not in wishlist");
+
+      }
+      
       return res.json({ cart: 1 });
     } else {
       const productInCart = existingCart.products.find(
@@ -413,13 +428,24 @@ const addToCart = async (req, res) => {
 
             product: req.body.id,
             quantity: 1,
-
-
         });
         res.json({ cart: 1 });
       }
       const result = await existingCart.save();
-      // console.log("Product added to cart:", result);
+            //clear product from wishlist
+            const haveWishlist = await Wishlist.findOne({user_id:req.session.user_id})
+            if(haveWishlist){
+              const romoving = await Wishlist.findOneAndUpdate(
+                {user_id:req.session.user_id},
+                {$pull:{products:{product:req.body.id}}},
+                {new:true}
+              )
+              console.log(romoving);
+      
+            }else{
+            console.log("this product not in wishlist");
+      
+            }
     }
 
     // console.log("produnct id"+req.body.id)
@@ -850,6 +876,30 @@ const addToWishlist = async (req, res) => {
   }
 };
 
+//remove wishlist 
+const removefromWishList = async (req,res)=>{
+  try {
+    const prodIDtoRemove = req.body.id;
+    
+    const checkWishExist = await Wishlist.findOne({user_id:req.session.user_id});
+    if(checkWishExist){
+      const removing = await Wishlist.findOneAndUpdate(
+        { user_id: req.session.user_id },
+        { $pull: { products: { product: prodIDtoRemove } } },
+        { new: true }
+       );
+        
+        
+        if(removing){
+         return res.json({removed:1});
+        }
+    }
+    
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 //=====================END=================================//
 
 module.exports = {
@@ -877,5 +927,6 @@ module.exports = {
   removeProductFromCart,
   removeAddr,
   leadWishList,
-  addToWishlist
+  addToWishlist,
+  removefromWishList
 };

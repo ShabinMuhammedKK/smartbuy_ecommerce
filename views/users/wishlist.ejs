@@ -600,17 +600,17 @@
 										</figure>
 
 										<h3 class="product-title">
-											<a href="#">Blue utility pinafore denim dress</a>
+											<a href="#"><%=products[i].product.name %></a>
 										</h3><!-- End .product-title -->
 									</div><!-- End .product -->
 								</td>
 								<td class="price-col"><%="₹"+products[i].product.price %></td>
-                                <td class="price-col"><%=products[i].product._id%></td>
+                            
 								
 								<td class="action-col">
 									<button class="btn btn-block btn-outline-primary-2" onclick="addtocart('<%= products[i].product._id %>')" data-product-id="<%= products[i].product._id %>"><i class="icon-cart-plus"></i>Add to Cart</button>
 								</td>
-								<td class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
+								<td class="remove-col"><button class="btn-remove"><i class="icon-close" onclick="removeItems('<%= products[i].product._id%>')" data-product-id="<%= products[i].product._id %>"></i></button></td>
 							</tr>
 
                             <% } %>
@@ -1038,8 +1038,24 @@
                     }
                 });
         }
-        
-        
+        function removeItems(productId){
+            $.ajax({
+                type:"POST",
+                url:"/remFromWish",
+                data:{id:productId},
+                success: function(response) {
+              if(response.removed==1){
+                location.reload();
+              }
+            },
+            error:function(){
+                console.log("ajax error");
+            }
+
+            })
+        }
+
+    
             </script>
 </body>
 
