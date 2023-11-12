@@ -62,6 +62,8 @@ user_route.get('/loadUserEdit',auth.isLogin,userController.loadUserEdit);
 user_route.post('/loadUserEdit',upload.single('image'),userController.updateEdit);
 
 user_route.post('/addToCart',auth.isLogin,userController.addToCart)
+user_route.post('/addToWishlist',auth.isLogin,userController.addToWishlist)
+
 user_route.get('/checkout',auth.isLogin,userController.loadcheckoutPage);
 user_route.get("/addressPage",auth.isLogin,userController.loadAddressUploadPage);
 user_route.post("/addressPage",auth.isLogin,userController.addAddress);
@@ -81,6 +83,8 @@ user_route.post('/verifyPayment',orderController.verifyPayment);
 
 user_route.get('/coupons',auth.isLogin,couponController.userCouponDisplay);
 user_route.post('/coupeonApply',auth.isLogin,couponController.ApplyCoupon);
+
+user_route.get('/wishlist',auth.isLogin,userController.leadWishList);
 
 
 module.exports = user_route;

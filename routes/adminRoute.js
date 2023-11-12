@@ -64,6 +64,9 @@ admin_route.post('/addProduct',upload.array('image',5),adminController.insertPro
 admin_route.get('/addCategory',adminController.loadCategoryAdd)
 admin_route.post('/addCategory',adminController.insertCategory);
 
+admin_route.get('/loadEditCategory',auth.isLogin,adminController.loadEditCategory);
+admin_route.post('/loadEditCategory',auth.isLogin,adminController.updateCategory);
+
 admin_route.get('/loadUserEdit',adminController.loadUserEdit);
 admin_route.post('/loadUserEdit',upload.single('image'),adminController.loadUserEdit);
 

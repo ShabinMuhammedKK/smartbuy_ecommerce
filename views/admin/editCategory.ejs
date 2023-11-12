@@ -20,19 +20,24 @@
           <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
             <div class="card col-lg-4 mx-auto">
               <div class="card-body px-5 py-5">
-                <h3 class="card-title text-left mb-3">Add New Category</h3>
-                <form action="" method="post" >
+                <h3 class="card-title text-left mb-3">Edit Category</h3>
+                <form action="" method="post">
                   <div class="form-group">
                     <label>Category Name *</label>
-                    <input type="text" class="form-control p_input" style="color: white;" name="category" required>
+                    <input type="text" hidden value="<%=category._id %>" name="id">
+                    <p><%=category.basePrice %></p>
+                    <input type="text" class="form-control p_input" value="<%=category.category %>" style="color: white;" name="name" required>
                   </div>
                   <div class="form-group">
                     <label>Description *</label>
-                    <input type="text" class="form-control p_input" style="color: white;" name="description" required>
+                    <input type="text" class="form-control p_input" value="<%=category.description %>" style="color: white;" name="description" required>
                   </div>
-                  
+                  <div class="form-group">
+                    <label>Offer ID (if any)</label>
+                    <input type="text" class="form-control p_input" value="<%=category.appliedOfferID%>" style="color: white;" name="offerID">
+                  </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-block enter-btn">Add Category</button>
+                    <button type="submit" class="btn btn-primary btn-block enter-btn">Save</button>
                   </div>
                   <p class="sign-up text-center">Go Back To <a href="/admin/dashboard">DASHBOARD</a></p>                
                 </form>

@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema({
   },
   basePrice:{
     type:Number,
-    required:true
+    default:"",
   },
   price:{
     type:Number,

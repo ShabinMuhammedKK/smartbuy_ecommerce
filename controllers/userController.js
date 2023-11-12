@@ -4,6 +4,7 @@ const Cart = require("../models/userCartModel");
 const Address = require("../models/userAddressModel");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const Wishlist = require("../models/userWishlistModel");
 require("dotenv").config();
 
 let otp;
@@ -89,7 +90,7 @@ const verifyOTP = async (req, res) => {
       // console.log(otp);
       // console.log(userOTP);
       if (userOTP == otp) {
-        console.log("otp matched");
+        // console.log("otp matched");
         const updateInfo = await User.updateOne(
           { _id: req.query.id },
           { $set: { is_verified: 1 } }
@@ -97,7 +98,7 @@ const verifyOTP = async (req, res) => {
         // console.log(updateInfo);
         return res.render("emailVerification", { wrong: 0 });
       } else {
-        console.log("otp not matched");
+        // console.log("otp not matched");
         return res.render("emailVerification", { wrong: 2 });
       }
     }
@@ -115,7 +116,7 @@ const resendOTP = async (req, res) => {
       sendVerifyMail(userData.name, userData.email);
       return res.render("otpPage", { userData });
     } else {
-      console.log("resend otp error and email sending error");
+      // console.log("resend otp error and email sending error");
     }
   } catch (error) {
     console.log(error.messaage);
@@ -163,26 +164,26 @@ const insertUser = async (req, res) => {
   }
 };
 //===========================funs
-async function yourProductFetchingFunction(selectedCategories, selectedBrands) {
-  try {
-    const filteredDocs = await Product.aggregate([
-      {
-        $match: {
-          category: { $in: selectedCategories },
-          sellername: { $in: selectedBrands },
-        },
-      },
-    ]).exec();
+// async function yourProductFetchingFunction(selectedCategories, selectedBrands) {
+//   try {
+//     const filteredDocs = await Product.aggregate([
+//       {
+//         $match: {
+//           category: { $in: selectedCategories },
+//           sellername: { $in: selectedBrands },
+//         },
+//       },
+//     ]).exec();
 
-    console.log("Filtered Docs:", filteredDocs);
+//     // console.log("Filtered Docs:", filteredDocs);
 
-    // Return the filtered products or perform any other necessary operations
-    return filteredDocs;
-  } catch (error) {
-    console.error("Error in yourProductFetchingFunction:", error);
-    throw error; // Propagate the error up to the calling function
-  }
-}
+//     // Return the filtered products or perform any other necessary operations
+//     return filteredDocs;
+//   } catch (error) {
+//     console.error("Error in yourProductFetchingFunction:", error);
+//     throw error; // Propagate the error up to the calling function
+//   }
+// }
 //===================================================load product listing page
 
 const loadProductListingPage = async (req, res) => {
@@ -378,9 +379,8 @@ const loadProduct = async (req, res) => {
 };
 //=================================================add to cart
 const addToCart = async (req, res) => {
+ 
   try {
-    // console.log(req.body.id);
-    // console.log(req.body.user);
     const userId = req.session.user_id;
     // console.log("userID:"+userId);
     const existingCart = await Cart.findOne({ user_id: userId });
@@ -393,7 +393,7 @@ const addToCart = async (req, res) => {
           {
             product: req.body.id,
             quantity: 1,
-            // image:image2,
+            
           },
         ],
       });
@@ -410,8 +410,11 @@ const addToCart = async (req, res) => {
         return res.json({ cart: 2 });
       } else {
         existingCart.products.push({
-          product: req.body.id,
-          quantity: 1,
+
+            product: req.body.id,
+            quantity: 1,
+
+
         });
         res.json({ cart: 1 });
       }
@@ -438,7 +441,7 @@ const addAddress = async (req, res) => {
   const addressData = req.body;
 
   try {
-    console.log(addressData.name);
+    // console.log(addressData.name);
     const existingUser = await Address.findOne({ user_id: userId });
 
     let newAddress;
@@ -488,7 +491,7 @@ const removeAddr = async (req, res) => {
 
     const addressID = req.body;
     const value = addressID.value;
-    console.log(value);
+    // console.log(value);
 
     // if(deliveryAddrs){
     //   const selectedAddr = deliveryAddrs.address.find((addrID)=>{
@@ -554,7 +557,7 @@ const loadCartPage = async (req, res) => {
         total,
         user_id: req.session.user_id,
       });
-      // console.log(userCart.products);
+   
     } else {
       let total = 0;
       return res.render("userCart", { products: 0, total });
@@ -658,7 +661,7 @@ const removeProductFromCart = async (req, res) => {
     });
 
     if (!existingUserCart) {
-      console.log("This user's cart does not exist.");
+      // console.log("This user's cart does not exist.");
       return res
         .status(404)
         .json({ success: false, message: "User's cart does not exist." });
@@ -689,7 +692,7 @@ const removeProductFromCart = async (req, res) => {
       // console.log("stock is now : " + producntQuantity.stock);
       return res.json({ removed: 1 });
     } else {
-      console.log("Product not found in the cart.");
+      // console.log("Product not found in the cart.");
       return res
         .status(404)
         .json({ success: false, message: "Product not found in the cart." });
@@ -726,7 +729,7 @@ const loadcheckoutPage = async (req, res) => {
       });
       // console.log(usersAddresses.address)
     } else {
-      console.log("User's addresses not found.");
+      // console.log("User's addresses not found.");
       return res.render("checkoutPage", { addresses: [], totalamount });
     }
   } catch (error) {
@@ -781,6 +784,72 @@ const updateEdit = async (req, res) => {
     console.log(error.message);
   }
 };
+//wishlist
+const leadWishList = async (req,res)=>{
+  try {
+    const whishListDatas =await  Wishlist.findOne({user_id:req.session.user_id})
+    .populate({
+      path: "products.product",
+      model: "Product",
+      select: "name price description image1",
+    })
+    .exec();
+    // console.log(whishListDatas.products);
+    res.render('wishlist',{products:whishListDatas.products});
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+//add to wish list
+const addToWishlist = async (req, res) => {
+  try {
+    const userId = req.session.user_id;
+    // console.log("userID:"+userId);
+    const existingWishlist = await Wishlist.findOne({ user_id: userId });
+    // console.log(existingCart);
+    if (!existingWishlist) {
+
+
+      const wishlist = new Wishlist({
+        user_id: userId,
+        products: [
+          {
+            product: req.body.id,
+            quantity: 1,
+          },
+        ],
+      });
+
+      let result = await wishlist.save();
+      
+      return res.json({ cart: 1 });
+    } else {
+      const productInWishlist = existingWishlist.products.find(
+        (item) => item.product.toString() === req.body.id.toString()
+      );
+
+      if (productInWishlist) {
+        return res.json({ cart: 2 });
+      } else {
+        existingWishlist.products.push({
+          product: req.body.id,
+          quantity: 1,
+        });
+        res.json({ cart: 1 });
+      }
+      const result = await existingWishlist.save();
+      // console.log("Product added to cart:", result);
+    }
+
+
+
+    return res.json({ cart: 0 });
+    // console.log(result);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 //=====================END=================================//
 
 module.exports = {
@@ -807,4 +876,6 @@ module.exports = {
   productQuantityHandling,
   removeProductFromCart,
   removeAddr,
+  leadWishList,
+  addToWishlist
 };

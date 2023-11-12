@@ -13,12 +13,10 @@ const categorySchema = new mongoose.Schema({
     type:Number,
     default:0
   },
-  offers: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Offer',
-    },
-  ],
+  appliedOfferID:{
+    type:String,
+    default:null,
+  }
 });
 
 module.exports = mongoose.model('Category',categorySchema)

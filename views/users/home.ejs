@@ -135,7 +135,7 @@
 	                        </form>
 	                    </div><!-- End .header-search -->
 	                    <div class="wishlist">
-	                        <a href="" title="Wishlist">
+	                        <a href="/wishlist" title="Wishlist">
 	                            <i class="icon-heart-o"></i>
 	                            <!-- <span class="wishlist-count">3</span> -->
 	                        </a>
@@ -382,7 +382,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
+                                        <a href="" onclick="addtowishlist('<%= products[i]._id %>')" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
                                     </div>
                                 </figure>
 
@@ -751,7 +751,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
+                                        <a href="/addToWishlist" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
                                     </div>
                                 </figure>
 
@@ -1060,7 +1060,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
+                                        <a href="/addToWishlist" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
                                     </div>
                                 </figure>
 
@@ -1830,7 +1830,30 @@
     </script>
 
     
-
+<script>
+            function addtowishlist(productId){
+    console.log(productId);
+    $.ajax({
+            type: "POST",
+            url: "/addToWishlist",
+            data: { id: productId},
+            success: function(response) {
+                console.log("Response from server:", response);
+                
+            // if (response.cart === 1) {
+            //     showAlertBox();
+            // } else if (response.cart === 2) {
+            //     showAlertBoxAlready();
+            // }
+                // Handle the response from the server here (e.g., update the UI)
+            },
+            error: function(error) {
+                console.error("Error:", error);
+                // Handle errors here
+            }
+        });
+}
+</script>
 
 
 
