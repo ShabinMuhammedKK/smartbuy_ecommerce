@@ -955,7 +955,11 @@
       }
       }
     </script>
+       
+
      <script>
+    
+        
       function removeCartItem(userId,productId){
        
         if(productId){
@@ -965,7 +969,7 @@
             url: '/removeProductFromCart/' + productId, // Replace with your actual API endpoint
             success: function(data) {
               if(data.removed==1){
-                location.reload();
+                location.reload()
               }
             },
             error: function() {

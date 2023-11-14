@@ -226,28 +226,10 @@
             >
               <span class="mdi mdi-menu"></span>
             </button>
-            <ul class="navbar-nav w-100">
-              <li class="nav-item w-100">
-
-                <button class="btn btn-outline-secondary">
-                  <a href="/admin/salesData?interval=daily" style="color: white;">Daily</a>
-                </button>
-                <button class="btn btn-outline-secondary">
-                  <a href="/admin/salesData?interval=weekly" style="color: white;">Weekly</a>
-                </button>
-                <button class="btn btn-outline-secondary">
-                  <a href="/admin/salesData?interval=monthly" style="color: white;">Monthly</a>
-                </button>
-                </form>
-              </li>
-            </ul>
+            
             <ul class="navbar-nav navbar-nav-right">
               <li class="nav-item dropdown d-none d-lg-block">
                 <div style="display: flex">
-                  <a href="/admin/download?interval=<%=interval%>" class="btn btn-outline-secondary"><i
-                    class="mdi mdi-download"
-                  ></i>
-                  Print Sales Report</a>
                   <!-- <button class="btn btn-outline-secondary" style="width:max-content;">
                     <i
                       class="mdi mdi-download"
@@ -256,7 +238,7 @@
                   </button> -->
                   <!-- <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addUser">+ Add User</a> -->
                   <!-- <a class="nav-link btn btn-outline-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addProduct">+ Add Product</a> -->
-                  <!-- <a class="nav-link btn btn-outline-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/addCategory">+ Add Category</a> -->
+                  <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="/admin/offerAdd">+ Add New Offer</a>
                   <a
                     class="nav-link btn btn-danger create-new-button"
                     id="createbuttonDropdown"
@@ -282,143 +264,28 @@
           <div class="content-wrapper">
             <!-- ================================== === ====================================== -->
             <div class="row">
-              <div class="col-lg-6 grid-margin stretch-card">
+              <% for(let i = 0 ;i<offers.length;i++)  {%>
+              <div class="col-lg-4 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Sales Portfolio</h4>
-                    <canvas id="areaChart" style="height: 250px"></canvas>
+                    <h4 class="card-title d-flex justify-content-center"><%=offers[i].title%></h4>
+                    <div style="height: 270px;width: 100%;">
+                      <div class="col-lg-12 d-flex justify-content-center"><p style="font-size: 70px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"><i><%=offers[i].offerPercentage%></i>%</p></div>
+                      <div class="col-lg-12 d-flex justify-content-center" ><h1 id="offerID"><%=offers[i].offerID%></h1></div>
+                      <div class="col-lg-12 d-flex justify-content-center"><p><%=offers[i].description%></p></div>
+                      <div class="col-lg-12 d-flex" style="height: 60px;">
+                        <button class="btn btn-outline-success" onclick="copyToClipboard('offerID')" style="width:50%;" >Coppy Code</button>
+                        <a href="editOffer?id=<%=offers[i]._id%>" class="btn btn-outline-success" style="width:50%;display: flex;align-items: center;justify-content: center;">Edit</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-lg-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Most Sold Products</h4>
-                    <canvas id="barChart" style="height: 230px"></canvas>
-                  </div>
-                </div>
-              </div>
+              <% } %>
             </div>
+            
 
-            <div class="row">
-              <div class="col-md-12 col-xl-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex flex-row justify-content-between">
-                      <h4 class="card-title">Sold Stock</h4>
-                      <!-- <p style="margin-right: 10px;" class=" mb-1">Sold Count</p>
-        <p style="margin-right: 10px;" class=" mb-1">Stock to Empty</p> -->
-                    </div>
-                    <% for (let i = 0; i < OrderProdQty.length; i++) { %>
-                    <div
-                      class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3"
-                    >
-                      <div>
-                        <!-- <img
-                          style="height: 60px; width: 60px; border-radius: 8px"
-                          src="/crop/<%= OrderProdQty[i].image1 %>"
-                          alt="image"
-                        /> -->
-                      </div>
-                      <div
-                        class="text-md-center text-xl-left"
-                        style="margin-left: 6%"
-                      >
-                        <h6 class="mb-1 shorten-text"><%= OrderProdQty[i].productName %></h6>
-                        <p class="text-muted mb-0">
-                          Last Order on : <%=
-                          OrderProdQty[i].orderedDate[OrderProdQty[i].orderedDate.length-1]
-                          %>
-                        </p>
-                      </div>
-                      <div
-                        class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0"
-                      >
-                        <h6
-                          class="font-weight-bold mb-0"
-                          style="padding-left: 8%; color: rgb(36, 244, 17)"
-                        >
-                          <span class="text-muted">Sold: </span><%=
-                          OrderProdQty[i].totalQuantity %>
-                        </h6>
-                      </div>
-                      <div
-                        class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0"
-                      >
-                        <h6
-                          class="font-weight-bold mb-0"
-                          style="padding-left: 8%; color: red"
-                        >
-                          <span class="text-muted">Stock to Empty: </span><%=
-                          OrderProdQty[i].stock %>
-                        </h6>
-                      </div>
-                    </div>
-                    <% } %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-12 col-xl-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex flex-row justify-content-between">
-                      <h4 class="card-title">
-                        Product Wise Profitability Analysis
-                      </h4>
-                      <!-- <p class=" mb-1 small">Profit</p> -->
-                      <div
-                        style="height: 35px; margin-bottom: 10px"
-                        class="d-flex justify-content-end"
-                      >
-                        
-                      </div>
-                    </div>
-
-                    <% for (let i = 0; i < OrderProdQty.length; i++) { %>
-                    <div class="preview-list">
-                      <div class="preview-item border-bottom">
-                        <div class="preview-thumbnail">
-                          <!-- <img
-                            style="
-                              height: 60px;
-                              width: 60px;
-                              border-radius: 8px;
-                            "
-                            src="/userImages/<%= OrderProdQty[i].image1 %>"
-                            alt="image"
-                          /> -->
-                        </div>
-                        <div class="preview-item-content d-flex flex-grow">
-                          <div class="flex-grow">
-                            <div
-                              class="d-flex d-md-block d-xl-flex justify-content-between"
-                              style="margin-top: 20px"
-                            >
-                            
-                              <h6 class="preview-subject shorten-text">
-                                <%= OrderProdQty[i].productName %>
-                              </h6>
-                              <h6
-                                class="font-weight-bold mb-0"
-                                style="
-                                  padding-right: 7%;
-                                  color: rgb(17, 223, 89);
-                                "
-                              >
-                                <%="₹"+ OrderProdQty[i].totalPrice %>
-                              </h6>
-                            </div>
-                            <!-- <p class="text-muted">Well, it seems to be working now.</p> -->
-                          </div>
-                        </div>
-                      </div>
-                      <% } %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+ 
             <!-- ================================== === ====================================== -->
           </div>
         </div>
@@ -433,145 +300,7 @@
 
 
 
-    <script>
-      function fetchSalesData() {
-  fetch("/admin/salesReportData")
-    .then((response) => response.json())
-    .then((data) => {
-      const { TopSoldProduct,DateWiseDatas } = data;
-      barChartCanvas(TopSoldProduct,DateWiseDatas);
-    })
-    .catch((error) => console.error("Error:", error));
-}
 
-function barChartCanvas(topSoldProducts,DateWiseDatas) {
-  const data = {
-    labels: topSoldProducts.map((product) => product.productName),
-    datasets: [
-      {
-        label: "Sold",
-        data: topSoldProducts.map((product) => product.soldCount),
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 1,
-        fill: false,
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-          gridLines: {
-            color: "rgba(204, 204, 204,0.1)",
-          },
-        },
-      ],
-      xAxes: [
-        {
-          gridLines: {
-            color: "rgba(204, 204, 204,0.1)",
-          },
-        },
-      ],
-    },
-    legend: {
-      display: false,
-    },
-    elements: {
-      point: {
-        radius: 0,
-      },
-    },
-  };
-
-  const barChartCanvas = $("#barChart").get(0).getContext("2d");
-  const barChart = new Chart(barChartCanvas, {
-    type: "bar",
-    data: data,
-    options: options,
-  });
-
-///////////////////////////////////////////////////////////
-
-        var areaData = {
-          labels: DateWiseDatas.map((product) => product.date),
-          datasets: [
-            {
-              label: "Quantity",
-              data: DateWiseDatas.map((product) => product.totalQuantity),
-              backgroundColor: [
-                "rgba(255, 99, 132, 0.2)",
-                "rgba(54, 162, 235, 0.2)",
-                "rgba(255, 206, 86, 0.2)",
-                "rgba(75, 192, 192, 0.2)",
-                "rgba(153, 102, 255, 0.2)",
-              ],
-              borderColor: [
-                "rgba(255, 99, 132, 1)",
-                "rgba(54, 162, 235, 1)",
-                "rgba(255, 206, 86, 1)",
-                "rgba(75, 192, 192, 1)",
-                "rgba(153, 102, 255, 1)",
-              ],
-              borderWidth: 1,
-              fill: true,
-            },
-          ],
-        };
-
-        var areaOptions = {
-          plugins: {
-            filler: {
-              propagate: true,
-            },
-          },
-          scales: {
-            yAxes: [
-              {
-                gridLines: {
-                  color: "rgba(204, 204, 204, 0.1)",
-                },
-              },
-            ],
-            xAxes: [
-              {
-                gridLines: {
-                  color: "rgba(204, 204, 204, 0.1)",
-                },
-              },
-            ],
-          },
-        };
-        var areaChartCanvas = document
-          .getElementById("areaChart")
-          .getContext("2d");
-        var areaChart = new Chart(areaChartCanvas, {
-          type: "line",
-          data: areaData,
-          options: areaOptions,
-        });
-      }
-      fetchSalesData();
-    </script>
 
     <!-- <script>
   window.onload=autoload
@@ -592,6 +321,23 @@ function barChartCanvas(topSoldProducts,DateWiseDatas) {
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src="../../assets/js/dashboard.js"></script>
+    <script>
+      function copyToClipboard(var1) {
+          let val = document.getElementById(var1).innerText; // Use innerText instead of innerHTML
+          const selBox = document.createElement('textarea');
+          selBox.style.position = 'fixed';
+          selBox.style.left = '0';
+          selBox.style.top = '0';
+          selBox.style.opacity = '0';
+          selBox.value = val;
+          document.body.appendChild(selBox);
+          selBox.focus();
+          selBox.select();
+          document.execCommand('copy');
+          document.body.removeChild(selBox);
+          alert('Text copied to clipboard. Please use Ctrl-V to paste the data.');
+      }
+  </script>
 
     <!-- End custom js for this page -->
   </body>

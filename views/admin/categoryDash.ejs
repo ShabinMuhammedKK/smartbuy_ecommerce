@@ -148,6 +148,14 @@
               <span style="color: white;" class="menu-title">COUPONS</span>
             </a>
           </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="/admin/offerDash">
+              <span class="menu-icon">
+                <i class="mdi mdi-sale"></i>
+              </span>
+              <span style="color: white;" class="menu-title">OFFERS</span>
+            </a>
+          </li>
 
         </ul>
       </nav>
@@ -207,6 +215,8 @@
                     </th>
                     <th style="color: white;">CATEGORY</th>
                     <th style="color: white;">DESCRIPTION</th>
+                    <th style="color: white;">MANAGE</th>
+                    <th style="color: white;">EDIT</th>
 
                   </tr>
                 </thead>
@@ -222,7 +232,7 @@
                           </div> -->
                         </td>
                         <td><%= category[i].category %></td>
-                        <td><%= category[i].description %></td>
+                        <td class="shorten-text"><%= category[i].description %></td>
                         
                         <td>
                           <div class="btn-group" role="group" aria-label="User Actions">

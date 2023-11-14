@@ -152,8 +152,8 @@
                             
     
                         </div>
-                        <button class="btn btn-dark" style="width: 30%;height: 40px;background-color: rgb(96, 94, 94);color: white;margin-left: 16%;" id="refreshButton">↻ Refresh</button>
-                        <button style="width: 30%;height: 40px;background-color: rgb(96, 94, 94);color: white;margin-left: 2%;" data-toggle="collapse" data-target="#shipping-address">+ New Address</button>
+                        <!-- <button class="btn btn-dark" style="width: 30%;height: 40px;background-color: rgb(96, 94, 94);color: white;margin-left: 16%;" id="refreshButton">↻ Refresh</button> -->
+                        <button style="width: 10%;height: 40px;background-color: rgb(96, 94, 94);color: white;margin-left: 2%;" data-toggle="collapse" data-target="#shipping-address">+ New Address</button>
 
                         
 
@@ -697,30 +697,34 @@
     </div><!-- End .modal -->
 
 
-    <div class="modal fade" id="orderPlacedModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel"   style="margin-left: 40%;">Order Placed</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            
-            <div class="modal-footer">
-              <button type="button" style="background-color:rgb(0, 0, 0);color:white;border: none;height: 35px; font-size: larger;border-radius: 3px;"  data-dismiss="modal">Close</button>
-              <button type="button" style="background-color:rgb(0, 0, 0);color:white;border: none;height: 35px;font-size: larger;border-radius: 3px;"><a href="/userOrders" style="text-decoration: none;color: white;">View Orders</a></button>
-            </div>
-          </div>
-        </div>
-      </div>
+    
       <input type="text" id="couponApplyedCode" >
     <!-- Plugins JS File -->
 
    
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <script>
+
+        const alertSweet = function sweetalert() {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "Signed in successfully",
+        });
+      };
        const optionss = document.querySelectorAll('input[type="radio"][name="options"]');
         const paymentOptions = document.querySelectorAll('input[type="radio"][name="payment"]');
         const submitBothSets = document.getElementById("submitBothSets");
@@ -771,8 +775,12 @@
                     // Request was successful, update the page as needed
                     const response = JSON.parse(xhr.responseText);
                     if (response.success === 'OrderPlaced') {
+                        alertSweet()
+                        setTimeout(() => {
+                            window.location.href = '/home';
+                        }, 3000);
+                        
           
-          $('#orderPlacedModal').modal('show');
         }else if(response.success === 'OnlinePayment'){
             // console.log("online payment initialized");
             
@@ -827,7 +835,12 @@
                 method:'post',
                 success:(response)=>{
                     if(response.success==="OrderPlaced"){
-                        $('#orderPlacedModal').modal('show');
+                        alertSweet()
+                        setTimeout(() => {
+                            window.location.href = '/home';
+                        }, 3000);
+                        
+                        
                     }
                     
                 }
@@ -868,11 +881,11 @@
 
       
       
-    <script>
+    <!-- <script>
         document.getElementById("refreshButton").addEventListener("click", function() {
             location.reload();
         });
-        </script>
+        </script> -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/jquery.hoverIntent.min.js"></script>
@@ -905,7 +918,6 @@
     let couponApplyedCode = document.getElementById("couponApplyedCode")
 
 
-    // alert(couponInput)
     $.ajax({
         url:'/coupeonApply',
         method:'post',
@@ -914,34 +926,18 @@
             console.log(response);
             if(!response.valid){
                 alert("Code not Valid")
-
-                // validMessage.innerHTML=response.message
-                // couponInvalidMess.classList.remove("couponHide")
-                // setTimeout(() => {
-                //     couponInvalidMess.classList.add("couponHide")
-                // }, 5000);
                 
 
             }else{
-                // alert("Valid")
-                // console.log(response.redeem);
+                
                 discount.innerHTML=response.redeem.discount
                 total.innerHTML = response.redeem.total
                 couponApplyedCode.value=response.redeem._id
-                // discount2.innerHTML=response.redeem.discount
-                // total2.innerHTML = response.redeem.total
-                // MessDis.innerHTML =response.redeem.discount
-                // couponInDiv.classList.add("couponHide")
-                // couponShow.classList.remove("couponHide")
-                // appliedCouponInput.value=response.redeem.code
-                // couponPass.value = response.redeem._id
+                
             }
         }
     })
 }
     </script>
 </body>
-
-
-<!-- molla/product-centered.html  22 Nov 2019 10:03:20 GMT -->
 </html>

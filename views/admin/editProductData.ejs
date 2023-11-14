@@ -52,6 +52,7 @@
                   <div class="form-group">
                     <input type="hidden" name="product_id" value="<%=product._id%>">
                     <input type="hidden" name="basePrice" value="<%=product.basePrice%>">
+                 
                     <label>Product Name *</label>
                     <input type="text" class="form-control p_input" value="<%=product.name%>" style="color: white;" name="name" required>
                   </div>
@@ -205,7 +206,10 @@ function sendDeleteRequest(id) {
         if (result.message === 'Image deleted successfully') {
             location.reload(); // Reload the page after deletion
         } else {
-            // Handle errors
+            console.log("image cant delete")
+        }
+        if(result.message == "offer is out of date"){
+
         }
     })
     .catch(error => {
@@ -245,7 +249,26 @@ function sendDeleteRequest(id) {
 
 
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
+const alertSweet = function sweetalert() {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "Signed in successfully",
+        });
+      };
   function validateForm() {
       var name = document.forms[0]["name"].value;
       var description = document.forms[0]["description"].value;
@@ -254,17 +277,17 @@ function sendDeleteRequest(id) {
       var sellername = document.forms[0]["sellername"].value;
 
       // Validate Product Name, Description, and Sellername as strings
-      if (!/^[a-zA-Z\s]+$/.test(name) || !/^[a-zA-Z\s]+$/.test(description) || !/^[a-zA-Z\s]+$/.test(sellername)) {
-          alert("Please enter only letters and spaces for Product Name, Description, and Sellername.");
-          return false;
-      }
+      // if (!/^[a-zA-Z\s]+$/.test(name) || !/^[a-zA-Z\s]+$/.test(description) || !/^[a-zA-Z\s]+$/.test(sellername)) {
+      //     alert("Please enter only letters and spaces for Product Name, Description, and Sellername.");
+      //     return false;
+      // }
 
       // Validate Price and Quantity as positive numbers
       if (isNaN(price) || price < 0 || isNaN(stock) || stock < 0) {
           alert("Please enter valid positive numbers for Price and Quantity.");
           return false;
       }
-
+        alertSweet()
       return true;
   }
 </script>

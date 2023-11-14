@@ -8,6 +8,7 @@ const Funcs = require("../public/assets/comfuncs.js/funcs");
 const sharp = require("sharp");
 const OfferController = require("../controllers/offerController");
 const Offer = require("../models/offerModel");
+const puppeteer = require("puppeteer")
 
 //=======================================user controller==================
 
@@ -143,6 +144,7 @@ const loadProductEdit = async (req, res) => {
     const id = req.query.id;
     if (id) {
       const productData = await Product.findById({ _id: id });
+      console.log("hello 123"+productData);
       const category = await Category.find();
       if (productData) {
         return res.render("editProductData", {
@@ -186,6 +188,14 @@ const updateProductEdit = async (req, res) => {
     let priceOfProduct;
     let toReducePrice;
     if (req.body.offerID != "") {
+
+      const offerValidity = Offer.findOne({offerID:req.body.offerID})
+      if(offerValidity){
+        const currentDate = new Date();
+        if (currentDate < offerValidity.startDate || currentDate > offerValidity.endDate) {
+          return res.json({ valid: false, message: "offer is out of date" });
+        }
+      }
       const fieldValue = req.body.offerID;
       const checkOfferIn = await Offer.findOne({ offerID: fieldValue });
       if (checkOfferIn != null) {
@@ -328,9 +338,20 @@ const loadCategoryAdd = async (req, res) => {
 
 const insertCategory = async (req, res) => {
   try {
+    const categoryName = req.body.category.trim().toLowerCase();
+
+    const existingCategory = await Category.findOne({ forIdentity: categoryName });
+
+    if (existingCategory) {
+      return res.render("addCategory", {
+        message: "Category already exists",
+      });
+    }else{
+
     const category = new Category({
       category: req.body.category,
       description: req.body.description,
+      forIdentity:categoryName
     });
     const categoryData = await category.save();
 
@@ -343,6 +364,7 @@ const insertCategory = async (req, res) => {
         message: "Category cano't add",
       });
     }
+  }
   } catch (error) {
     console.log(error.message);
   }
@@ -505,6 +527,7 @@ const salesDash = async (req, res) => {
       return res.render("salesReport", {
         admin: adminData,
         OrderProdQty,
+        interval
       });
     } else {
       console.log("Data not found");
@@ -576,7 +599,7 @@ const ordersListing = async (req, res) => {
         const productId = productInfo.productId;
 
         const product = await Product.findById(productId).select(
-          "name image price"
+          "name image1 price"
         );
         const userDetails = await User.findById(order.userId).select("name");
         // console.log("wwwwwwww::"+product);
@@ -636,7 +659,156 @@ const orderManage = async (req, res) => {
   }
 };
 
-//====orders status change==========
+//offer dashboard
+const loadOfferDash = async(req,res)=>{
+  try {
+    const adminData = await User.findOne({ is_admin: 1 });
+    const listingOffers = await Offer.find({});
+    res.render("offerDash",{admin:adminData,offers:listingOffers});
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+//edit offers
+const editOffers = async(req,res)=>{
+  try {
+    const offerID = req.query.id;
+
+    const offerData =await Offer.findOne({_id:offerID})
+    if(offerData != null){
+      res.render('editOffer',{offer:offerData})
+    }else{
+      console.log("no such offer found");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+//update edtited offer details
+const updateOfferEdit = async(req,res)=>{
+  try {
+    const datas = req.body
+    const existingData =await Offer.findByIdAndUpdate({_id:req.body.id},
+      {$set:{
+        title:req.body.title,
+        description:req.body.description,
+        offerPercentage:req.body.offerPercentage,
+        endDate:req.body.endDate,
+        startDate:req.body.startDate,
+        offerID:req.body.ID,
+      }})
+    console.log(existingData);
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+//generate pdf
+const generatePdf = async (req, res) => {
+  try {
+    const interval = req.query.interval
+    console.log(interval);
+    const OrderProdQty = await Funcs.prodQty(Order, interval);
+    console.log(OrderProdQty);
+    await generatePDFReport(OrderProdQty);
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=sales_report.pdf"
+    );
+
+    // Send the PDF file
+    res.sendFile("sales_report.pdf", { root: "./" });
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error generating PDF');
+  }
+};
+
+
+
+
+const generatePDFReport = async (sales) => {
+  try {
+    const puppeteer = require('puppeteer');
+
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    const htmlContent = generateHTMLContent(sales);
+
+    await page.setContent(htmlContent);
+    await page.pdf({
+      path: "sales_report.pdf",
+      format: "A4",
+      printBackground: true,
+    });
+
+    await browser.close();
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+const generateHTMLContent = (sales) => {
+  const tableRows = sales.map((sale) => {
+    return `
+      <tr>
+        <td>${sale.productName}</td>
+        <td>${sale.stock}</td>
+        <td>${sale.totalQuantity}</td>
+        <td>${sale.orderedDate.join(', ')}</td>
+        <td>${sale.price}</td>
+        <td>${sale.totalPrice}</td>
+      </tr>
+    `;
+  });
+
+  const htmlContent = `
+    <html>
+      <head>
+        <style>
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+
+          th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+          }
+
+          th {
+            background-color: #f2f2f2;
+          }
+        </style>
+      </head>
+      <body>
+        <h2>Sales Report</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Stock To Empty</th>
+              <th>Total Quantity</th>
+              <th>Ordered Date</th>
+              <th>Price</th>
+              <th>Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tableRows.join('')}
+          </tbody>
+        </table>
+      </body>
+    </html>
+  `;
+
+  return htmlContent;
+};
+
+
 
 //===exports===========================
 
@@ -667,4 +839,8 @@ module.exports = {
   imageEdit,
   loadEditCategory,
   updateCategory,
+  loadOfferDash,
+  editOffers,
+  updateOfferEdit,
+  generatePdf
 };

@@ -5,6 +5,7 @@ const Address = require("../models/userAddressModel");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const Wishlist = require("../models/userWishlistModel");
+const Swal = require('sweetalert2');
 require("dotenv").config();
 
 let otp;
@@ -440,7 +441,7 @@ const addToCart = async (req, res) => {
                 {$pull:{products:{product:req.body.id}}},
                 {new:true}
               )
-              console.log(romoving);
+              // console.log(romoving);
       
             }else{
             console.log("this product not in wishlist");
@@ -748,7 +749,7 @@ const loadcheckoutPage = async (req, res) => {
     // console.log(usersAddresses.address);
     const totalamount = await calculateTotalPrice(req.session.user_id);
 
-    if (usersAddresses) {
+    if (usersAddresses && !totalamount==0) {
       return res.render("checkoutPage", {
         addresses: usersAddresses.address,
         totalamount,
@@ -756,7 +757,7 @@ const loadcheckoutPage = async (req, res) => {
       // console.log(usersAddresses.address)
     } else {
       // console.log("User's addresses not found.");
-      return res.render("checkoutPage", { addresses: [], totalamount });
+      return res.redirect("/home");
     }
   } catch (error) {
     console.log(error.message);
@@ -776,8 +777,11 @@ const loadUserEdit = async (req, res) => {
     console.log(error.message);
   }
 };
+
+//update user edit
 const updateEdit = async (req, res) => {
   try {
+    let userUpdatedData;
     if (req.file) {
       const userUpdatedData = await User.findByIdAndUpdate(
         { _id: req.body.user_id },
@@ -792,8 +796,9 @@ const updateEdit = async (req, res) => {
           },
         }
       );
+      
     } else {
-      const userUpdatedData = await User.findByIdAndUpdate(
+       userUpdatedData = await User.findByIdAndUpdate(
         { _id: req.body.user_id },
         {
           $set: {
@@ -805,6 +810,7 @@ const updateEdit = async (req, res) => {
           },
         }
       );
+      
     }
   } catch (error) {
     console.log(error.message);
@@ -861,7 +867,7 @@ const addToWishlist = async (req, res) => {
           product: req.body.id,
           quantity: 1,
         });
-        res.json({ cart: 1 });
+       res.json({ cart: 1 });
       }
       const result = await existingWishlist.save();
       // console.log("Product added to cart:", result);

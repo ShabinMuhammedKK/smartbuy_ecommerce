@@ -24,28 +24,29 @@
                 <form action="" method="post" onsubmit="return validateForm()">
                     <div class="form-group">
                         <label>Offer Tittle *</label>
-                        <input type="text" class="form-control p_input" style="color: white;" name="title" required>
+                        <input type="text" hidden value="<%=offer._id %>" name="id">
+                        <input type="text" class="form-control p_input" value="<%=offer.title%>" style="color: white;" name="title" required>
                       </div>
                       <div class="form-group">
                         <label>Description *</label>
-                        <input type="text" class="form-control p_input" style="color: white;" name="description" required>
+                        <input type="text" class="form-control p_input" value="<%=offer.description%>" style="color: white;" name="description" required>
     
                       </div>
                       <div class="form-group">
                         <label>Offer Percentage *</label>
-                        <input type="number" class="form-control p_input" style="color: white;" name="offerPercentage" required>
+                        <input type="number" class="form-control p_input" value="<%=offer.offerPercentage%>" style="color: white;" name="offerPercentage" required>
                       </div>
                       <div class="form-group">
                         <label>Offer Starting Date *</label>
-                        <input type="date" class="form-control p_input" style="color: white;" name="startDate" required>
+                        <input type="date" class="form-control p_input" value="<%=offer.startDate%>" style="color: white;" name="startDate" required>
                       </div>
                       <div class="form-group">
                         <label>Offer Ending Date *</label>
-                        <input type="date" class="form-control p_input" style="color: white;" name="endDate" required>
+                        <input type="date" class="form-control p_input" value="<%=offer.endDate%>" style="color: white;" name="endDate" required>
                       </div>
                       <div class="form-group">
                         <label>Offer ID *</label>
-                        <input type="text" class="form-control p_input" style="color: white;" name="ID" required>
+                        <input type="text" class="form-control p_input" value="<%=offer.offerID%>" style="color: white;" name="ID" required>
                       </div>
                       
                   <div class="text-center">
@@ -111,7 +112,7 @@ const alertSweet = function sweetalert() {
           var ID = document.forms[0]["ID"].value;
 
           // Validate Offer Title and Description as string
-          if (!/^[a-zA-Z\s]+$/.test(title) || !/^[a-zA-Z\s]+$/.test(description)) {
+          if (!/^[a-zA-Z0-9\s]+$/.test(title) || !/^[a-zA-Z0-9\s]+$/.test(description)) {
               alert("Please enter only letters and spaces for Offer Title and Description.");
               return false;
           }

@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema({
   },
   basePrice:{
     type:Number,
-    default:"",
+    required:true,
   },
   price:{
     type:Number,
@@ -56,7 +56,7 @@ const productSchema = new mongoose.Schema({
   },
   appliedOfferID:{
     type:String,
-    default:null,
+    default:"",
   }
   
 });

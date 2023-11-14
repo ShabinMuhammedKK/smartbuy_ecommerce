@@ -13,9 +13,13 @@ const categorySchema = new mongoose.Schema({
     type:Number,
     default:0
   },
+  forIdentity:{
+    type:String,
+    required:true
+  },
   appliedOfferID:{
     type:String,
-    default:null,
+    default:"",
   }
 });
 

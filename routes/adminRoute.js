@@ -20,6 +20,10 @@ admin_route.use(session({
 admin_route.set('view engine','ejs');
 admin_route.set('views','./views/admin');
 
+
+
+
+
 const auth = require('../middleware/adminAuth');
 
 const storage = multer.diskStorage({
@@ -38,6 +42,7 @@ const orderController = require('../controllers/orderController');
 const salesReport = require('../controllers/salesReportController');
 const couponController = require('../controllers/couponController');
 const offerController = require('../controllers/offerController');
+const { generate } = require('randomstring');
 
 
 
@@ -115,6 +120,11 @@ admin_route.post('/loadcopEdit',auth.isLogin,couponController.updateCoupon);
 //offer adding 
 admin_route.get('/offerAdd',auth.isLogin,offerController.loadOfferCreation);
 admin_route.post('/offerAdd',auth.isLogin,offerController.createOffer);
+admin_route.get('/offerDash',auth.isLogin,adminController.loadOfferDash);
+admin_route.get('/editOffer',auth.isLogin,adminController.editOffers);
+admin_route.post('/editOffer',auth.isLogin,adminController.updateOfferEdit);
+admin_route.get('/download',auth.isLogin,adminController.generatePdf);
+
 
 
 admin_route.get('*',function(req,res){

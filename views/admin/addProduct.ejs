@@ -102,7 +102,26 @@
     <script src="../../assets/js/misc.js"></script>
     <script src="../../assets/js/settings.js"></script>
     <script src="../../assets/js/todolist.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
+const alertSweet = function sweetalert() {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "Signed in successfully",
+        });
+      };
       function validateForm() {
           var name = document.forms[0]["name"].value;
           var description = document.forms[0]["description"].value;
@@ -121,7 +140,7 @@
               alert("Please enter valid positive numbers for Price and Quantity.");
               return false;
           }
-
+          alertSweet();
           return true;
       }
   </script>

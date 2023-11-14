@@ -22,6 +22,14 @@
     <link rel="stylesheet" href="../../assets/css/style1.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/favicon.png" />
+    <style>
+      .shorten-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100px; /* Adjust the max-width as needed */
+      }
+    </style>
   </head>
   <body>
     <div class="container-scroller">
@@ -148,6 +156,14 @@
               <span style="color: white;" class="menu-title">COUPONS</span>
             </a>
           </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="/admin/offerDash">
+              <span class="menu-icon">
+                <i class="mdi mdi-sale"></i>
+              </span>
+              <span style="color: white;" class="menu-title">OFFERS</span>
+            </a>
+          </li>
 
         </ul>
       </nav>
@@ -212,6 +228,7 @@
                                   <th style="color: white;">DISCOUNT AMOUNT</th>
                                   <th style="color: white;">STARTING DATE</th>
                                   <th style="color: white;">END DATE</th>
+                                  <th style="color: white;">EDIT</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -230,24 +247,9 @@
                                       </td>
                                       <td><%= listingCoupons[i].description %></td>
                                       <td><%= listingCoupons[i].discount_price %></td>
-                                      <td><%= listingCoupons[i].start_date %></td>
-                                      <td><%= listingCoupons[i].end_date %></td>
-                                      <!-- <td><div>
-                                        <% if (listingCoupons[i].stock === 0) { %>
-                                          <p style="color: rgb(255, 81, 81);">Out of Stock</p>
-                                        <% } else { %>
-                                          <p style="color: rgb(27, 255, 27);">InStock</p>                                       
-                                           <% } %>
-                                      </div></td> -->
-                                      <!-- <td>
-                                        <div class="btn-group" role="group" aria-label="User Actions">
-                                          <% if (listingCoupons[i].is_unlisted === 1) { %>
-                                            <button data-id="<%= listingCoupons[i]._id %>" onclick="unlistButton('<%= listingCoupons[i]._id %>')" class="btn btn-inverse-danger">Unlisted</button>
-                                            <% } else { %>
-                                              <button data-id="<%= listingCoupons[i]._id %>" onclick="unlistButton('<%= listingCoupons[i]._id %>')" class="btn btn-inverse-success">Listed</button>
-                                          <% } %>
-                                        </div>
-                                      </td> -->
+                                      <td class="shorten-text"><%= listingCoupons[i].start_date %></td>
+                                      <td class="shorten-text"><%= listingCoupons[i].end_date %></td>
+                                     
                                       <td>
                                   
                                         <a href="loadcopEdit?id=<%= listingCoupons[i]._id %>"><button  class="btn btn-secondary"><i class="mdi mdi-grease-pencil" style="font-size: 15px;"></i></button>

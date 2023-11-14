@@ -15,7 +15,7 @@ const instance = new Razorpay({
 //Oerder placing
 const placeOrderManage = async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const userID = req.session.user_id;
     const userSelectedData = req.body;
 
@@ -69,6 +69,7 @@ const placeOrderManage = async (req, res) => {
 
     const placeorder = await order.save();
 
+
     // console.log("aaaaaaa : " + placeorder.paymentMethod);
     if (placeorder.paymentMethod === "COD") {
       await Order.updateOne(
@@ -86,8 +87,10 @@ const placeOrderManage = async (req, res) => {
       await transaction.save();
 
       await Cart.deleteOne({ user_id: userID });
-
-      return res.json({ success: "OrderPlaced" });
+      
+      res.json({ success: "OrderPlaced" });
+      
+      
     } else if (placeorder.paymentMethod === "Online") {
       // Handle Razorpay Payment
       const orderID = placeorder._id;
@@ -103,12 +106,12 @@ const placeOrderManage = async (req, res) => {
       await transaction.save();
 
       generateRazorpay(orderID, total).then((order) => {
-        return res.json({ success: "OnlinePayment", order });
+       res.json({ success: "OnlinePayment", order });
       });
       await Cart.deleteOne({ user_id: userID });
-    } else {
-      // Handle other payment methods or provide an appropriate response here
-    }
+      
+    } 
+    
   } catch (error) {
     console.log(error.message);
   }
