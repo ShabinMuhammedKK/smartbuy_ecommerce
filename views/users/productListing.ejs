@@ -67,106 +67,60 @@
     <div class="page-wrapper">
       <header class="header">
         <div class="header-middle sticky-header">
-          <div class="container">
-            <div class="header-left">
-              <button class="mobile-menu-toggler">
-                <span class="sr-only">Toggle mobile menu</span>
-                <i class="icon-bars"></i>
-              </button>
-
-              <a href="index.html" class="logo">
-                <a
-                  href="index.html"
-                  style="font-size: 30px; font-weight: 500; color: rgb(0, 0, 0)"
-                  >SmartBuy</a
-                >
-              </a>
-
-              <nav class="main-nav">
-                <ul class="menu sf-arrows">
-                  <li class="megamenu-container active">
-                    <a href="/home" class="sf-with-ul">Home</a>
-                  </li>
-                  <li>
-                    <a href="/Allproducts" class="sf-with-ul">Shop</a>
-                  </li>
-                  <li>
-                    <a href="/Allproducts" class="sf-with-ul">Product</a>
-                  </li>
-                  <li>
-                    <a href="/Allproducts" class="sf-with-ul">Pages</a>
-                  </li>
-                  <li>
-                    <a href="/Allproducts" class="sf-with-ul">Blog</a>
-                  </li>
-                </ul>
-                <!-- End .menu -->
-              </nav>
-              <!-- End .main-nav -->
-            </div>
-            <!-- End .header-left -->
-
-            <div class="header-right">
-              <div class="header-search">
-                <a href="#" class="search-toggle" role="button" title="Search"
-                  ><i class="icon-search"></i
-                ></a>
-                <form action="#" method="get">
-                  <div class="header-search-wrapper">
-                    <label for="q" class="sr-only">Search</label>
-                    <input
-                      type="search"
-                      class="form-control"
-                      name="q"
-                      id="q"
-                      placeholder="Search in..."
-                      required
-                    />
-                  </div>
-                  <!-- End .header-search-wrapper -->
-                </form>
-              </div>
-              <!-- End .header-search -->
-              <div class="dropdown compare-dropdown">
-                <a
-                  href="#"
-                  class="dropdown-toggle"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  data-display="static"
-                  title="Compare Products"
-                  aria-label="Compare Products"
-                >
-                  <i class="icon-random"></i>
-                </a>
-
-                <!--  -->
-              </div>
-              <!-- End .compare-dropdown -->
-
-              <div class="dropdown cart-dropdown">
-                <a
-                  href="/userCart"
-                  class="dropdown-toggle"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  data-display="static"
-                >
-                  <i class="icon-shopping-cart"></i>
-                </a>
-              </div>
-              <!-- End .cart-dropdown -->
-            </div>
-            <!-- End .header-right -->
-          </div>
-          <!-- End .container -->
-        </div>
-        <!-- End .header-middle -->
-      </header>
+            <div class="container">
+                <div class="header-left">
+                    <button class="mobile-menu-toggler">
+                        <span class="sr-only">Toggle mobile menu</span>
+                        <i class="icon-bars"></i>
+                    </button>
+                    <h3>SmartBuy</h3>
+                    <!-- <a href="index.html" class="logo">
+                        <img src="assets/images/logo.png" alt="Molla Logo" width="105" height="25">
+                    </a> -->
+                    <nav class="main-nav">
+                        <ul class="menu sf-arrows">
+                            <li class="megamenu-container active">
+                                <a href="/home" class="sf-with-ul">Home</a>
+                            </li>
+                            <li>
+                                <a href="" class="sf-with-ul">Shop</a>
+                            </li>
+                            <li>
+                                <a href="" class="sf-with-ul">Product</a>
+                            </li>
+                            <li>
+                                <a href="" class="sf-with-ul">Pages</a> 
+                            </li>
+                            <li>
+                                <a href="" class="sf-with-ul">Blog</a>
+                            </li>
+                            <li>
+                                <a href="" class="sf-with-ul">Elements</a>
+                            </li>
+                        </ul><!-- End .menu -->
+                    </nav><!-- End .main-nav -->
+                </div><!-- End .header-left -->
+    
+                <div class="header-right">
+                    <div class="header-search">
+                        <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                        <form action="#" method="get">
+                            <div class="header-search-wrapper">
+                                <label for="q" class="sr-only">Search</label>
+                                <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                            </div><!-- End .header-search-wrapper -->
+                        </form>
+                    </div><!-- End .header-search -->
+                    
+    
+                    <div class="dropdown cart-dropdown">
+                        <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                            <i class="icon-shopping-cart"></i> 
+                        </a>    
+                </div><!-- End .header-right -->
+            </div><!-- End .container -->
+        </div><!-- End .header-middle -->
+    </header><!-- End .header -->
       <!-- End .header -->
 
       <main class="main">
@@ -198,7 +152,7 @@
                 <div class="toolbox">
                   <div class="toolbox-left">
                     <div class="toolbox-info">
-                      Showing <span>9 of 56</span> Products
+                      
                     </div>
                     <!-- End .toolbox-info -->
                   </div>
@@ -206,11 +160,11 @@
 
                   <div class="toolbox-right" style="margin-right: 6%">
                     <div class="toolbox-sort">
-                      <label for="sortby" style="font-weight: 900"
+                      <!-- <label for="sortby" style="font-weight: 900"
                         >Sort by Price:</label
-                      >
+                      > -->
                       <div class="select-custom">
-                        <select
+                        <!-- <select
                           name="sortby"
                           id="sortby"
                           class="form-control"
@@ -221,7 +175,7 @@
                             Low to High
                           </option>
                           <option value="priceHighToLow">High to Low</option>
-                        </select>
+                        </select> -->
                       </div>
                     </div>
                     <!-- End .toolbox-sort -->
@@ -231,7 +185,7 @@
                 <!-- End .toolbox -->
 
                 <div class="products col-12 d-flex justify-content-center">
-                  <div class="row ustify-content-cjenter" sty>
+                  <div class="row ustify-content-cjenter col-lg-12" >
                     <% for (let i = 0; i < products.length; i++) { %>
                     <div
                       style="
@@ -266,7 +220,7 @@
 
                         <div
                           class="product-body"
-                          style="background-color: #ffffff; height: 150px"
+                          style="background-color: #ffffff; height: 200px"
                         >
                           <h3
                             class="product-title"
@@ -294,7 +248,7 @@
                             RS.<%=products[i].price%>
                           </div>
                           <div class="product-action">
-                            <a href="#" class="btn-product btn-cart"
+                            <a href="" onclick="addtocart('<%= products[i]._id %>')" data-product-id="<%= products[i]._id %>" class="btn-product btn-cart"
                               ><span>add to cart</span></a
                             >
                           </div>
@@ -540,6 +494,7 @@
                             <!-- <span class="item-count">2</span> -->
                           </div>
                           <button class="btn btn-dark" style="width:10px;" id="applyFiltersButton">Apply Filters</button>
+                          <button class="btn btn-light" style="width: 10px;" id="clearFiltersButton">Clear Filters</button>
                           <!-- End .filter-item -->
                         </div>
                         
@@ -1205,35 +1160,155 @@
     <script src="assets/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    
+
+    <script>
+      function applyFilters() {
+        try {
+          // Get selected categories, brands, and search query
+          const selectedCategories = Array.from(document.querySelectorAll('.custom-control-input[data-category]:checked'))
+            .map(checkbox => checkbox.dataset.category);
+          const selectedBrands = Array.from(document.querySelectorAll('.custom-control-input[data-brand]:checked'))
+            .map(checkbox => checkbox.dataset.brand);
+          const searchQuery = document.getElementById('q').value.trim(); // Assuming the search input has an ID of 'q'
+    
+          // Construct the query string
+          const queryString = `array1=${encodeURIComponent(selectedCategories.join(','))}&array2=${encodeURIComponent(selectedBrands.join(','))}&q=${encodeURIComponent(searchQuery)}`;
+    
+          // Construct the full URL with the query string
+          const url = `/Allproducts?${queryString}`;
+    
+          // Save the selected filters and search query to localStorage
+          localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
+          localStorage.setItem('selectedBrands', JSON.stringify(selectedBrands));
+          localStorage.setItem('searchQuery', JSON.stringify(searchQuery));
+    
+          // Check if the current URL is already the filtered URL
+          if (window.location.href !== url) {
+            // Set the new URL only if it's different to avoid continuous reloading
+            window.location.href = url;
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      function clearSearch() {
+    try {
+      // Clear search input
+      document.getElementById('q').value = '';
+
+      // Clear localStorage
+      localStorage.removeItem('searchQuery');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+    
+      function clearFilters() {
+        try {
+          // Clear all checkboxes
+          const checkboxes = document.querySelectorAll('.custom-control-input');
+          checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+          });
+    
+          // Clear search input
+          document.getElementById('q').value = '';
+    
+          // Clear localStorage
+          localStorage.removeItem('selectedCategories');
+          localStorage.removeItem('selectedBrands');
+          localStorage.removeItem('searchQuery');
+    
+          // Apply filters (this will reload the page without filters)
+          applyFilters();
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    
+      // Load saved filters from localStorage on page load
+      document.addEventListener('DOMContentLoaded', function () {
+        const savedCategories = JSON.parse(localStorage.getItem('selectedCategories')) || [];
+        const savedBrands = JSON.parse(localStorage.getItem('selectedBrands')) || [];
+        const savedSearchQuery = JSON.parse(localStorage.getItem('searchQuery')) || '';
+    
+        savedCategories.forEach(category => {
+          const checkbox = document.querySelector(`.custom-control-input[data-category="${category}"]`);
+          if (checkbox) {
+            checkbox.checked = true;
+          }
+        });
+    
+        savedBrands.forEach(brand => {
+          const checkbox = document.querySelector(`.custom-control-input[data-brand="${brand}"]`);
+          if (checkbox) {
+            checkbox.checked = true;
+          }
+        });
+    
+        document.getElementById('q').value = savedSearchQuery; // Assuming the search input has an ID of 'q'
+      });
+    
+      const applyFiltersButton = document.getElementById('applyFiltersButton');
+      applyFiltersButton.addEventListener('click', applyFilters);
+    
+      const clearFiltersButton = document.getElementById('clearFiltersButton');
+      clearFiltersButton.addEventListener('click', clearFilters);
+    </script>
+      
+
+    
+
 
 <script>
-function applyFilters() {
+  function showAlertBox() {
+          console.log("alert fun called...");
+          $("#cartAlert").fadeIn();
+      
+          // Hide the alert box after 5 seconds
+          setTimeout(function () {
+              $("#cartAlert").fadeOut();
+          }, 3000);
+      }
   
-  try {
-    // Get selected categories and brands
-    const selectedCategories = Array.from(document.querySelectorAll('.custom-control-input[data-category]:checked'))
-      .map(checkbox => checkbox.dataset.category);
-    const selectedBrands = Array.from(document.querySelectorAll('.custom-control-input[data-brand]:checked'))
-      .map(checkbox => checkbox.dataset.brand);
-
-    // Construct the query string
-    const queryString = `array1=${encodeURIComponent(selectedCategories.join(','))}&array2=${encodeURIComponent(selectedBrands.join(','))}`;
-
-    // Construct the full URL with the query string
-    const url = `/Allproducts?${queryString}`;
-
-    // Check if the current URL is already the filtered URL
-    if (window.location.href !== url) {
-      // Set the new URL only if it's different to avoid continuous reloading
-      window.location.href = url;
-    }
-  } catch (error) {
-    console.error(error);
+      function showAlertBoxAlready() {
+          console.log("alert fun called...");
+          $("#cartAlertAlready").fadeIn();
+      
+          // Hide the alert box after 5 seconds
+          setTimeout(function () {
+              $("#cartAlertAlready").fadeOut();
+          }, 3000);
+      }
+  
+  
+  
+          function addtocart(productId){
+      console.log(productId);
+      $.ajax({
+              type: "POST",
+              url: "/addToCart",
+              data: { id: productId},
+              success: function(response) {
+                  console.log("Response from server:", response);
+                  
+              if (response.cart === 1) {
+                  showAlertBox();
+              } else if (response.cart === 2) {
+                  showAlertBoxAlready();
+              }
+                  // Handle the response from the server here (e.g., update the UI)
+              },
+              error: function(error) {
+                  console.error("Error:", error);
+                  // Handle errors here
+              }
+          });
   }
-}
-const applyFiltersButton = document.getElementById('applyFiltersButton');
-  applyFiltersButton.addEventListener('click', applyFilters);
-</script>
+  
+  
+      </script>
 
   </body>
 </html>

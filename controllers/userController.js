@@ -164,34 +164,16 @@ const insertUser = async (req, res) => {
     console.log(error.message);
   }
 };
-//===========================funs
-// async function yourProductFetchingFunction(selectedCategories, selectedBrands) {
-//   try {
-//     const filteredDocs = await Product.aggregate([
-//       {
-//         $match: {
-//           category: { $in: selectedCategories },
-//           sellername: { $in: selectedBrands },
-//         },
-//       },
-//     ]).exec();
 
-//     // console.log("Filtered Docs:", filteredDocs);
-
-//     // Return the filtered products or perform any other necessary operations
-//     return filteredDocs;
-//   } catch (error) {
-//     console.error("Error in yourProductFetchingFunction:", error);
-//     throw error; // Propagate the error up to the calling function
-//   }
-// }
 //===================================================load product listing page
+
 
 const loadProductListingPage = async (req, res) => {
   try {
     // Sorting
     const category = req.query.array1 ? req.query.array1.split(",") : [];
     const brand = req.query.array2 ? req.query.array2.split(",") : [];
+    const searchQuery = req.query.q || '';
 
     const matchCriteria = {};
 
@@ -203,19 +185,20 @@ const loadProductListingPage = async (req, res) => {
       matchCriteria.sellername = { $in: brand };
     }
 
+    // Add search criteria
+    if (searchQuery) {
+      matchCriteria.$or = [
+        { name: { $regex: new RegExp(searchQuery, 'i') } },
+        { description: { $regex: new RegExp(searchQuery, 'i') } },
+        // Add other fields you want to search here
+      ];
+    }
+
     const filteredDocs = await Product.aggregate([
       {
         $match: matchCriteria,
       },
-      // {
-      //   $sort: {
-      //     fieldName: 1, // 1 for ascending, -1 for descending
-      //   },
-      // },
     ]).exec();
-
-    // console.log(category);
-    // console.log(brand);
 
     // Pagination
     const limit = parseInt(req.query.limit) || 10;
@@ -242,43 +225,6 @@ const loadProductListingPage = async (req, res) => {
   }
 };
 
-
-// const loadProductListingPage = async (req, res) => {
-//   try {
-//     //sorting
-//     const category = req.query.array1 ? req.query.array1.split(",") : [];
-//     const brand = req.query.array2 ? req.query.array2.split(",") : [];
-
-//     const filteredDocs = await Product.aggregate([
-//       {
-//         $match: {
-//           category: { $in: [] },
-//           sellername: { $in: [] },
-//         },
-//       },
-//     ]).exec();
-
-//     console.log(filteredDocs);
-
-//     //pagination
-//     const limit = req.query.limit || 10;
-//     const page = req.query.page || 1;
-//     const skip = page * 10 - 10;
-
-//     // const productCount = await Product.countDocuments();
-//     const productDatas = await Product.find().limit(10).skip(skip);
-
-//     const totalPage = Math.ceil(filteredDocs.length / limit);
-
-//     return res.render("productListing", {
-//       products: productDatas,
-//       curentPage: Number(page),
-//       totalPage,
-//     });
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
 
 //=========================================================load product details
 const lodadProductDetails = async (req, res) => {

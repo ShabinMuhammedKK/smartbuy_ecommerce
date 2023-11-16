@@ -606,6 +606,7 @@ const ordersListing = async (req, res) => {
         if (product) {
           // Push the order details with product details into the array
           // orderDate = await formatDate(order.orderDate);
+          var totalAmount = Math.floor(productInfo.quantity * product.price);
           productWiseOrdersArray.push({
             user: userDetails,
             product: product,
@@ -614,7 +615,7 @@ const ordersListing = async (req, res) => {
               userId: order.userId,
               shippingAddress: order.shippingAddress,
               orderDate: order.orderDate,
-              totalAmount: productInfo.quantity * product.price,
+              totalAmount: totalAmount,
               OrderStatus: productInfo.OrderStatus,
               StatusLevel: productInfo.StatusLevel,
               paymentMethod: order.paymentMethod,

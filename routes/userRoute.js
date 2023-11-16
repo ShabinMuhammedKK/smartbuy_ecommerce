@@ -89,6 +89,8 @@ user_route.post('/remFromWish',auth.isLogin,userController.removefromWishList);
 
 user_route.get('/loadWallet',auth.isLogin,userController.loadWalled);
 
+user_route.get('/orderFiltering',auth.isLogin,orderController.orderUserProfile);
+
 
 
 module.exports = user_route;

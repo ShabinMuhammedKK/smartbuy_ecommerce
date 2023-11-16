@@ -742,7 +742,7 @@
                                     }
                                 }
                             }'>
-                            <% for (let i = 0; i < products.length; i++) { %>
+                            <% for (let i = 10; i < products.length; i++) { %>
                             <div style="box-shadow:2px 10px 2px 2px #9b9595;border-radius: 10px;" class="product product-11 text-center">
                                 <figure class="product-media" style="height: 250px;">
                                     <a href="/product?id=<%=products[i]._id%>">
@@ -751,7 +751,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="/addToWishlist" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
+                                        <a href="" onclick="addtowishlist('<%= products[i]._id %>')" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
                                     </div>
                                 </figure>
 
@@ -1018,7 +1018,7 @@
             </div>
             <div class="container">
                 <div class="heading heading-center mb-3">
-                    <h2 class="title-lg">Fitness Products</h2><!-- End .title -->
+                    <h2 class="title-lg">Visual Verse</h2><!-- End .title -->
 
                     
                 </div><!-- End .heading -->
@@ -1051,7 +1051,7 @@
                                     }
                                 }
                             }'>
-                            <% for (let i = 0; i < products.length; i++) { %>
+                            <% for (let i = 22; i < products.length; i++) { %>
                             <div style="box-shadow:2px 10px 2px 2px #9b9595;border-radius: 10px;" class="product product-11 text-center">
                                 <figure class="product-media" style="height: 250px;">
                                     <a href="/product?id=<%=products[i]._id%>">
@@ -1060,7 +1060,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="/addToWishlist" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
+                                        <a href="" onclick="addtowishlist('<%= products[i]._id %>')" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
                                     </div>
                                 </figure>
 

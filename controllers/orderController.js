@@ -156,6 +156,27 @@ verifyPayment: (details) => {
 //orderpage displaying
 const orderUserProfile = async (req, res) => {
   try {
+    
+    const dynamicOrderStatus = req.query.result;
+
+if(dynamicOrderStatus !== undefined){
+
+const orderData = await Order.find({
+  userId: req.session.user_id,
+  "products.OrderStatus": dynamicOrderStatus
+}).populate("products.productId");
+
+if (!orderData || orderData.length === 0) {
+  console.log(`No orders with status '${dynamicOrderStatus}' from the database`);
+  // Handle the case where there are no orders that match the criteria
+  return res.render("userOrders", { orderData: [] });
+} else {
+  return res.render("userOrders", {
+    orderData,
+    products: orderData.products,
+  });
+}
+    }else{
     const orderData = await Order.find({
       userId: req.session.user_id,
     }).populate("products.productId");
@@ -167,6 +188,12 @@ const orderUserProfile = async (req, res) => {
         products: orderData.products,
       });
     }
+    }
+
+
+    
+    
+  
   } catch (error) {
     console.log(error.message);
   }
@@ -175,6 +202,7 @@ const orderUserProfile = async (req, res) => {
 //===============cancel the orders by user
 const cancelOrderByUser = async (req, res) => {
   const data = req.body;
+  console.log(req.body);
   const productID = data.orderProdID;
   const orderID = data.OrderID;
 

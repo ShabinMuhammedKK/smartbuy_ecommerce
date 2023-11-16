@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Molla - Bootstrap eCommerce Template</title>
+  <title>SmartBuy</title>
   <meta name="keywords" content="HTML5 Template">
   <meta name="description" content="Molla - Bootstrap eCommerce Template">
   <meta name="author" content="p-themes">
@@ -123,28 +123,29 @@ z-index: 0
                     <span class="sr-only">Toggle mobile menu</span>
                     <i class="icon-bars"></i>
                 </button>
-                <a href="index.html" class="logo">
+                <h3>SmartBuy</h3>
+                <!-- <a href="index.html" class="logo">
                     <img src="assets/images/logo.png" alt="Molla Logo" width="105" height="25">
-                </a>
+                </a> -->
                 <nav class="main-nav">
                     <ul class="menu sf-arrows">
                         <li class="megamenu-container active">
-                            <a href="index.html" class="sf-with-ul">Home</a>
+                            <a href="/home" class="sf-with-ul">Home</a>
                         </li>
                         <li>
-                            <a href="category.html" class="sf-with-ul">Shop</a>
+                            <a href="" class="sf-with-ul">Shop</a>
                         </li>
                         <li>
-                            <a href="product.html" class="sf-with-ul">Product</a>
+                            <a href="" class="sf-with-ul">Product</a>
                         </li>
                         <li>
-                            <a href="#" class="sf-with-ul">Pages</a> 
+                            <a href="" class="sf-with-ul">Pages</a> 
                         </li>
                         <li>
-                            <a href="blog.html" class="sf-with-ul">Blog</a>
+                            <a href="" class="sf-with-ul">Blog</a>
                         </li>
                         <li>
-                            <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                            <a href="" class="sf-with-ul">Elements</a>
                         </li>
                     </ul><!-- End .menu -->
                 </nav><!-- End .main-nav -->
@@ -171,60 +172,71 @@ z-index: 0
     </div><!-- End .header-middle -->
 </header><!-- End .header -->
 
-  <div class="page-header text-center" style="background: #000000;display: flex;height: 100px;align-items: center;">
-    <div class="container">
-      <h1 class="page-title" style="color: white">Orders</h1>
+  <div class="page-header text-center" style="background: #000000;display: flex;height: 120px;align-items: center;width: 100%;">
+    <div class=" col-lg-12">
+      <div style="width: 70%;display: flex;margin-left: 45%;">
+        <h1 class="page-title" style="color: white">Orders</h1>
+      </div>
+      <div class=" d-flex col-lg-12 justify-content-center" style="padding-top: 5px;">
+        <div class="d-flex" >
+          <a class="btn btn-outline-success" href="orderFiltering?result=placed">Placed</a>
+          <a class="btn btn-outline-success" href="orderFiltering?result=Delivered">Delivered</a>
+          <a class="btn btn-outline-success" href="orderFiltering?result=Shipped">Shipped</a>
+          <a class="btn btn-outline-success" href="orderFiltering?result=Canceled">Canceled</a>
+        </div>
+      </div>
     </div>
+    
     <!-- End .container -->
   </div>
     <section class="vh-100 gradient-custom-2">
-        <div class="container py-5 h-100">
-          <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="container py-5 h-100 ">
+          <div class="row d-flex justify-content-center align-items-center h-100 col-lg-12">
  
 
             <% for (let i = 0; i < orderData.length; i++) { %>
               <% const order = orderData[i]; %>
               <% for (let j = 0; j < order.products.length; j++) { %>
                 <% const product = order.products[j]; %>
-                <div class="col-md-10 col-lg-4 col-xl-9" style="margin-bottom: 20px;">
-                  <div class="card card-stepper" style="border-radius: 16px;">
+                <div class="col-md-10 col-lg-12 col-xl-9" style="margin-bottom: 20px;">
+                  <div class="card card-stepper" style="border-radius: 16px;background-color: #ffffff;border:solid #bbbaba;">
                     <div class="card-body p-4" style="height:fit-content;">
-                      <div class="d-flex flex-row mb-4 pb-2">
+                      <div class="d-flex flex-row pb-1">
                         <div class="flex-fill">
-                          <h5 class="bold"><%= product.productId.name %></h5>
-                          <p class="text-muted">Qt: <%= product.quantity %> item</p>
-                          <h4 class="mb-3">₹ <%= product.productId.price %> <span class="small text-muted"> via (<%= order.paymentMethod %>) </span></h4>
-                          <p style="font-weight: 600;border: 2px solid;margin-right: 78%;padding: 2%;border-radius: 8px;" class="text-muted">Status : <span class="text-body"><%= product.OrderStatus %></span></p>
+                          <h3  class="bold"><%= product.productId.name %></h3>
+                          <p  class="text-muted">Qt: <%= product.quantity %> item</p>
+                          <h4  class="mb-3">₹ <%= product.productId.price %> <span class="small text-muted"> via (<%= order.paymentMethod %>) </span></h4>
+                          <!-- <p  style="font-weight: 600;border: 2px solid;margin-right: 78%;padding: 2%;border-radius: 8px;background-color: #2c2a2a;" class="text-muted">Status : <span class="text-body"><%= product.OrderStatus %></span></p> -->
                         </div>
-                        <div>
-                          <img style="border-radius: 8px;" class="align-self-center img-fluid" src="/crop/<%= product.productId.image1 %>" width="150">
+                        <div style="background-color: #e6e6e6;padding: 10px;border-radius: 10px;">
+                          <img style="border-radius: 8px;width:100px;height:100px;" class="align-self-center img-fluid" src="/crop/<%= product.productId.image1 %>" width="150">
                         </div>
                       </div>
                       <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
                         <li class="step<%= product.OrderStatus === 'placed' || product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled' ? ' active' : '' %>" id="step1">
-                            <span style="margin-left: 22px; margin-top: 12px;">ORDER PLACED</span>
+                            <span style="margin-left: 50px; margin-top: 12px;">Placed</span>
                         </li>
                         <li class="step<%= product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled' ? ' active' : '' %> text-center" id="step2">
-                            <span>PRODUCT SHIPPED</span>
+                            <span>Shipped</span>
                         </li>
                         
 
                         <% if (product.OrderStatus === 'Canceled') { %>
                           <li class="step red1 text-muted text-end" id="step3">
-                              <span style="margin-right: 22px;">
-                                  ORDER CANCELED
+                              <span style="margin-left:50%;">
+                                  Canceled
                               </span>
                           </li>
                       <% } else if (product.OrderStatus === 'Delivered') { %>
                           <li class="step active text-muted text-end" id="step3">
-                              <span style="margin-right: 22px;">
-                                  DELIVERED
+                              <span style="margin-left:50%;">
+                                  Delivered
                               </span>
                           </li>
                       <% }else{ %>
                         <li class="step  text-muted text-end" id="step3">
-                            <span style="margin-right: 22px;">
-                                DELIVERED
+                            <span style="margin-left:50%;">
+                                Delivered
                             </span>
                         </li>
                     <% } %>
@@ -250,18 +262,15 @@ z-index: 0
         </div>
       </section>
 
-     
 
       <script>
-       
+
        function handleButtonClick(button) {
     const OrderProdID = button.getAttribute('data-product-id');
     const OrderID = button.getAttribute('data-order-data');
-    // const orderData = JSON.parse(OrderID);
-  const data = {
+    const data = {
     orderProdID: OrderProdID,
     OrderID:OrderID,
-    
   };
 
   fetch('/cancelOrder', {
