@@ -41,7 +41,7 @@
 
 	<div class="page-wrapper">
 		<div class="background" style="background-image: url(assets/images/demos/demo-24/frontpicrure.avif);height: 830px;">
-			<header class="header">
+			<header class="header" >
 	            <div class="header-top">
 	                <div class="header-left">
 	                    <div class="header-dropdown">
@@ -59,16 +59,16 @@
 	                        <li>
 	                            <a href="#">Links</a>
 	                            <ul>
-	                                <li><a href="tel:#"><i class="icon-phone"></i>Call: +91 7994586558</a></li>
+	                                <!-- <li><a href="tel:#"><i class="icon-phone"></i>Call: +91 7994586558</a></li>
 	                                <li><a href="about.html">About Us</a></li>
-	                                <li><a href="contact.html">Contact Us</a></li>
+	                                <li><a href="contact.html">Contact Us</a></li> -->
 									<% if (locals.user) { %>
 										<li style="display: flex;">
-											<a href="/userProfile">
+											<a href="userProfile">
                                                 <button  class="btn-outline-white" style="display: flex; 
                                             align-items: center;
                                             padding-inline: 10px;
-                                            border-width: 1px;
+                                            border-width: 0px;
                                             border-style: double;
                                             border-top: none;border-bottom: none;">
                                                 <h7 style="color: white; margin-top: 4px;margin-right: 10PX;text-transform: uppercase;" class="mb-0 font-weight-medium"><%=userData.name%></h7>

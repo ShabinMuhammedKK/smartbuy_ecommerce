@@ -27,6 +27,17 @@
     <meta name="msapplication-TileColor" content="#cc9966">
     <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css">
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="assets/css/style2.css">
+    <link rel="stylesheet" href="assets/css/skins/skin-demo-24.css">
+    <link rel="stylesheet" href="assets/css/demos/demo-24.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Plugins CSS File -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <!-- Main CSS File -->
@@ -64,65 +75,76 @@
     </style>
 </head>
 <body>
-    <header class="header">
+    <header class="header" style="background-color: #000000;">
+    
+
         <div class="header-middle sticky-header">
-            <div class="container">
-                <div class="header-left">
-                    <button class="mobile-menu-toggler">
-                        <span class="sr-only">Toggle mobile menu</span>
-                        <i class="icon-bars"></i>
-                    </button>
-                    <h3>SmartBuy</h3>
-                    <!-- <a href="index.html" class="logo">
-                        <img src="assets/images/logo.png" alt="Molla Logo" width="105" height="25">
-                    </a> -->
-                    <nav class="main-nav">
-                        <ul class="menu sf-arrows">
-                            <li class="megamenu-container active">
-                                <a href="/home" class="sf-with-ul">Home</a>
-                            </li>
-                            <li>
-                                <a href="" class="sf-with-ul">Shop</a>
-                            </li>
-                            <li>
-                                <a href="" class="sf-with-ul">Product</a>
-                            </li>
-                            <li>
-                                <a href="" class="sf-with-ul">Pages</a> 
-                            </li>
-                            <li>
-                                <a href="" class="sf-with-ul">Blog</a>
-                            </li>
-                            <li>
-                                <a href="" class="sf-with-ul">Elements</a>
-                            </li>
-                        </ul><!-- End .menu -->
-                    </nav><!-- End .main-nav -->
-                </div><!-- End .header-left -->
+    <!-- <a href="index.html"  style="font-size: 11px;font-weight: 200;color: white;">
+      Powered By
+    </a> -->
+            <div class="header-left">
+                  <button class="mobile-menu-toggler">
+                      <span class="sr-only">Toggle mobile menu</span>
+                      <i class="icon-bars"></i>
+                  </button>
     
-                <div class="header-right">
-                    <div class="header-search">
-                        <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
-                        <form action="#" method="get">
-                            <div class="header-search-wrapper">
-                                <label for="q" class="sr-only">Search</label>
-                                <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
-                            </div><!-- End .header-search-wrapper -->
-                        </form>
-                    </div><!-- End .header-search -->
-                    
+                <a href="index.html"  style="font-size: 30PX;font-weight: 500;color: white;">SmartBuy</a>
+            </div><!-- End .header-left -->
     
-                    <div class="dropdown cart-dropdown">
-                        <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
-                            <i class="icon-shopping-cart"></i> 
-                        </a>    
-                </div><!-- End .header-right -->
-            </div><!-- End .container -->
+            <div  style="margin-left: 0%;" class="header-center">
+              <nav class="main-nav">
+                    <ul class="menu sf-arrows">
+                        <li class="megamenu-container active">
+                            <a href="/" class="sf-with-ul">Home</a>
+                        </li>
+                        <li>
+                            <a href="/Allproducts" class="sf-with-ul">Shop</a>
+                        </li>
+                        <li>
+                            <a href="/" class="sf-with-ul">Product</a>	                                
+                        </li>
+                        <li>
+                            <a href="/" class="sf-with-ul">Pages</a>
+                        </li>
+                        <li>
+                            <a href="/" class="sf-with-ul">Blog</a>	                                
+                        </li>
+                        
+                    </ul><!-- End .menu -->
+                </nav><!-- End .main-nav -->
+            </div>
+    
+            <div class="header-right">
+                <div class="header-search">
+                    <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                    <form action="#" method="get">
+                        <div class="header-search-wrapper">
+                            <label for="q" class="sr-only">Search</label>
+                            <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                        </div><!-- End .header-search-wrapper -->
+                    </form>
+                </div><!-- End .header-search -->
+                <div class="wishlist">
+                    <a href="/wishlist" title="Wishlist">
+                        <i class="icon-heart-o"></i>
+                        <!-- <span class="wishlist-count">3</span> -->
+                    </a>
+                </div><!-- End .compare-dropdown -->
+    
+                <div class="dropdown cart-dropdown">
+                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                        <a href="/userCart"><i class="icon-shopping-cart"></i></a>
+                        <!-- <span class="cart-count">2</span> -->
+                    </a>
+    
+                    <!-- End .dropdown-menu -->
+                </div><!-- End .cart-dropdown -->
+            </div><!-- End .header-right -->
         </div><!-- End .header-middle -->
-    </header><!-- End .header -->
+    </header>
     <div class="page-header text-center" style="background: #000000;display: flex;height: 100px;align-items: center;">
         <div class="container">
-          <h1 class="page-title" style="color: white">Coupons</h1>
+          <h1 class="page-title" style="color: rgb(255, 255, 255)">Coupons</h1>
         </div>
         <!-- End .container -->
       </div>

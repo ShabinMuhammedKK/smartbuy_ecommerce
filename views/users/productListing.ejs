@@ -45,6 +45,17 @@
       content="assets/images/icons/browserconfig.xml"
     />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css">
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="assets/css/style2.css">
+    <link rel="stylesheet" href="assets/css/skins/skin-demo-24.css">
+    <link rel="stylesheet" href="assets/css/demos/demo-24.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Plugins CSS File -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <!-- Main CSS File -->
@@ -65,86 +76,84 @@
 
   <body>
     <div class="page-wrapper">
-      <header class="header">
+      <header class="header" style="background-color: #000000;">
+    
+
         <div class="header-middle sticky-header">
-            <div class="container">
-                <div class="header-left">
-                    <button class="mobile-menu-toggler">
-                        <span class="sr-only">Toggle mobile menu</span>
-                        <i class="icon-bars"></i>
-                    </button>
-                    <h3>SmartBuy</h3>
-                    <!-- <a href="index.html" class="logo">
-                        <img src="assets/images/logo.png" alt="Molla Logo" width="105" height="25">
-                    </a> -->
-                    <nav class="main-nav">
-                        <ul class="menu sf-arrows">
-                            <li class="megamenu-container active">
-                                <a href="/home" class="sf-with-ul">Home</a>
-                            </li>
-                            <li>
-                                <a href="" class="sf-with-ul">Shop</a>
-                            </li>
-                            <li>
-                                <a href="" class="sf-with-ul">Product</a>
-                            </li>
-                            <li>
-                                <a href="" class="sf-with-ul">Pages</a> 
-                            </li>
-                            <li>
-                                <a href="" class="sf-with-ul">Blog</a>
-                            </li>
-                            <li>
-                                <a href="" class="sf-with-ul">Elements</a>
-                            </li>
-                        </ul><!-- End .menu -->
-                    </nav><!-- End .main-nav -->
-                </div><!-- End .header-left -->
+    <!-- <a href="index.html"  style="font-size: 11px;font-weight: 200;color: white;">
+      Powered By
+    </a> -->
+            <div class="header-left">
+                  <button class="mobile-menu-toggler">
+                      <span class="sr-only">Toggle mobile menu</span>
+                      <i class="icon-bars"></i>
+                  </button>
     
-                <div class="header-right">
-                    <div class="header-search">
-                        <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
-                        <form action="#" method="get">
-                            <div class="header-search-wrapper">
-                                <label for="q" class="sr-only">Search</label>
-                                <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
-                            </div><!-- End .header-search-wrapper -->
-                        </form>
-                    </div><!-- End .header-search -->
-                    
+                <a href="index.html"  style="font-size: 30PX;font-weight: 500;color: white;">SmartBuy</a>
+            </div><!-- End .header-left -->
     
-                    <div class="dropdown cart-dropdown">
-                        <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
-                            <i class="icon-shopping-cart"></i> 
-                        </a>    
-                </div><!-- End .header-right -->
-            </div><!-- End .container -->
+            <div  style="margin-left: 0%;" class="header-center">
+              <nav class="main-nav">
+                    <ul class="menu sf-arrows">
+                        <li class="megamenu-container active">
+                            <a href="/" class="sf-with-ul">Home</a>
+                        </li>
+                        <li>
+                            <a href="/Allproducts" class="sf-with-ul">Shop</a>
+                        </li>
+                        <li>
+                            <a href="/" class="sf-with-ul">Product</a>	                                
+                        </li>
+                        <li>
+                            <a href="/" class="sf-with-ul">Pages</a>
+                        </li>
+                        <li>
+                            <a href="/" class="sf-with-ul">Blog</a>	                                
+                        </li>
+                        
+                    </ul><!-- End .menu -->
+                </nav><!-- End .main-nav -->
+            </div>
+    
+            <div class="header-right">
+                <div class="header-search">
+                    <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search" style="color: #ffffff;"></i></a>
+                    <form action="#" method="get">
+                        <div class="header-search-wrapper">
+                            <label for="q" class="sr-only">Search</label>
+                            <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                        </div><!-- End .header-search-wrapper -->
+                    </form>
+                </div><!-- End .header-search -->
+                <div class="wishlist">
+                    <a href="/wishlist" title="Wishlist">
+                        <i class="icon-heart-o"></i>
+                        <!-- <span class="wishlist-count">3</span> -->
+                    </a>
+                </div><!-- End .compare-dropdown -->
+    
+                <div class="dropdown cart-dropdown">
+                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                        <a href="/userCart"><i class="icon-shopping-cart"></i></a>
+                        <!-- <span class="cart-count">2</span> -->
+                    </a>
+    
+                    <!-- End .dropdown-menu -->
+                </div><!-- End .cart-dropdown -->
+            </div><!-- End .header-right -->
         </div><!-- End .header-middle -->
-    </header><!-- End .header -->
+    </header>
       <!-- End .header -->
 
       <main class="main">
-        <div class="page-header text-center" style="background: #000000">
+        <div class="page-header text-center" style="background: #000000;height: 5px;">
           <div class="container">
-            <h1 class="page-title" style="color: white">Shop</h1>
+            <h1 class="page-title" style="color: rgb(255, 255, 255);font-weight: 500;">Shop</h1>
           </div>
           <!-- End .container -->
         </div>
         <!-- End .page-header -->
-        <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
-          <div class="container">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Shop</a></li>
-              <li class="breadcrumb-item active" aria-current="page">
-                Grid 3 Columns
-              </li>
-            </ol>
-          </div>
-          <!-- End .container -->
-        </nav>
-        <!-- End .breadcrumb-nav -->
-
+        
         <div class="page-content" style="padding-left: 10px">
           <div class="" style="padding-left: 3%">
             <div class="row">
@@ -521,147 +530,84 @@
       </main>
       <!-- End .main -->
 
-      <footer class="footer">
-        <div class="footer-middle">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-6 col-lg-3">
-                <div class="widget widget-about">
-                  <img
-                    src="assets/images/logo.png"
-                    class="footer-logo"
-                    alt="Footer Logo"
-                    width="105"
-                    height="25"
-                  />
-                  <p>
-                    Praesent dapibus, neque id cursus ucibus, tortor neque
-                    egestas augue, eu vulputate magna eros eu erat.
-                  </p>
-
-                  <div class="social-icons">
-                    <a
-                      href="#"
-                      class="social-icon"
-                      target="_blank"
-                      title="Facebook"
-                      ><i class="icon-facebook-f"></i
-                    ></a>
-                    <a
-                      href="#"
-                      class="social-icon"
-                      target="_blank"
-                      title="Twitter"
-                      ><i class="icon-twitter"></i
-                    ></a>
-                    <a
-                      href="#"
-                      class="social-icon"
-                      target="_blank"
-                      title="Instagram"
-                      ><i class="icon-instagram"></i
-                    ></a>
-                    <a
-                      href="#"
-                      class="social-icon"
-                      target="_blank"
-                      title="Youtube"
-                      ><i class="icon-youtube"></i
-                    ></a>
-                    <a
-                      href="#"
-                      class="social-icon"
-                      target="_blank"
-                      title="Pinterest"
-                      ><i class="icon-pinterest"></i
-                    ></a>
+      <footer class="footer mt-3">
+        
+  
+              <div class="footer-middle">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-12">
+                          <div class="widget widget-about">
+                                <h1 style="color: rgb(0, 0, 0);">SmartBuy</h1>
+                                  <!-- <img src="assets/images/demos/demo-24/logo.png" class="footer-logo" alt="Footer Logo" width="110" height="25"> -->
+                              <p>this e comerce aim to provide Qualitya and Fast Delivery of the customers dream and assuring the fast resolving the issues</p>
+                              
+                              <div class="social-icons">
+                                      <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                                      <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                                      <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                                      <a href="#" class="social-icon" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+                                      <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                                  </div><!-- End .soial-icons -->
+                          </div><!-- End .widget about-widget -->
+                      </div><!-- End .col-sm-12 col-lg-3 -->
+  
+                      <div class="col-lg-3 col-sm-4 col-md-4">
+                          <div class="widget">
+                              <h4 class="widget-title">useful links</h4><!-- End .widget-title -->
+  
+                              <ul class="widget-list">
+                                  <li><a href="about.html">About Molla</a></li>
+                                  <li><a href="#">How to shop on Molla</a></li>
+                                  <li><a href="#">FAQ</a></li>
+                                  <li><a href="contact.html">Contact us</a></li>
+                                  <li><a href="login.html">Log in</a></li>
+                              </ul><!-- End .widget-list -->
+                          </div><!-- End .widget -->
+                      </div><!-- End .col-sm-4 col-lg-3 -->
+  
+                      <div class="col-lg-3 col-sm-4 col-md-4">
+                          <div class="widget">
+                              <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+  
+                              <ul class="widget-list">
+                                  <li><a href="#">Payment Methods</a></li>
+                                  <li><a href="#">Money-back guarantee!</a></li>
+                                  <li><a href="#">Returns</a></li>
+                                  <li><a href="#">Shipping</a></li>
+                                  <li><a href="#">Terms and conditions</a></li>
+                                  <li><a href="#">Privacy Policy</a></li>
+                              </ul><!-- End .widget-list -->
+                          </div><!-- End .widget -->
+                      </div><!-- End .col-sm-4 col-lg-3 -->
+  
+                      <div class="col-lg-3 col-sm-4 col-md-4">
+                          <div class="widget">
+                              <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+  
+                              <ul class="widget-list">
+                                  <li><a href="#">Sign In</a></li>
+                                  <li><a href="cart.html">View Cart</a></li>
+                                  <li><a href="#">My Wishlist</a></li>
+                                  <li><a href="#">Track My Order</a></li>
+                                  <li><a href="#">Help</a></li>
+                              </ul><!-- End .widget-list -->
+                          </div><!-- End .widget -->
+                      </div><!-- End .col-sm-64 col-lg-3 -->
                   </div>
-                  <!-- End .soial-icons -->
                 </div>
-                <!-- End .widget about-widget -->
-              </div>
-              <!-- End .col-sm-6 col-lg-3 -->
-
-              <div class="col-sm-6 col-lg-3">
-                <div class="widget">
-                  <h4 class="widget-title">Useful Links</h4>
-                  <!-- End .widget-title -->
-
-                  <ul class="widget-list">
-                    <li><a href="about.html">About Molla</a></li>
-                    <li><a href="#">How to shop on Molla</a></li>
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="contact.html">Contact us</a></li>
-                    <li><a href="login.html">Log in</a></li>
-                  </ul>
-                  <!-- End .widget-list -->
-                </div>
-                <!-- End .widget -->
-              </div>
-              <!-- End .col-sm-6 col-lg-3 -->
-
-              <div class="col-sm-6 col-lg-3">
-                <div class="widget">
-                  <h4 class="widget-title">Customer Service</h4>
-                  <!-- End .widget-title -->
-
-                  <ul class="widget-list">
-                    <li><a href="#">Payment Methods</a></li>
-                    <li><a href="#">Money-back guarantee!</a></li>
-                    <li><a href="#">Returns</a></li>
-                    <li><a href="#">Shipping</a></li>
-                    <li><a href="#">Terms and conditions</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                  </ul>
-                  <!-- End .widget-list -->
-                </div>
-                <!-- End .widget -->
-              </div>
-              <!-- End .col-sm-6 col-lg-3 -->
-
-              <div class="col-sm-6 col-lg-3">
-                <div class="widget">
-                  <h4 class="widget-title">My Account</h4>
-                  <!-- End .widget-title -->
-
-                  <ul class="widget-list">
-                    <li><a href="#">Sign In</a></li>
-                    <li><a href="cart.html">View Cart</a></li>
-                    <li><a href="#">My Wishlist</a></li>
-                    <li><a href="#">Track My Order</a></li>
-                    <li><a href="#">Help</a></li>
-                  </ul>
-                  <!-- End .widget-list -->
-                </div>
-                <!-- End .widget -->
-              </div>
-              <!-- End .col-sm-6 col-lg-3 -->
-            </div>
-            <!-- End .row -->
-          </div>
-          <!-- End .container -->
         </div>
-        <!-- End .footer-middle -->
-
         <div class="footer-bottom">
-          <div class="container">
-            <p class="footer-copyright">
-              Copyright © 2019 Molla Store. All Rights Reserved.
-            </p>
-            <!-- End .footer-copyright -->
-            <figure class="footer-payments">
-              <img
-                src="assets/images/payments.png"
-                alt="Payment methods"
-                width="272"
-                height="20"
-              />
-            </figure>
-            <!-- End .footer-payments -->
-          </div>
-          <!-- End .container -->
-        </div>
-        <!-- End .footer-bottom -->
+                  <div class="container">
+                      <p class="footer-copyright">Copyright © SmartBuy. All Rights Reserved.</p><!-- End .footer-copyright -->
+  
+                          <figure class="footer-payments">
+                              <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                          </figure><!-- End .footer-payments -->
+                       
+                      </div><!-- End .widget-about-info -->
+                  </div><!-- End .container -->
+              </div><!-- End .footer-bottom -->
       </footer>
       <!-- End .footer -->
     </div>

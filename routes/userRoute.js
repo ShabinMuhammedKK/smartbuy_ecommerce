@@ -66,7 +66,7 @@ user_route.post('/addToWishlist',auth.isLogin,userController.addToWishlist)
 
 user_route.get('/checkout',auth.isLogin,userController.loadcheckoutPage);
 user_route.get("/addressPage",auth.isLogin,userController.loadAddressUploadPage);
-user_route.post("/addressPage",auth.isLogin,userController.addAddress);
+// user_route.post("/addressPage",auth.isLogin,userController.addAddress);
 user_route.post("/orderPlaceClicked",auth.isLogin,orderController.placeOrderManage);
 
 user_route.post("/changeqty",auth.isLogin,userController.productQuantityHandling)
@@ -77,7 +77,7 @@ user_route.get('/userOrders',auth.isLogin,orderController.orderUserProfile)
 
 user_route.post('/cancelOrder',auth.isLogin,orderController.cancelOrderByUser);
 
-user_route.post('/deleteAddr',auth.isLogin,userController.removeAddr);
+user_route.get('/removeAdr',auth.isLogin,userController.rmvShpAdr);
 
 user_route.post('/verifyPayment',orderController.verifyPayment);
 
@@ -90,6 +90,10 @@ user_route.post('/remFromWish',auth.isLogin,userController.removefromWishList);
 user_route.get('/loadWallet',auth.isLogin,userController.loadWalled);
 
 user_route.get('/orderFiltering',auth.isLogin,orderController.orderUserProfile);
+user_route.get('/addShipAddr',auth.isLogin,userController.loadUserShipAddress);
+user_route.post('/addShipAddr',auth.isLogin,userController.addAddress);
+user_route.get('/editShipAddress',auth.isLogin,userController.editShipAddress);
+user_route.post('/editShipAddress',auth.isLogin,userController.updtShpAddr);
 
 
 

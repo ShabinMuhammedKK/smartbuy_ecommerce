@@ -20,6 +20,17 @@
   <meta name="msapplication-TileColor" content="#cc9966">
   <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
+
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css">
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="assets/css/style2.css">
+    <link rel="stylesheet" href="assets/css/skins/skin-demo-24.css">
+    <link rel="stylesheet" href="assets/css/demos/demo-24.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- Plugins CSS File -->
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <!-- Main CSS File -->
@@ -115,83 +126,98 @@ z-index: 0
 </style>
 </head>
 <body style="background-color: rgb(255, 255, 255);">
-  <header class="header">
+  <header class="header" style="background-color: #000000;">
+    
+
     <div class="header-middle sticky-header">
-        <div class="container">
-            <div class="header-left">
-                <button class="mobile-menu-toggler">
-                    <span class="sr-only">Toggle mobile menu</span>
-                    <i class="icon-bars"></i>
-                </button>
-                <h3>SmartBuy</h3>
-                <!-- <a href="index.html" class="logo">
-                    <img src="assets/images/logo.png" alt="Molla Logo" width="105" height="25">
-                </a> -->
-                <nav class="main-nav">
-                    <ul class="menu sf-arrows">
-                        <li class="megamenu-container active">
-                            <a href="/home" class="sf-with-ul">Home</a>
-                        </li>
-                        <li>
-                            <a href="" class="sf-with-ul">Shop</a>
-                        </li>
-                        <li>
-                            <a href="" class="sf-with-ul">Product</a>
-                        </li>
-                        <li>
-                            <a href="" class="sf-with-ul">Pages</a> 
-                        </li>
-                        <li>
-                            <a href="" class="sf-with-ul">Blog</a>
-                        </li>
-                        <li>
-                            <a href="" class="sf-with-ul">Elements</a>
-                        </li>
-                    </ul><!-- End .menu -->
-                </nav><!-- End .main-nav -->
-            </div><!-- End .header-left -->
+<!-- <a href="index.html"  style="font-size: 11px;font-weight: 200;color: white;">
+  Powered By
+</a> -->
+        <div class="header-left">
+              <button class="mobile-menu-toggler">
+                  <span class="sr-only">Toggle mobile menu</span>
+                  <i class="icon-bars"></i>
+              </button>
 
-            <div class="header-right">
-                <div class="header-search">
-                    <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
-                    <form action="#" method="get">
-                        <div class="header-search-wrapper">
-                            <label for="q" class="sr-only">Search</label>
-                            <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
-                        </div><!-- End .header-search-wrapper -->
-                    </form>
-                </div><!-- End .header-search -->
-                
+            <a href="index.html"  style="font-size: 30PX;font-weight: 500;color: white;">SmartBuy</a>
+        </div><!-- End .header-left -->
 
-                <div class="dropdown cart-dropdown">
-                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
-                        <i class="icon-shopping-cart"></i> 
-                    </a>    
-            </div><!-- End .header-right -->
-        </div><!-- End .container -->
+        <div  style="margin-left: 0%;" class="header-center">
+          <nav class="main-nav">
+                <ul class="menu sf-arrows">
+                    <li class="megamenu-container active">
+                        <a href="/" class="sf-with-ul">Home</a>
+                    </li>
+                    <li>
+                        <a href="/Allproducts" class="sf-with-ul">Shop</a>
+                    </li>
+                    <li>
+                        <a href="/" class="sf-with-ul">Product</a>	                                
+                    </li>
+                    <li>
+                        <a href="/" class="sf-with-ul">Pages</a>
+                    </li>
+                    <li>
+                        <a href="/" class="sf-with-ul">Blog</a>	                                
+                    </li>
+                    
+                </ul><!-- End .menu -->
+            </nav><!-- End .main-nav -->
+        </div>
+
+        <div class="header-right">
+            <div class="header-search">
+                <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                <form action="#" method="get">
+                    <div class="header-search-wrapper">
+                        <label for="q" class="sr-only">Search</label>
+                        <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                    </div><!-- End .header-search-wrapper -->
+                </form>
+            </div><!-- End .header-search -->
+            <div class="wishlist">
+                <a href="/wishlist" title="Wishlist">
+                    <i class="icon-heart-o"></i>
+                    <!-- <span class="wishlist-count">3</span> -->
+                </a>
+            </div><!-- End .compare-dropdown -->
+
+            <div class="dropdown cart-dropdown">
+                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                    <a href="/userCart"><i class="icon-shopping-cart"></i></a>
+                    <!-- <span class="cart-count">2</span> -->
+                </a>
+
+                <!-- End .dropdown-menu -->
+            </div><!-- End .cart-dropdown -->
+        </div><!-- End .header-right -->
     </div><!-- End .header-middle -->
-</header><!-- End .header -->
+</header>
 
-  <div class="page-header text-center" style="background: #000000;display: flex;height: 120px;align-items: center;width: 100%;">
-    <div class=" col-lg-12">
-      <div style="width: 70%;display: flex;margin-left: 45%;">
-        <h1 class="page-title" style="color: white">Orders</h1>
+  <div class="page-header text-center" style="background: #ffffff;display: flex;height: 120px;align-items: center;width: 100%;">
+    <div style="width: 100%;">
+      <div class="page-header text-center" style="background: #000000;display: flex;height: 100px;align-items: center;">
+        <div class="container">
+          <h1 class="page-title" style="color: rgb(255, 255, 255);padding-top: 20px;">Orders</h1>
+        </div>
+        <!-- End .container -->
       </div>
       <div class=" d-flex col-lg-12 justify-content-center" style="padding-top: 5px;">
         <div class="d-flex" >
-          <a class="btn btn-outline-success" href="orderFiltering?result=placed">Placed</a>
-          <a class="btn btn-outline-success" href="orderFiltering?result=Delivered">Delivered</a>
-          <a class="btn btn-outline-success" href="orderFiltering?result=Shipped">Shipped</a>
-          <a class="btn btn-outline-success" href="orderFiltering?result=Canceled">Canceled</a>
+          <!-- <a class="btn btn-outline-light" href="orderFiltering?result=all">All</a> -->
+          <a class="btn btn-outline-darker" href="orderFiltering?result=placed">Placed</a>
+          <a class="btn btn-outline-darker" href="orderFiltering?result=Shipped">Shipped</a>
+          <a class="btn btn-outline-darker" href="orderFiltering?result=Delivered">Delivered</a>
+          <a class="btn btn-outline-darker" href="orderFiltering?result=Canceled">Canceled</a>
         </div>
       </div>
     </div>
     
     <!-- End .container -->
   </div>
-    <section class="vh-100 gradient-custom-2">
-        <div class="container py-5 h-100 ">
-          <div class="row d-flex justify-content-center align-items-center h-100 col-lg-12">
+    <section class=" gradient-custom-2">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-50">
  
 
             <% for (let i = 0; i < orderData.length; i++) { %>
@@ -203,13 +229,14 @@ z-index: 0
                     <div class="card-body p-4" style="height:fit-content;">
                       <div class="d-flex flex-row pb-1">
                         <div class="flex-fill">
-                          <h3  class="bold"><%= product.productId.name %></h3>
+                          <h3 style="font-weight: 700;"  class="bold"><%= product.productId.name %></h3>
                           <p  class="text-muted">Qt: <%= product.quantity %> item</p>
                           <h4  class="mb-3">₹ <%= product.productId.price %> <span class="small text-muted"> via (<%= order.paymentMethod %>) </span></h4>
                           <!-- <p  style="font-weight: 600;border: 2px solid;margin-right: 78%;padding: 2%;border-radius: 8px;background-color: #2c2a2a;" class="text-muted">Status : <span class="text-body"><%= product.OrderStatus %></span></p> -->
                         </div>
                         <div style="background-color: #e6e6e6;padding: 10px;border-radius: 10px;">
                           <img style="border-radius: 8px;width:100px;height:100px;" class="align-self-center img-fluid" src="/crop/<%= product.productId.image1 %>" width="150">
+
                         </div>
                       </div>
                       <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
@@ -246,11 +273,18 @@ z-index: 0
                         
                     </ul>
                     </div>
-                    <div class="card-footer p-4">
+                    <div class="card-footer p-4" style="background-color: rgb(0, 0, 0);border-radius:0px 0px 14px 14px;">
                       <div class="d-flex justify-content-between">
-                        <h6 class="fw-normal mb-0">Customer Service: (+91) 7994586558</h6>
+                        <p class="fw-normal mb-0" style="color: #fff;">Customer Service: (+91) 7994586558</p>
                         <div class="border-start h-100"></div>
-                        <button id="postButton" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" style="text-decoration: none;font-weight: 500; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">CANCEL ORDER</button>
+
+                        <% if(product.OrderStatus === 'Delivered') {%>
+                        <button id="postButton" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" style="text-decoration: none;font-weight: 600; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">RETURN</button>
+                        <% }else if(product.OrderStatus === 'Canceled'){ %>
+                        <button id="postButton" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" style="text-decoration: none;font-weight: 600; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">REFUND PROCESSING</button>
+                          <% }else{ %>
+                         <button id="postButton" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" style="text-decoration: none;font-weight: 600; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">CANCEL ORDER</button>
+                            <% } %>
                       </div>
                     </div>
                   </div>
@@ -261,6 +295,85 @@ z-index: 0
           </div>
         </div>
       </section>
+      <footer class="footer mt-3">
+        
+  
+        <div class="footer-middle">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-3 col-md-12">
+                    <div class="widget widget-about">
+                          <h1 style="color: rgb(0, 0, 0);">SmartBuy</h1>
+                            <!-- <img src="assets/images/demos/demo-24/logo.png" class="footer-logo" alt="Footer Logo" width="110" height="25"> -->
+                        <p>this e comerce aim to provide Qualitya and Fast Delivery of the customers dream and assuring the fast resolving the issues</p>
+                        
+                        <div class="social-icons">
+                                <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                                <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                                <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                                <a href="#" class="social-icon" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+                                <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                            </div><!-- End .soial-icons -->
+                    </div><!-- End .widget about-widget -->
+                </div><!-- End .col-sm-12 col-lg-3 -->
+
+                <div class="col-lg-3 col-sm-4 col-md-4">
+                    <div class="widget">
+                        <h4 class="widget-title">useful links</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li><a href="about.html">About Molla</a></li>
+                            <li><a href="#">How to shop on Molla</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="contact.html">Contact us</a></li>
+                            <li><a href="login.html">Log in</a></li>
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-4 col-lg-3 -->
+
+                <div class="col-lg-3 col-sm-4 col-md-4">
+                    <div class="widget">
+                        <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li><a href="#">Payment Methods</a></li>
+                            <li><a href="#">Money-back guarantee!</a></li>
+                            <li><a href="#">Returns</a></li>
+                            <li><a href="#">Shipping</a></li>
+                            <li><a href="#">Terms and conditions</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-4 col-lg-3 -->
+
+                <div class="col-lg-3 col-sm-4 col-md-4">
+                    <div class="widget">
+                        <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li><a href="#">Sign In</a></li>
+                            <li><a href="cart.html">View Cart</a></li>
+                            <li><a href="#">My Wishlist</a></li>
+                            <li><a href="#">Track My Order</a></li>
+                            <li><a href="#">Help</a></li>
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-64 col-lg-3 -->
+            </div>
+          </div>
+  </div>
+  <div class="footer-bottom">
+            <div class="container">
+                <p class="footer-copyright">Copyright © SmartBuy. All Rights Reserved.</p><!-- End .footer-copyright -->
+
+                    <figure class="footer-payments">
+                        <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                    </figure><!-- End .footer-payments -->
+                 
+                </div><!-- End .widget-about-info -->
+            </div><!-- End .container -->
+        </div><!-- End .footer-bottom -->
+</footer>
 
 
       <script>

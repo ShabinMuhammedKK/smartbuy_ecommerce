@@ -33,6 +33,7 @@ const verifyLogin = async (req, res) => {
             message: "Email or password is incorrect",
           });
         } else {
+          // req.session.user_id = userData._id;
           req.session.user_id = userData._id;
           return res.redirect("/admin/dashboard");
         }
@@ -60,7 +61,8 @@ const loadDashboard = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    req.session.destroy();
+    req.session.user_id=null
+    // req.session.destroy();
     return res.redirect("/admin");
   } catch (error) {
     console.log(error.message);

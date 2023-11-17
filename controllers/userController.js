@@ -5,7 +5,7 @@ const Address = require("../models/userAddressModel");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const Wishlist = require("../models/userWishlistModel");
-const Swal = require('sweetalert2');
+const Swal = require("sweetalert2");
 require("dotenv").config();
 
 let otp;
@@ -167,13 +167,12 @@ const insertUser = async (req, res) => {
 
 //===================================================load product listing page
 
-
 const loadProductListingPage = async (req, res) => {
   try {
     // Sorting
     const category = req.query.array1 ? req.query.array1.split(",") : [];
     const brand = req.query.array2 ? req.query.array2.split(",") : [];
-    const searchQuery = req.query.q || '';
+    const searchQuery = req.query.q || "";
 
     const matchCriteria = {};
 
@@ -188,8 +187,8 @@ const loadProductListingPage = async (req, res) => {
     // Add search criteria
     if (searchQuery) {
       matchCriteria.$or = [
-        { name: { $regex: new RegExp(searchQuery, 'i') } },
-        { description: { $regex: new RegExp(searchQuery, 'i') } },
+        { name: { $regex: new RegExp(searchQuery, "i") } },
+        { description: { $regex: new RegExp(searchQuery, "i") } },
         // Add other fields you want to search here
       ];
     }
@@ -206,7 +205,7 @@ const loadProductListingPage = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const productDatas = await Product.find()
-      .where('_id')
+      .where("_id")
       .in(filteredDocs.map((product) => product._id))
       .limit(limit)
       .skip(skip)
@@ -221,10 +220,9 @@ const loadProductListingPage = async (req, res) => {
     });
   } catch (error) {
     console.error(error.message);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send("Internal Server Error");
   }
 };
-
 
 //=========================================================load product details
 const lodadProductDetails = async (req, res) => {
@@ -326,7 +324,6 @@ const loadProduct = async (req, res) => {
 };
 //=================================================add to cart
 const addToCart = async (req, res) => {
- 
   try {
     const userId = req.session.user_id;
     // console.log("userID:"+userId);
@@ -340,7 +337,6 @@ const addToCart = async (req, res) => {
           {
             product: req.body.id,
             quantity: 1,
-            
           },
         ],
       });
@@ -348,20 +344,20 @@ const addToCart = async (req, res) => {
       await cart.save();
 
       //clear product from wishlist
-      const haveWishlist = await Wishlist.findOne({user_id:req.session.user_id})
-      if(haveWishlist){
+      const haveWishlist = await Wishlist.findOne({
+        user_id: req.session.user_id,
+      });
+      if (haveWishlist) {
         const romoving = await Wishlist.findOneAndUpdate(
-          {user_id:req.session.user_id},
-          {$pull:{products:{product:req.body.id}}},
-          {new:true}
-        )
+          { user_id: req.session.user_id },
+          { $pull: { products: { product: req.body.id } } },
+          { new: true }
+        );
         console.log(romoving);
-
-      }else{
-      console.log("this product not in wishlist");
-
+      } else {
+        console.log("this product not in wishlist");
       }
-      
+
       return res.json({ cart: 1 });
     } else {
       const productInCart = existingCart.products.find(
@@ -372,27 +368,26 @@ const addToCart = async (req, res) => {
         return res.json({ cart: 2 });
       } else {
         existingCart.products.push({
-
-            product: req.body.id,
-            quantity: 1,
+          product: req.body.id,
+          quantity: 1,
         });
         res.json({ cart: 1 });
       }
       const result = await existingCart.save();
-            //clear product from wishlist
-            const haveWishlist = await Wishlist.findOne({user_id:req.session.user_id})
-            if(haveWishlist){
-              const romoving = await Wishlist.findOneAndUpdate(
-                {user_id:req.session.user_id},
-                {$pull:{products:{product:req.body.id}}},
-                {new:true}
-              )
-              // console.log(romoving);
-      
-            }else{
-            console.log("this product not in wishlist");
-      
-            }
+      //clear product from wishlist
+      const haveWishlist = await Wishlist.findOne({
+        user_id: req.session.user_id,
+      });
+      if (haveWishlist) {
+        const romoving = await Wishlist.findOneAndUpdate(
+          { user_id: req.session.user_id },
+          { $pull: { products: { product: req.body.id } } },
+          { new: true }
+        );
+        // console.log(romoving);
+      } else {
+        console.log("this product not in wishlist");
+      }
     }
 
     // console.log("produnct id"+req.body.id)
@@ -410,11 +405,9 @@ const addToCart = async (req, res) => {
 };
 //========================================add user address
 const addAddress = async (req, res) => {
-  const userId = req.session.user_id;
-  const addressData = req.body;
-
   try {
-    // console.log(addressData.name);
+    const userId = req.session.user_id;
+    const addressData = req.body;
     const existingUser = await Address.findOne({ user_id: userId });
 
     let newAddress;
@@ -452,35 +445,23 @@ const addAddress = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
-//==============================remove address
-const removeAddr = async (req, res) => {
-  try {
-    // const addrID = req.body.addrID;
-    const userID = req.session.user_id;
-    // console.log(userID);
-    const deliveryAddrs = await Address.findOne({
-      user_id: req.session.user_id,
-    });
 
-    const addressID = req.body;
-    const value = addressID.value;
-    // console.log(value);
-
-    // if(deliveryAddrs){
-    //   const selectedAddr = deliveryAddrs.address.find((addrID)=>{
-    //     addrID.user_id
-    //   })
-    // }else{
-    //   console.log("delivery address not fount from removeAddr");
-    // }
-  } catch (error) {
-    console.log(message.error);
-  }
-};
 //==============================load user address add page
 const loadAddressUploadPage = async (req, res) => {
   try {
     return res.render("addressAdding");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+//user shipping address add
+const loadUserShipAddress = async (req, res) => {
+  try {
+    const userID = req.session.user_id;
+
+    const userData = await User.findOne({ _id: userID });
+    return res.render("shipAddressAdd", { userData });
   } catch (error) {
     console.log(error.message);
   }
@@ -530,7 +511,6 @@ const loadCartPage = async (req, res) => {
         total,
         user_id: req.session.user_id,
       });
-   
     } else {
       let total = 0;
       return res.render("userCart", { products: 0, total });
@@ -682,11 +662,14 @@ const removeProductFromCart = async (req, res) => {
 const loadUserProfile = async (req, res) => {
   try {
     let userData = await User.findOne({ _id: req.session.user_id });
-    return res.render("userProfile", { userData });
+    const shippAddr = await Address.findOne({ user_id: req.session.user_id });
+    const addrs = shippAddr.address;
+    return res.render("userProfile", { userData, addrs });
   } catch (error) {
     console.log(error.message);
   }
-}; //======================================== load delivery address page
+};
+//======================================== load delivery address page
 const loadcheckoutPage = async (req, res) => {
   try {
     const usersAddresses = await Address.findOne({
@@ -695,7 +678,7 @@ const loadcheckoutPage = async (req, res) => {
     // console.log(usersAddresses.address);
     const totalamount = await calculateTotalPrice(req.session.user_id);
 
-    if (usersAddresses && !totalamount==0) {
+    if (usersAddresses && !totalamount == 0) {
       return res.render("checkoutPage", {
         addresses: usersAddresses.address,
         totalamount,
@@ -742,9 +725,8 @@ const updateEdit = async (req, res) => {
           },
         }
       );
-      
     } else {
-       userUpdatedData = await User.findByIdAndUpdate(
+      userUpdatedData = await User.findByIdAndUpdate(
         { _id: req.body.user_id },
         {
           $set: {
@@ -756,28 +738,29 @@ const updateEdit = async (req, res) => {
           },
         }
       );
-      
     }
   } catch (error) {
     console.log(error.message);
   }
 };
 //wishlist
-const leadWishList = async (req,res)=>{
+const leadWishList = async (req, res) => {
   try {
-    const whishListDatas =await  Wishlist.findOne({user_id:req.session.user_id})
-    .populate({
-      path: "products.product",
-      model: "Product",
-      select: "name price description image1",
+    const whishListDatas = await Wishlist.findOne({
+      user_id: req.session.user_id,
     })
-    .exec();
+      .populate({
+        path: "products.product",
+        model: "Product",
+        select: "name price description image1",
+      })
+      .exec();
     // console.log(whishListDatas.products);
-    res.render('wishlist',{products:whishListDatas.products});
+    res.render("wishlist", { products: whishListDatas.products });
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 //add to wish list
 const addToWishlist = async (req, res) => {
   try {
@@ -786,8 +769,6 @@ const addToWishlist = async (req, res) => {
     const existingWishlist = await Wishlist.findOne({ user_id: userId });
     // console.log(existingCart);
     if (!existingWishlist) {
-
-
       const wishlist = new Wishlist({
         user_id: userId,
         products: [
@@ -799,7 +780,7 @@ const addToWishlist = async (req, res) => {
       });
 
       let result = await wishlist.save();
-      
+
       return res.json({ cart: 1 });
     } else {
       const productInWishlist = existingWishlist.products.find(
@@ -813,13 +794,11 @@ const addToWishlist = async (req, res) => {
           product: req.body.id,
           quantity: 1,
         });
-       res.json({ cart: 1 });
+        res.json({ cart: 1 });
       }
       const result = await existingWishlist.save();
       // console.log("Product added to cart:", result);
     }
-
-
 
     return res.json({ cart: 0 });
     // console.log(result);
@@ -828,38 +807,95 @@ const addToWishlist = async (req, res) => {
   }
 };
 
-//remove wishlist 
-const removefromWishList = async (req,res)=>{
+//remove wishlist
+const removefromWishList = async (req, res) => {
   try {
     const prodIDtoRemove = req.body.id;
-    
-    const checkWishExist = await Wishlist.findOne({user_id:req.session.user_id});
-    if(checkWishExist){
+
+    const checkWishExist = await Wishlist.findOne({
+      user_id: req.session.user_id,
+    });
+    if (checkWishExist) {
       const removing = await Wishlist.findOneAndUpdate(
         { user_id: req.session.user_id },
         { $pull: { products: { product: prodIDtoRemove } } },
         { new: true }
-       );
-        
-        
-        if(removing){
-         return res.json({removed:1});
-        }
-    }
-    
-  } catch (error) {
-    console.log(error.message);
-  }
-}
-//wallet
-const loadWalled = async (req,res)=>{
-  try {
-    res.render('wallet');
-  } catch (error) {
-    console.log(error.message);
-  }
-}
+      );
 
+      if (removing) {
+        return res.json({ removed: 1 });
+      }
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+//wallet
+const loadWalled = async (req, res) => {
+  try {
+    // const userData =
+    res.render("wallet");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+//edit ship address
+const editShipAddress = async (req, res) => {
+  try {
+    const addressID = req.query.id;
+    const editingAddress = await Address.findOne({
+      user_id: req.session.user_id,
+    });
+    const addrs = editingAddress.address.find(
+      (address) => address._id == addressID
+    );
+    res.render("editShipAddress", { addrs });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+//update edited shipaddress
+const updtShpAddr = async (req, res) => {
+  try {
+    const editedData = req.body;
+
+    const address = await Address.findOne({ user_id: req.session.user_id });
+    const editedDat = await Address.findOneAndUpdate(
+      { "address._id": req.body.id },
+      {
+        $set: {
+          "address.$.country": req.body.country,
+          "address.$.fullName": req.body.name,
+          "address.$.mobileNo": req.body.mobn,
+          "address.$.pincode": req.body.pin,
+          "address.$.city": req.body.city,
+          "address.$.state": req.body.state,
+        },
+      }
+    );
+    if (editedDat != null) {
+      res.redirect("userProfile");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+//romove shipAddress
+const rmvShpAdr = async (req, res) => {
+  try {
+    const addrID = req.query.id;
+    const addrToRmv = await Address.findOneAndUpdate(
+      { "address._id": addrID, user_id: req.session.user_id },
+      { $pull:{'address':{_id:addrID}} },
+      {new:true}
+    );
+    res.send("removed successfully");
+
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 //=====================END=================================//
 
 module.exports = {
@@ -885,9 +921,12 @@ module.exports = {
   addAddress,
   productQuantityHandling,
   removeProductFromCart,
-  removeAddr,
   leadWishList,
   addToWishlist,
   removefromWishList,
-  loadWalled
+  loadWalled,
+  loadUserShipAddress,
+  editShipAddress,
+  updtShpAddr,
+  rmvShpAdr,
 };
