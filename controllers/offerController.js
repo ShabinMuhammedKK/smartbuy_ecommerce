@@ -32,6 +32,8 @@ const createOffer = async (req,res) => {
   }
 };
 
+
+
 module.exports = {
   createOffer,
   loadOfferCreation

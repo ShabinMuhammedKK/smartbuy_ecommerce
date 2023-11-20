@@ -31,10 +31,28 @@
     <link rel="stylesheet" href="assets/css/demos/demo-24.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<link rel="stylesheet" href="sweetalert2.min.css">
   <!-- Plugins CSS File -->
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <!-- Main CSS File -->
   <link rel="stylesheet" href="assets/css/style.css">
+  <style>.swal2-modal {
+    width: 80% !important; /* Adjust the width as needed */
+    max-width: 800px; /* Set a maximum width if desired */
+  }
+  .swal2-content{
+    width: 500px;
+  }
+  .swal2-textarea{
+    height: 120px;
+    font-size: large;
+    color: #000000;
+  }
+  .swal2-popup {
+    font-size: 16px; /* Adjust the font size if needed */
+  }</style>
 <style>
 
 
@@ -205,7 +223,7 @@ z-index: 0
       <div class=" d-flex col-lg-12 justify-content-center" style="padding-top: 5px;">
         <div class="d-flex" >
           <!-- <a class="btn btn-outline-light" href="orderFiltering?result=all">All</a> -->
-          <a class="btn btn-outline-darker" href="orderFiltering?result=placed">Placed</a>
+          <a class="btn btn-outline-darker" href="orderFiltering?result=Placed">Placed</a>
           <a class="btn btn-outline-darker" href="orderFiltering?result=Shipped">Shipped</a>
           <a class="btn btn-outline-darker" href="orderFiltering?result=Delivered">Delivered</a>
           <a class="btn btn-outline-darker" href="orderFiltering?result=Canceled">Canceled</a>
@@ -240,10 +258,10 @@ z-index: 0
                         </div>
                       </div>
                       <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
-                        <li class="step<%= product.OrderStatus === 'placed' || product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled' ? ' active' : '' %>" id="step1">
+                        <li class="step<%= product.OrderStatus === 'Placed' || product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled'|| product.OrderStatus === 'Return' ? ' active' : '' %>" id="step1">
                             <span style="margin-left: 50px; margin-top: 12px;">Placed</span>
                         </li>
-                        <li class="step<%= product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled' ? ' active' : '' %> text-center" id="step2">
+                        <li class="step<%= product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled'|| product.OrderStatus === 'Return' ? ' active' : '' %> text-center" id="step2">
                             <span>Shipped</span>
                         </li>
                         
@@ -260,6 +278,12 @@ z-index: 0
                                   Delivered
                               </span>
                           </li>
+                          <% } else if (product.OrderStatus === 'Return') { %>
+                            <li class="step red1 text-muted text-end" id="step3">
+                                <span style="margin-left:50%;">
+                                    Returning
+                                </span>
+                            </li>
                       <% }else{ %>
                         <li class="step  text-muted text-end" id="step3">
                             <span style="margin-left:50%;">
@@ -279,11 +303,13 @@ z-index: 0
                         <div class="border-start h-100"></div>
 
                         <% if(product.OrderStatus === 'Delivered') {%>
-                        <button id="postButton" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" style="text-decoration: none;font-weight: 600; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">RETURN</button>
+                        <button id="submitReturnReason" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" data-prod-id="<%= product.productId._id %>" style="text-decoration: none;font-weight: 600; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClic(this)">RETURN</button>
+                        <% }else if(product.OrderStatus === 'Return') {%>
+                          <button id="postButton" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" data-prod-id="<%= product.productId._id %>" style="text-decoration: none;font-weight: 600; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">RETURN VERIFYING</button>
                         <% }else if(product.OrderStatus === 'Canceled'){ %>
-                        <button id="postButton" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" style="text-decoration: none;font-weight: 600; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">REFUND PROCESSING</button>
+                        <button id="postButton" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" data-prod-id="<%= product.productId._id %>" style="text-decoration: none;font-weight: 600; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">REFUND PROCESSING</button>
                           <% }else{ %>
-                         <button id="postButton" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" style="text-decoration: none;font-weight: 600; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">CANCEL ORDER</button>
+                            <button id="submitCancelReason" data-product-id="<%= product._id %>" data-order-data="<%=orderData[i]._id%>" data-prod-id="<%= product.productId._id %>" style="text-decoration: none;font-weight: 600; color: red; background: none; border: none; cursor: pointer;" onclick="handleButtonClick(this)">CANCEL ORDER</button>
                             <% } %>
                       </div>
                     </div>
@@ -373,18 +399,131 @@ z-index: 0
                 </div><!-- End .widget-about-info -->
             </div><!-- End .container -->
         </div><!-- End .footer-bottom -->
+
 </footer>
+<script src="sweetalert2.all.min.js"></script>
+<!-- <script>
+  //modal for cancel and returning reson
+  async function showSweetAlert() {
+  const { value: text } = await Swal.fire({
+    input: 'textarea',
+    inputLabel: 'Reason for return',
+    inputPlaceholder: 'Type your message here...',
+    inputAttributes: {
+      'aria-label': 'Type your message here'
+    },
+    showCancelButton: true
+  });
+
+  if (text) {
+    Swal.fire(text);
+  }
+}
+
+// Find your button element by its ID
+const yourButton1 = document.getElementById('submitReturnReason'); // Replace 'yourButtonId' with the actual ID of your button
+
+// Add a click event listener to the button
+yourButton1.addEventListener('click', () => {
+  showSweetAlert(); // Call the function when the button is clicked
+});
+</script>
+<script>
+  //modal for cancel and returning reson
+  async function showSweetAlert() {
+  const { value: text } = await Swal.fire({
+    input: 'textarea',
+    inputLabel: 'Reason for cancel',
+    inputPlaceholder: 'Type your message here...',
+    inputAttributes: {
+      'aria-label': 'Type your message here'
+    },
+    showCancelButton: true
+  });
+
+  if (text) {
+    Swal.fire(text);
+  }
+}
+
+// Find your button element by its ID
+const yourButton2 = document.getElementById('submitCancelReason'); // Replace 'yourButtonId' with the actual ID of your button
+
+// Add a click event listener to the button
+yourButton2.addEventListener('click', () => {
+  showSweetAlert(); // Call the function when the button is clicked
+});
+</script> -->
+<script>
+
+ async function handleButtonClic(button) {
+const OrderProdID = button.getAttribute('data-product-id');
+const OrderID = button.getAttribute('data-order-data');
+const prodID = button.getAttribute('data-prod-id');
+
+const { value: text } = await Swal.fire({
+    input: 'textarea',
+    inputLabel: 'Reason for return',
+    inputPlaceholder: 'Type your message here...',
+    inputAttributes: {
+      'aria-label': 'Type your message here'
+    },
+    showCancelButton: true
+  });
 
 
-      <script>
 
-       function handleButtonClick(button) {
+  if (text) {
+    const data = {
+      orderProdID: OrderProdID,
+      OrderID: OrderID,
+      prodID: prodID,
+      reason: text // Add the reason to the data being sent
+    };
+
+fetch('/returnOrder', {
+method: 'POST',
+headers: {
+ 'Content-Type': 'application/json',
+
+},
+body: JSON.stringify(data),
+})
+.then((response) => response.json())
+.then((data) => {
+ location.reload();
+})
+.catch((error) => {
+ console.log(error.message);
+});
+};
+}
+</script>
+<script>
+
+    async   function handleButtonClick(button) {
     const OrderProdID = button.getAttribute('data-product-id');
     const OrderID = button.getAttribute('data-order-data');
+    const prodID = button.getAttribute('data-prod-id');
+
+
+    const { value: text } = await Swal.fire({
+    input: 'textarea',
+    inputLabel: 'Reason for cancel',
+    inputPlaceholder: 'Type your message here...',
+    inputAttributes: {
+      'aria-label': 'Type your message here'
+    },
+    showCancelButton: true
+  });
+
+  if (text) {
     const data = {
-    orderProdID: OrderProdID,
-    OrderID:OrderID,
-  };
+      orderProdID: OrderProdID,
+      OrderID: OrderID,
+      prodID: prodID,
+      reason: text // Add the reason to the data being sent
+    };
 
   fetch('/cancelOrder', {
     method: 'POST',
@@ -402,7 +541,8 @@ z-index: 0
       console.log(error.message);
     });
 };
-      </script>
+}
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>

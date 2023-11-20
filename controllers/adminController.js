@@ -33,8 +33,8 @@ const verifyLogin = async (req, res) => {
             message: "Email or password is incorrect",
           });
         } else {
-          // req.session.user_id = userData._id;
-          req.session.user_id = userData._id;
+
+          req.session.admin_id = userData._id;
           return res.redirect("/admin/dashboard");
         }
       } else {
@@ -52,7 +52,7 @@ const verifyLogin = async (req, res) => {
 
 const loadDashboard = async (req, res) => {
   try {
-    const userData = await User.findById({ _id: req.session.user_id });
+    const userData = await User.findById({ _id: req.session.admin_id });
     return res.render("home", { admin: userData });
   } catch (error) {
     console.log(error.message);
@@ -61,7 +61,7 @@ const loadDashboard = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    req.session.user_id=null
+    req.session.admin_id=null
     // req.session.destroy();
     return res.redirect("/admin");
   } catch (error) {
@@ -188,31 +188,35 @@ const updateProductEdit = async (req, res) => {
       : undefined;
 
     let priceOfProduct;
+    let priceOfProduct1;
     let toReducePrice;
+    
     if (req.body.offerID != "") {
 
       const offerValidity = Offer.findOne({offerID:req.body.offerID})
       if(offerValidity){
         const currentDate = new Date();
+        //date validity checking
         if (currentDate < offerValidity.startDate || currentDate > offerValidity.endDate) {
           return res.json({ valid: false, message: "offer is out of date" });
         }
+        
+
       }
       const fieldValue = req.body.offerID;
       const checkOfferIn = await Offer.findOne({ offerID: fieldValue });
       if (checkOfferIn != null) {
-        toReducePrice = calculatePercentageChange(
-          req.body.price,
-          checkOfferIn.offerPercentage
-        );
+        toReducePrice = calculatePercentageChange(req.body.price,checkOfferIn.offerPercentage);
         priceOfProduct = req.body.price - toReducePrice;
       }
     } else {
-      priceOfProduct = req.body.basePrice;
+      priceOfProduct=req.body.basePrice;
     }
+  
 
     const updateObject = {
       name: req.body.name,
+      basePrice:req.body.basePrice,
       description: req.body.description,
       sellername: req.body.sellername,
       stock: req.body.stock,

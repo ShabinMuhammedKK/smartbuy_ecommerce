@@ -62,7 +62,7 @@
 	                                <!-- <li><a href="tel:#"><i class="icon-phone"></i>Call: +91 7994586558</a></li>
 	                                <li><a href="about.html">About Us</a></li>
 	                                <li><a href="contact.html">Contact Us</a></li> -->
-									<% if (locals.user) { %>
+									<% if (user != 0) { %>
 										<li style="display: flex;">
 											<a href="userProfile">
                                                 <button  class="btn-outline-white" style="display: flex; 
@@ -382,7 +382,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="" onclick="addtowishlist('<%= products[i]._id %>')" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
+                                        <a onclick="addtowishlist('<%= products[i]._id %>')" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
                                     </div>
                                 </figure>
 
@@ -439,7 +439,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                        <a href="" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
                                     </div><!-- End .product-action-vertical -->
 
                                 </figure><!-- End .product-media -->
@@ -464,7 +464,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                        <a href="" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
                                     </div><!-- End .product-action-vertical -->
 
                                 </figure><!-- End .product-media -->
@@ -522,7 +522,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                        <a href="" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
                                     </div><!-- End .product-action-vertical -->
                                 </figure><!-- End .product-media -->
 
@@ -533,7 +533,7 @@
                                     </div><!-- End .product-price -->
                                 </div><!-- End .product-body -->
                                 <div class="product-action">
-                                    <a href="#" class="btn-product btn-cart" id="addToCartButton"><span>add to cart</span></a>
+                                    <a href="" class="btn-product btn-cart" id="addToCartButton"><span>add to cart</span></a>
                                 </div><!-- End .product-action -->
                             </div><!-- End .product -->
                             <div class="product product-11 text-center">
@@ -544,7 +544,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                        <a href="" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
                                     </div><!-- End .product-action-vertical -->
 
                                 </figure><!-- End .product-media -->
@@ -556,7 +556,7 @@
                                     </div><!-- End .product-price -->
                                 </div><!-- End .product-body -->
                                 <div class="product-action">
-                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    <a href="" class="btn-product btn-cart"><span>add to cart</span></a>
                                 </div><!-- End .product-action -->
                             </div><!-- End .product -->
                         </div><!-- End .owl-carousel -->
@@ -596,7 +596,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                        <a href="" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
                                     </div><!-- End .product-action-vertical -->
                                 </figure><!-- End .product-media -->
 
@@ -612,7 +612,7 @@
                                     </div><!-- End .product-nav -->
                                 </div><!-- End .product-body -->
                                 <div class="product-action">
-                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    <a href="" class="btn-product btn-cart"><span>add to cart</span></a>
                                 </div><!-- End .product-action -->
                             </div><!-- End .product -->
                             <div class="product product-11 text-center">
@@ -623,7 +623,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                        <a href="" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
                                     </div><!-- End .product-action-vertical -->
 
                                 </figure><!-- End .product-media -->
@@ -751,7 +751,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="" onclick="addtowishlist('<%= products[i]._id %>')" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
+                                        <a  onclick="addtowishlist('<%= products[i]._id %>')" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
                                     </div>
                                 </figure>
 
@@ -808,7 +808,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                        <a href="" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
                                     </div><!-- End .product-action-vertical -->
 
                                 </figure><!-- End .product-media -->
@@ -820,7 +820,7 @@
                                     </div><!-- End .product-price -->
                                 </div><!-- End .product-body -->
                                 <div class="product-action">
-                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    <a href="" class="btn-product btn-cart"><span>add to cart</span></a>
                                 </div><!-- End .product-action -->
                             </div><!-- End .product -->
 
@@ -833,7 +833,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                        <a href="" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
                                     </div><!-- End .product-action-vertical -->
 
                                 </figure><!-- End .product-media -->
@@ -1060,7 +1060,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="" onclick="addtowishlist('<%= products[i]._id %>')" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
+                                        <a  onclick="addtowishlist('<%= products[i]._id %>')" class="btn-product-icon btn-wishlist addToCartButton" ><span>add to wishlist</span></a>
                                     </div>
                                 </figure>
 
@@ -1804,14 +1804,29 @@
     <div id="cartAlert" data-aos="fade-up" class="alert col-md-3 col-4 text-white fixed-bottom" style="display: none; left: 40%; bottom: 80px; border-radius: 7px; opacity: 0.9; background-color: rgb(0, 0, 0);padding-right: 5% ;" role="alert">
         <div class="d-flex justify-content-center">
             <dotlottie-player src="https://lottie.host/b0e85bf2-581b-4d27-8dd5-0c0e4b495dc2/QjXQ7zZA3T.json" background="transparent" speed="0.7" style="width: 50px; height: 50px;" direction="1" loop autoplay></dotlottie-player>
-            <p class="alert-heading d-flex align-items-center">Product Added to Your Cart</p>
+            <p class="alert-heading d-flex align-items-center">Product Added to Cart</p>
         </div>
     </div>
     
     <div id="cartAlertAlready" data-aos="fade-up" class="bg-dark alert col-md-3 col-4 text-white fixed-bottom" style="display: none; left: 40%; bottom: 80px; border-radius: 7px;padding-right: 5% ; background-color: rgb(0, 0, 0);padding-right: 5% ;" role="alert">
         <div class="d-flex justify-content-center">
             <dotlottie-player src="https://lottie.host/675b522a-b663-4399-9a90-0f4800918a0f/JWak9AXJkj.json" background="transparent" speed="1" style="width: 50px; height: 50px;" direction="1" loop autoplay></dotlottie-player>
-            <p class="alert-heading d-flex align-items-center " >This product Already in Your Cart</p>
+            <p class="alert-heading d-flex align-items-center " >Product Already in Cart</p>
+        </div>
+    </div>
+
+
+    <div id="wishAlert" data-aos="fade-up" class="alert col-md-3 col-4 text-white fixed-bottom" style="display: none; left: 40%; bottom: 80px; border-radius: 7px; opacity: 0.9; background-color: rgb(0, 0, 0);padding-right: 5% ;" role="alert">
+        <div class="d-flex justify-content-center">
+            <dotlottie-player src="https://lottie.host/b0e85bf2-581b-4d27-8dd5-0c0e4b495dc2/QjXQ7zZA3T.json" background="transparent" speed="0.7" style="width: 50px; height: 50px;" direction="1" loop autoplay></dotlottie-player>
+            <p class="alert-heading d-flex align-items-center">Product Added Wishlist</p>
+        </div>
+    </div>
+    
+    <div id="wishAlertAlready" data-aos="fade-up" class="bg-dark alert col-md-3 col-4 text-white fixed-bottom" style="display: none; left: 40%; bottom: 80px; border-radius: 7px;padding-right: 5% ; background-color: rgb(0, 0, 0);padding-right: 5% ;" role="alert">
+        <div class="d-flex justify-content-center">
+            <dotlottie-player src="https://lottie.host/675b522a-b663-4399-9a90-0f4800918a0f/JWak9AXJkj.json" background="transparent" speed="1" style="width: 50px; height: 50px;" direction="1" loop autoplay></dotlottie-player>
+            <p class="alert-heading d-flex align-items-center " >Product Already in Whishlist</p>
         </div>
     </div>
     
@@ -1831,6 +1846,25 @@
 
     
 <script>
+    function shoAlertBox() {
+        console.log("alert fun called...");
+        $("#wishAlert").fadeIn();
+    
+        // Hide the alert box after 5 seconds
+        setTimeout(function () {
+            $("#wishAlert").fadeOut();
+        }, 2000);
+    }
+
+    function shoAlertBoxAlready() {
+        console.log("alert fun called...");
+        $("#wishAlertAlready").fadeIn();
+    
+        // Hide the alert box after 5 seconds
+        setTimeout(function () {
+            $("#wishAlertAlready").fadeOut();
+        }, 2000);
+    }
             function addtowishlist(productId){
     console.log(productId);
     $.ajax({
@@ -1838,14 +1872,14 @@
             url: "/addToWishlist",
             data: { id: productId},
             success: function(response) {
-                console.log("Response from server:", response);
                 
-            // if (response.cart === 1) {
-            //     showAlertBox();
-            // } else if (response.cart === 2) {
-            //     showAlertBoxAlready();
-            // }
-                // Handle the response from the server here (e.g., update the UI)
+                
+            if (response.wish === 1) {
+                shoAlertBox();
+            } else if (response.wish === 2) {
+                shoAlertBoxAlready();
+            }
+                
             },
             error: function(error) {
                 console.error("Error:", error);
@@ -1869,7 +1903,7 @@ function showAlertBox() {
         // Hide the alert box after 5 seconds
         setTimeout(function () {
             $("#cartAlert").fadeOut();
-        }, 3000);
+        }, 2000);
     }
 
     function showAlertBoxAlready() {
@@ -1879,7 +1913,7 @@ function showAlertBox() {
         // Hide the alert box after 5 seconds
         setTimeout(function () {
             $("#cartAlertAlready").fadeOut();
-        }, 3000);
+        }, 2000);
     }
 
 

@@ -222,7 +222,8 @@
 
                 <div class="ml-3 w-100">
                   <h4  class="mb-0 mt-0"><%=userData.name%></h4>
-                  <span ><%=userData.email%></span>
+                  <span style="font-weight: 400;" ><%=userData.email%></span>
+                  <div><h6>Referral ID : <%=userData.toReffer%></h6></div>
 
                   <div
                     class="p-4 mt-2 bg-dark d-flex justify-content-between rounded text-white stats"
@@ -308,8 +309,12 @@
           </div>
 
 
-          <h4 style="display: flex;justify-content: center;width: 100%;">Shipping Address</h4>
-<% for(let i=0;i<addrs.length;i++) {%>
+          
+          <% if(!addrs || addrs.length === 0) { %>
+            
+          <% } else { %>
+            <h4 style="display: flex;justify-content: center;width: 100%;">Shipping Address</h4>
+          <% for(let i=0;i<addrs.length;i++) {%>
           <div class="col-lg-3">
             <div class="card mb-4" style="background-color: #000000;">
               <div class="card-body">
@@ -349,6 +354,7 @@
               </div>
             </div>
           </div>
+          <% } %>
           <% } %>
         </div>
       </div>

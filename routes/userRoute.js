@@ -76,6 +76,7 @@ user_route.post('/removeProductFromCart/:productId',auth.isLogin,userController.
 user_route.get('/userOrders',auth.isLogin,orderController.orderUserProfile)
 
 user_route.post('/cancelOrder',auth.isLogin,orderController.cancelOrderByUser);
+user_route.post('/returnOrder',auth.isLogin,orderController.returnOrderByUser);
 
 user_route.get('/removeAdr',auth.isLogin,userController.rmvShpAdr);
 

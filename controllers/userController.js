@@ -136,21 +136,56 @@ const loadRegister = async (req, res) => {
 const insertUser = async (req, res) => {
   try {
     const spassword = await securePassword(req.body.password);
-
+    let walletUpdateRegr;
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
       return res.render("registration", {
         message: "Email already exists. Please use a different.",
       });
     }
+    if(req.body.rfferelCode != ""){
+      const reffCode = await User.findOne({toReffer:req.body.rfferelCode});
+      if(reffCode){
+        const walletUpdate = await User.updateOne(
+          { _id: reffCode._id },
+          { $inc: { wallet: 50 } }
+        );
+      }
+      
+      if(reffCode){
+        walletUpdateRegr = 20; 
+      }else{
+        walletUpdateRegr = 0;
+      }
+
+    }
+    function generateRandomNineDigitNumber() {
+      const min = 100000000; // Minimum 9-digit number (100,000,000)
+      const max = 999999999; // Maximum 9-digit number (999,999,999)
+      
+      // Generate a random number within the specified range
+      const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    
+      return randomNumber;
+    }
+    const referelNumber = generateRandomNineDigitNumber()
     const user = new User({
       name: req.body.name,
       email: req.body.email,
       mobile: req.body.mno,
       password: spassword,
+      toReffer : referelNumber,
+      // wallet:walletUpdateRegr,
+      refOffer:req.body.rfferelCode,
       is_admin: 0,
     });
     const userData = await user.save();
+    const newUserID = await User.findOne({email:req.body.email})
+    const walletUpdate = await User.updateOne(
+      { _id: newUserID._id },
+      { $inc: { wallet: walletUpdateRegr } }
+    );
+    console.log(walletUpdate);
     if (userData) {
       sendVerifyMail(req.body.name, req.body.email, userData._id);
 
@@ -295,9 +330,9 @@ const loadHome = async (req, res) => {
         userData,
       });
     } else {
-      let userData = await User.findOne({ _id: req.session.user_id });
+     
       return res.render("home", {
-        user: req.session.user,
+        user: 0,
         products: productData,
       });
     }
@@ -308,7 +343,9 @@ const loadHome = async (req, res) => {
 //=======================================================user logout
 const userLogout = async (req, res) => {
   try {
-    req.session.destroy();
+    req.session.user_id = null
+    
+    // req.session.destroy();
     return res.redirect("/");
   } catch (error) {
     console.log(error.message);
@@ -659,16 +696,24 @@ const removeProductFromCart = async (req, res) => {
   }
 };
 //==============================================load user profile
+
 const loadUserProfile = async (req, res) => {
   try {
     let userData = await User.findOne({ _id: req.session.user_id });
+    let addrs = []; // Initialize addrs as an empty array
+
     const shippAddr = await Address.findOne({ user_id: req.session.user_id });
-    const addrs = shippAddr.address;
+    if (shippAddr && shippAddr.address) {
+      addrs = shippAddr.address; // Update addrs if shipping addresses are found
+    }
+
     return res.render("userProfile", { userData, addrs });
   } catch (error) {
     console.log(error.message);
+    return res.status(500).send("Internal Server Error");
   }
 };
+
 //======================================== load delivery address page
 const loadcheckoutPage = async (req, res) => {
   try {
@@ -781,26 +826,26 @@ const addToWishlist = async (req, res) => {
 
       let result = await wishlist.save();
 
-      return res.json({ cart: 1 });
+      return res.json({ wish: 1 });
     } else {
       const productInWishlist = existingWishlist.products.find(
         (item) => item.product.toString() === req.body.id.toString()
       );
 
       if (productInWishlist) {
-        return res.json({ cart: 2 });
+        return res.json({ wish: 2 });
       } else {
         existingWishlist.products.push({
           product: req.body.id,
           quantity: 1,
         });
-        res.json({ cart: 1 });
+        res.json({ wish: 1 });
       }
       const result = await existingWishlist.save();
-      // console.log("Product added to cart:", result);
+
     }
 
-    return res.json({ cart: 0 });
+    return res.json({ wish: 0 });
     // console.log(result);
   } catch (error) {
     console.log(error.message);
@@ -833,8 +878,9 @@ const removefromWishList = async (req, res) => {
 //wallet
 const loadWalled = async (req, res) => {
   try {
-    // const userData =
-    res.render("wallet");
+const userData = await User.findOne({_id:req.session.user_id});
+console.log(userData);
+    res.render("wallet",{userData});
   } catch (error) {
     console.log(error.message);
   }

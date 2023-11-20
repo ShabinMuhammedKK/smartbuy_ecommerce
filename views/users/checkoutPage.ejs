@@ -439,8 +439,7 @@
         onclick="orderPlace()"
         class="btn btn-dark font-weight-bold"
         style="width: 70%; height: 60px; margin-left: 15%; margin-top: 20px;background-color: black;"
-        id="submitBothSets"
-      >
+        id="submitBothSets">
         Place Order
       </button>
 
@@ -1089,7 +1088,8 @@
     </script>
 
     <script>
-      const alertSweet = function sweetalert() {
+
+     const alertSweet = function sweetalert() {
         const Toast = Swal.mixin({
           toast: true,
           position: "top",
@@ -1104,9 +1104,11 @@
 
         Toast.fire({
           icon: "success",
-          title: "Signed in successfully",
+          title: "Success",
         });
       };
+
+     function orderPlace(){
       const optionss = document.querySelectorAll(
         'input[type="radio"][name="options"]'
       );
@@ -1115,10 +1117,11 @@
       );
       const submitBothSets = document.getElementById("submitBothSets");
 
+
       // Add event listener for the combined submit button
       submitBothSets.addEventListener("click", function () {
         const couponApplyedCode =
-          document.getElementById("couponApplyedCode").value;
+          document.getElementById("couponInput").value;
         console.log(couponApplyedCode);
         // Initialize arrays to store selected data from both sets
         let selectedData;
@@ -1139,7 +1142,6 @@
             selectedPaymentOptions = option.id;
           }
         });
-
         // Combine both sets of data
         const combinedData = {
           selectedData: selectedData,
@@ -1175,7 +1177,7 @@
         // Convert the combined data to JSON and send it to the server
         xhr.send(JSON.stringify(combinedData));
       });
-
+    }
       //RazorPay function here---------------------
       function razorpayPayment(order) {
         var options = {
@@ -1222,6 +1224,7 @@
           },
         });
       }
+
     </script>
 
     <script>
@@ -1253,7 +1256,7 @@
 
     <!-- <script>
         document.getElementById("refreshButton").addEventListener("click", function() {
-            location.reload();
+            location.reload(); 
         });
         </script> -->
     <script src="assets/js/jquery.min.js"></script>

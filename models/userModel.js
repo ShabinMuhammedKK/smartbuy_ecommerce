@@ -13,9 +13,21 @@ const userSchema = new mongoose.Schema({
     type:String,
     required:true
   },
+  toReffer:{
+    type:Number,
+    required:true,
+  },
+  refOffer:{
+    type:Number,
+    default:0,
+  },
   image:{
     type:String,
     default:0,
+  },
+  wallet:{
+    type:Number,
+    default:0
   },
   password:{
     type:String,
