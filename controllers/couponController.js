@@ -128,15 +128,15 @@ const userCouponDisplay = async(req,res)=>{
 //coupon application here
 const ApplyCoupon = async (req, res) => {
     try {
-        console.log(req.body.code);
+        // console.log(req.body.code);
       let couponCode = req.body.code;
       let userId = req.session.user_id;
       let cartTotalAmount = await calculateTotalPrice(userId);
   
       const coupon = await Coupon.findOne({coupon_code: couponCode });
-      console.log(coupon);
+      // console.log(coupon);
       if (coupon == null) {
-        console.log("condition called ..");
+        // console.log("condition called ..");
         return res.json({ valid: false, message: "Coupon not Valid" });
       }
   

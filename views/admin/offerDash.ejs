@@ -276,6 +276,9 @@
                       <div class="col-lg-12 d-flex" style="height: 60px;">
                         <button class="btn btn-outline-success" onclick="copyToClipboard('offerID')" style="width:50%;" >Coppy Code</button>
                         <a href="editOffer?id=<%=offers[i]._id%>" class="btn btn-outline-success" style="width:50%;display: flex;align-items: center;justify-content: center;">Edit</a>
+                        <!-- <a href="deleteOffer?id=<%=offers[i]._id%>" class="btn btn-outline-success" style="width:50%;display: flex;align-items: center;justify-content: center;">Delete</a> -->
+                        <a href="" data-offer-id="<%= offers[i]._id %>" class="btn btn-outline-success delete-offer" style="width:50%;display: flex;align-items: center;justify-content: center;">Delete</a>
+
                       </div>
                     </div>
                   </div>
@@ -335,10 +338,45 @@
           selBox.select();
           document.execCommand('copy');
           document.body.removeChild(selBox);
-          alert('Text copied to clipboard. Please use Ctrl-V to paste the data.');
+          // alert('Text copied to clipboard. Please use Ctrl-V to paste the data.');
       }
   </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  const deleteOfferButtons = document.querySelectorAll('.delete-offer');
 
+  deleteOfferButtons.forEach(function(button) {
+    button.addEventListener('click', function(e) {
+      e.preventDefault(); // Prevent the default behavior of anchor tag
+      const offerId = button.getAttribute('data-offer-id');
+      
+      const confirmation = confirm('Are you sure you want to delete this offer?'); // Confirmation dialog
+      if (confirmation && offerId) {
+  fetch(`/admin/deleteOffer?id=${offerId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      // Handle successful deletion
+      console.log('Offer deleted successfully');
+      window.location.reload()
+      // You might want to perform actions like removing the offer from the UI or refreshing the offers list
+    } else {
+      // Handle errors
+      console.error('Error deleting offer');
+    }
+  })
+  .catch(error => {
+    console.error('Error deleting offer', error);
+  });
+}
+    });
+  });
+});
+</script>
     <!-- End custom js for this page -->
   </body>
 </html>

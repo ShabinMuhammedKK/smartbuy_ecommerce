@@ -32,9 +32,21 @@ const createOffer = async (req,res) => {
   }
 };
 
-
+//delete offer
+const deleteOffer = async (req,res)=>{
+  try {
+    const id = req.query.id
+    const offer = await Offer.findOneAndRemove({_id:id})
+    if(offer){
+      return res.json({ok:true})
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 module.exports = {
   createOffer,
-  loadOfferCreation
+  loadOfferCreation,
+  deleteOffer
 };

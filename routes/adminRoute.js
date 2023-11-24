@@ -123,6 +123,7 @@ admin_route.post('/offerAdd',auth.isLogin,offerController.createOffer);
 admin_route.get('/offerDash',auth.isLogin,adminController.loadOfferDash);
 admin_route.get('/editOffer',auth.isLogin,adminController.editOffers);
 admin_route.post('/editOffer',auth.isLogin,adminController.updateOfferEdit);
+admin_route.get('/deleteOffer',auth.isLogin,offerController.deleteOffer);
 admin_route.get('/download',auth.isLogin,adminController.generatePdf);
 
 

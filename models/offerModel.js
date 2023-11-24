@@ -26,12 +26,7 @@ const offerSchema = new mongoose.Schema({
     type:String,
     required:true,
   },
-//   productUsed: [
-//     {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: "Product", 
-//     },
-//   ],
+
 
 });
 

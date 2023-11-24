@@ -475,9 +475,11 @@
             const sales = document.getElementById("sales");
             const profit = document.getElementById("profit");
 
-            revenue.innerHTML = "₹" + TotalRevenue[0];
+            var reven = TotalRevenue[0];
+            revenue.innerHTML = "₹" + reven.toFixed(1);
             sales.innerHTML = TotalOdrProd;
-            profit.innerHTML = "₹" + TotalRevenue[1];
+            var reve = TotalRevenue[1];
+            profit.innerHTML = "₹" + reve.toFixed(1);
 
             const CODcount = data.ChartDatas[0].cashOnDeliveryCount;
             const online = data.ChartDatas[0].onlineCount;

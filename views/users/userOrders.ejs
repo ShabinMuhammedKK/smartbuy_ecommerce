@@ -258,7 +258,7 @@ z-index: 0
                         </div>
                       </div>
                       <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
-                        <li class="step<%= product.OrderStatus === 'Placed' || product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled'|| product.OrderStatus === 'Return' ? ' active' : '' %>" id="step1">
+                        <li class="step<%= product.OrderStatus === 'placed' || product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled'|| product.OrderStatus === 'Return' ? ' active' : '' %>" id="step1">
                             <span style="margin-left: 50px; margin-top: 12px;">Placed</span>
                         </li>
                         <li class="step<%= product.OrderStatus === 'Shipped' || product.OrderStatus === 'Delivered'|| product.OrderStatus === 'Canceled'|| product.OrderStatus === 'Return' ? ' active' : '' %> text-center" id="step2">

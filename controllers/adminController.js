@@ -146,7 +146,7 @@ const loadProductEdit = async (req, res) => {
     const id = req.query.id;
     if (id) {
       const productData = await Product.findById({ _id: id });
-      console.log("hello 123"+productData);
+      // console.log("hello 123"+productData);
       const category = await Category.find();
       if (productData) {
         return res.render("editProductData", {
@@ -170,87 +170,176 @@ function calculatePercentageChange(existPrice, offPerce) {
 //product edit
 const updateProductEdit = async (req, res) => {
   try {
-    // Check if files are present for each image field
-    const image1 = req.files["image1"]
-      ? req.files["image1"][0].filename
-      : undefined;
-    const image2 = req.files["image2"]
-      ? req.files["image2"][0].filename
-      : undefined;
-    const image3 = req.files["image3"]
-      ? req.files["image3"][0].filename
-      : undefined;
-    const image4 = req.files["image4"]
-      ? req.files["image4"][0].filename
-      : undefined;
-    const image5 = req.files["image5"]
-      ? req.files["image5"][0].filename
-      : undefined;
+    const {
+      product_id,
+      name,
+      basePrice,
+      description,
+      sellername,
+      stock,
+      category,
+      price,
+      offerID,
+    } = req.body;
 
-    let priceOfProduct;
-    let priceOfProduct1;
-    let toReducePrice;
-    
-    if (req.body.offerID != "") {
-
-      const offerValidity = Offer.findOne({offerID:req.body.offerID})
-      if(offerValidity){
-        const currentDate = new Date();
-        //date validity checking
-        if (currentDate < offerValidity.startDate || currentDate > offerValidity.endDate) {
-          return res.json({ valid: false, message: "offer is out of date" });
-        }
-        
-
-      }
-      const fieldValue = req.body.offerID;
-      const checkOfferIn = await Offer.findOne({ offerID: fieldValue });
-      if (checkOfferIn != null) {
-        toReducePrice = calculatePercentageChange(req.body.price,checkOfferIn.offerPercentage);
-        priceOfProduct = req.body.price - toReducePrice;
-      }
-    } else {
-      priceOfProduct=req.body.basePrice;
-    }
-  
+    const updatedPrice = await calculateUpdatedPrice(price, basePrice, offerID);
 
     const updateObject = {
-      name: req.body.name,
-      basePrice:req.body.basePrice,
-      description: req.body.description,
-      sellername: req.body.sellername,
-      stock: req.body.stock,
-      category: req.body.category,
-      price: priceOfProduct,
-      appliedOfferID: req.body.offerID,
+      name,
+      basePrice,
+      description,
+      sellername,
+      stock,
+      category,
+      price: updatedPrice,
+      appliedOfferID: offerID || '',
     };
 
-    // Add image fields to the update object if files were uploaded
-    if (image1) updateObject.image1 = image1;
-    if (image2) updateObject.image2 = image2;
-    if (image3) updateObject.image3 = image3;
-    if (image4) updateObject.image4 = image4;
-    if (image5) updateObject.image5 = image5;
+    const updatedImages = await updateImages(req.files, updateObject);
 
-    // Update the product using the Product model
-    const productUpdatedData = await Product.findByIdAndUpdate(
-      { _id: req.body.product_id },
-      { $set: updateObject },
-      { new: true } // To return the updated product
-    );
+    const productUpdatedData = await updateProduct(product_id, updatedImages);
 
     if (productUpdatedData) {
-      return res.redirect("/admin/dashboard#productsData");
+      return res.redirect('/admin/dashboard#productsData');
     } else {
-      return res.render("addProduct", {
+      return res.render('addProduct', {
         message: "Product can't be updated",
       });
     }
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ error: error.message }); // Handle errors
+    return res.status(500).json({ error: error.message });
   }
 };
+
+const calculateUpdatedPrice = async (currentPrice, basePrice, offerID) => {
+  if (offerID) {
+    try {
+      const offer = await Offer.findOne({ offerID });
+
+      if (!offer) {
+        // throw new Error('Offer not found');
+        console.log("Offer not found")
+
+      }
+
+      const currentDate = new Date();
+      if (currentDate < offer.startDate || currentDate > offer.endDate) {
+        // throw new Error('Offer is out of date');
+        console.log("Offer is out of date")
+      }
+
+      const toReducePrice = calculatePercentageChange(currentPrice, offer.offerPercentage);
+      return currentPrice - toReducePrice;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  return basePrice;
+};
+
+const updateImages = async (files, updateObject) => {
+  const imageFields = ['image1', 'image2', 'image3', 'image4', 'image5'];
+  for (const field of imageFields) {
+    if (files[field]) {
+      updateObject[field] = files[field][0].filename;
+    }
+  }
+  return updateObject;
+};
+
+const updateProduct = async (productId, updateObject) => {
+  const productUpdatedData = await Product.findByIdAndUpdate(
+    { _id: productId },
+    { $set: updateObject },
+    { new: true }
+  );
+  return productUpdatedData;
+};
+// const updateProductEdit = async (req, res) => {
+//   try {
+//     // Check if files are present for each image field
+//     const image1 = req.files["image1"]
+//       ? req.files["image1"][0].filename
+//       : undefined;
+//     const image2 = req.files["image2"]
+//       ? req.files["image2"][0].filename
+//       : undefined;
+//     const image3 = req.files["image3"]
+//       ? req.files["image3"][0].filename
+//       : undefined;
+//     const image4 = req.files["image4"]
+//       ? req.files["image4"][0].filename
+//       : undefined;
+//     const image5 = req.files["image5"]
+//       ? req.files["image5"][0].filename
+//       : undefined;
+
+//     let priceOfProduct;
+//     let priceOfProduct1;
+//     let toReducePrice;
+    
+//     if (req.body.offerID != "") {
+
+//       const offerValidity = Offer.findOne({offerID:req.body.offerID})
+//       if(offerValidity){
+//         const currentDate = new Date();
+//         //date validity checking
+//         if (currentDate < offerValidity.startDate || currentDate > offerValidity.endDate) {
+//           return res.json({ valid: false, message: "offer is out of date" });
+//         }
+        
+
+//       }
+//       const fieldValue = req.body.offerID;
+//       const checkOfferIn = await Offer.findOne({ offerID: fieldValue });
+//       if (checkOfferIn != null) {
+//         toReducePrice = calculatePercentageChange(req.body.price,checkOfferIn.offerPercentage);
+//         priceOfProduct = req.body.price - toReducePrice;
+//       }
+//     } else {
+//       priceOfProduct=req.body.basePrice;
+//     }
+  
+
+//     const updateObject = {
+//       name: req.body.name,
+//       basePrice:req.body.basePrice,
+//       description: req.body.description,
+//       sellername: req.body.sellername,
+//       stock: req.body.stock,
+//       category: req.body.category,
+//       price: priceOfProduct,
+//       appliedOfferID: req.body.offerID,
+//     };
+
+//     // Add image fields to the update object if files were uploaded
+//     if (image1) updateObject.image1 = image1;
+//     if (image2) updateObject.image2 = image2;
+//     if (image3) updateObject.image3 = image3;
+//     if (image4) updateObject.image4 = image4;
+//     if (image5) updateObject.image5 = image5;
+
+//     // Update the product using the Product model
+//     const productUpdatedData = await Product.findByIdAndUpdate(
+//       { _id: req.body.product_id },
+//       { $set: updateObject },
+//       { new: true } // To return the updated product
+//     );
+
+//     if (productUpdatedData) {
+//       return res.redirect("/admin/dashboard#productsData");
+//     } else {
+//       return res.render("addProduct", {
+//         message: "Product can't be updated",
+//       });
+//     }
+//   } catch (error) {
+//     console.log(error.message);
+//     return res.status(500).json({ error: error.message }); // Handle errors
+//   }
+// };
 
 //===search bar===========================================
 
@@ -384,60 +473,109 @@ const loadEditCategory = async (req, res) => {
     console.log(error.message);
   }
 };
+//update category
+const applyCategoryOffer = async (category, offer) => {
+  category.category = category.name;
+  category.description = category.description;
+  category.appliedOfferID = offer.offerID;
+  await category.save();
+
+  const categoryProducts = await Product.find({ category: category.name });
+  const offerPercentage = offer.offerPercentage;
+
+  for (const product of categoryProducts) {
+    const newPrice = product.basePrice * (1 - offerPercentage / 100);
+    await Product.updateOne({ _id: product._id }, { $set: { price: newPrice } });
+  }
+};
 
 const updateCategory = async (req, res) => {
   try {
+    const { id, name, description, offerID } = req.body;
 
-    if (req.body.offerID != "") {
-      console.log(req.body.offerID);
-      const fieldValue = req.body.offerID;
-      const checkOfferIn = await Offer.findOne({ offerID: fieldValue });
-      if(checkOfferIn){
-      const categoryID = req.body.id;
-      const category = await Category.findOneAndUpdate(
-        { _id: categoryID },
-        {
-          $set: {
-            category: req.body.name,
-            description: req.body.description,
-            appliedOfferID: req.body.offerID,
-          },
-        }
-      );
-      if (category) {
-  
-        const categoryProducts = await Product.find({ category: req.body.name });
-        const offerFind = await Offer.findOne({ offerID: req.body.offerID });
-        const offerPercentage = offerFind.offerPercentage;
-        for (const product of categoryProducts) {
-          const newPrice = product.price * (1 - offerPercentage / 100);
-          await Product.updateOne({ _id: product._id }, { $set: { price: newPrice } });
-        }}
+    const category = await Category.findById(id);
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
     }
-  }else if(req.body.offerID == ""){
-    const categoryID = req.body.id;
-    const category = await Category.findOneAndUpdate(
-      { _id: categoryID },
-      {
-        $set: {
-          category: req.body.name,
-          description: req.body.description,
-          appliedOfferID: req.body.offerID,
-        },
-      }
-    );
-    if (category) {
 
-      const categoryProducts = await Product.find({ category: req.body.name });
-      for (const product of categoryProducts) {
-        console.log("basePrice is : "+product.basePrice);
-        await Product.updateOne({ _id: product._id }, { $set: { price: product.basePrice } });
-      }}
-  }
+    if (offerID) {
+      const offer = await Offer.findOne({ offerID });
+      if (!offer) {
+        return res.status(404).json({ error: 'Offer not found' });
+      }
+
+      const currentDate = new Date();
+      if (currentDate < offer.startDate || currentDate > offer.endDate) {
+        // return res.json({ valid: false, message: 'Offer is out of date' });
+        console.log("Offer is out of date")
+      }
+
+      await applyCategoryOffer(category, offer);
+    } else {
+      await removeCategoryOffer(category);
+    }
+
+    // return res.status(200).json({ message: 'Category updated successfully' });
+    console.log("Category updated successfully")
+
   } catch (error) {
     console.log(error.message);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 };
+// const updateCategory = async (req, res) => {
+//   try {
+
+//     if (req.body.offerID != "") {
+//       console.log(req.body.offerID);
+//       const fieldValue = req.body.offerID;
+//       const checkOfferIn = await Offer.findOne({ offerID: fieldValue });
+//       if(checkOfferIn){
+//       const categoryID = req.body.id;
+//       const category = await Category.findOneAndUpdate(
+//         { _id: categoryID },
+//         {
+//           $set: {
+//             category: req.body.name,
+//             description: req.body.description,
+//             appliedOfferID: req.body.offerID,
+//           },
+//         }
+//       );
+//       if (category) {
+  
+//         const categoryProducts = await Product.find({ category: req.body.name });
+//         const offerFind = await Offer.findOne({ offerID: req.body.offerID });
+//         const offerPercentage = offerFind.offerPercentage;
+//         for (const product of categoryProducts) {
+//           const newPrice = product.price * (1 - offerPercentage / 100);
+//           await Product.updateOne({ _id: product._id }, { $set: { price: newPrice } });
+//         }}
+//     }
+//   }else if(req.body.offerID == ""){
+//     const categoryID = req.body.id;
+//     const category = await Category.findOneAndUpdate(
+//       { _id: categoryID },
+//       {
+//         $set: {
+//           category: req.body.name,
+//           description: req.body.description,
+//           appliedOfferID: req.body.offerID,
+//         },
+//       }
+//     );
+//     if (category) {
+
+//       const categoryProducts = await Product.find({ category: req.body.name });
+//       for (const product of categoryProducts) {
+//         console.log("basePrice is : "+product.basePrice);
+//         await Product.updateOne({ _id: product._id }, { $set: { price: product.basePrice } });
+//       }}
+//   }
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
 
 //====user block======================
 
@@ -549,7 +687,7 @@ const salesDash = async (req, res) => {
 const imageEdit = async (req, res) => {
   try {
     const data = req.body.id;
-    console.log(data);
+    // console.log(data);
     res.json({ response: "OK" });
     return;
   } catch (error) {
@@ -647,10 +785,9 @@ const orderManage = async (req, res) => {
   try {
     const orderDatas = await Order.findOne({ _id: req.query.orderID });
     const orderID = req.query.orderID;
-    // console.log("order ID : "+orderID)
-    // console.log("From Order Manage Oage : "+orderDatas);
+
     const productDatas = await Product.findOne({ _id: req.query.productID });
-    // console.log("From Order Manage Oage : "+productDatas);
+
     const status = orderDatas.products.find((pro) => {
       return pro.productId == req.query.productID;
     });
@@ -704,7 +841,7 @@ const updateOfferEdit = async(req,res)=>{
         startDate:req.body.startDate,
         offerID:req.body.ID,
       }})
-    console.log(existingData);
+
   } catch (error) {
     console.log(error.message);
   }
@@ -713,9 +850,9 @@ const updateOfferEdit = async(req,res)=>{
 const generatePdf = async (req, res) => {
   try {
     const interval = req.query.interval
-    console.log(interval);
+    // console.log(interval);
     const OrderProdQty = await Funcs.prodQty(Order, interval);
-    console.log(OrderProdQty);
+    // console.log(OrderProdQty);
     await generatePDFReport(OrderProdQty);
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
