@@ -6,9 +6,9 @@ const nocache = require('nocache');
 const path = require('path')
 const express = require("express");
 const app = express();
-const port = 8000;
+const port = 3000;
 
-mongoose.connect("mongodb://127.0.0.1:27017/firstProject",{ useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb+srv://shabinmkk:D6foC5kco1pTcTGX@smartbuycluster.6onoeep.mongodb.net/smartbuy",{ useNewUrlParser: true, useUnifiedTopology: true });
 app.use(nocache());
 app.use(express.static(path.join(__dirname, "public")));
 
