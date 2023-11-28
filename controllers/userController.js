@@ -133,72 +133,133 @@ const loadRegister = async (req, res) => {
   }
 };
 //============================================================inserting user
+
 const insertUser = async (req, res) => {
   try {
     const spassword = await securePassword(req.body.password);
-    let walletUpdateRegr;
+
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
       return res.render("registration", {
-        message: "Email already exists. Please use a different.",
+        message: "Email already exists. Please use a different one.",
       });
     }
-    if(req.body.rfferelCode != ""){
-      const reffCode = await User.findOne({toReffer:req.body.rfferelCode});
-      if(reffCode){
-        const walletUpdate = await User.updateOne(
-          { _id: reffCode._id },
-          { $inc: { wallet: 50 } }
-        );
-      }
-      
-      if(reffCode){
-        walletUpdateRegr = 20; 
-      }else{
-        walletUpdateRegr = 0;
-      }
 
+    let walletUpdateRegr = 0;
+    const reffCode = req.body.rfferelCode;
+    if (reffCode) {
+      const reffCodeUser = await User.findOne({ toReffer: reffCode });
+      if (reffCodeUser) {
+        await User.updateOne({ _id: reffCodeUser._id }, { $inc: { wallet: 50 } });
+        walletUpdateRegr = 20;
+      }
     }
     function generateRandomNineDigitNumber() {
-      const min = 100000000; // Minimum 9-digit number (100,000,000)
-      const max = 999999999; // Maximum 9-digit number (999,999,999)
-      
-      // Generate a random number within the specified range
-      const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-    
-      return randomNumber;
-    }
-    const referelNumber = generateRandomNineDigitNumber()
+            const min = 100000000;
+            const max = 999999999; 
+            const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+            return randomNumber;
+          }
+
+    const referelNumber = generateRandomNineDigitNumber();
+
     const user = new User({
       name: req.body.name,
       email: req.body.email,
       mobile: req.body.mno,
       password: spassword,
-      toReffer : referelNumber,
-      // wallet:walletUpdateRegr,
-      refOffer:req.body.rfferelCode,
+      toReffer: referelNumber,
+      wallet: walletUpdateRegr,
+      refOffer: req.body.rfferelCode,
       is_admin: 0,
     });
-    const userData = await user.save();
-    const newUserID = await User.findOne({email:req.body.email})
-    const walletUpdate = await User.updateOne(
-      { _id: newUserID._id },
-      { $inc: { wallet: walletUpdateRegr } }
-    );
-    console.log(walletUpdate);
-    if (userData) {
-      sendVerifyMail(req.body.name, req.body.email, userData._id);
 
-      return res.render("otpPage", { userData });
-    } else {
-      res.render("registration", {
-        message: "your registration has been failed",
+    const userData = await user.save();
+
+    if (!userData) {
+      return res.render("registration", {
+        message: "Your registration has failed",
       });
     }
+
+    const newUserID = await User.findOne({ email: req.body.email });
+    if (walletUpdateRegr) {
+      await User.updateOne({ _id: newUserID._id }, { $inc: { wallet: walletUpdateRegr } });
+    }
+
+    sendVerifyMail(req.body.name, req.body.email, userData._id);
+    return res.render("otpPage", { userData });
   } catch (error) {
     console.log(error.message);
   }
 };
+
+// const insertUser = async (req, res) => {
+//   try {
+//     const spassword = await securePassword(req.body.password);
+//     let walletUpdateRegr;
+//     const existingUser = await User.findOne({ email: req.body.email });
+//     if (existingUser) {
+//       return res.render("registration", {
+//         message: "Email already exists. Please use a different.",
+//       });
+//     }
+//     if(req.body.rfferelCode != ""){
+//       const reffCode = await User.findOne({toReffer:req.body.rfferelCode});
+//       if(reffCode){
+//         const walletUpdate = await User.updateOne(
+//           { _id: reffCode._id },
+//           { $inc: { wallet: 50 } }
+//         );
+//       }
+      
+//       if(reffCode){
+//         walletUpdateRegr = 20; 
+//       }else{
+//         walletUpdateRegr = 0;
+//       }
+
+//     }
+//     function generateRandomNineDigitNumber() {
+//       const min = 100000000;
+//       const max = 999999999;
+      
+//       // Generate a random number within the specified range
+//       const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    
+//       return randomNumber;
+//     }
+//     const referelNumber = generateRandomNineDigitNumber()
+//     const user = new User({
+//       name: req.body.name,
+//       email: req.body.email,
+//       mobile: req.body.mno,
+//       password: spassword,
+//       toReffer : referelNumber,
+//       wallet:walletUpdateRegr,
+//       refOffer:req.body.rfferelCode,
+//       is_admin: 0,
+//     });
+//     const userData = await user.save();
+//     const newUserID = await User.findOne({email:req.body.email})
+//     const walletUpdate = await User.updateOne(
+//       { _id: newUserID._id },
+//       { $inc: { wallet: walletUpdateRegr } }
+//     );
+//     console.log(walletUpdate);
+//     if (userData) {
+//       sendVerifyMail(req.body.name, req.body.email, userData._id);
+
+//       return res.render("otpPage", { userData });
+//     } else {
+//       res.render("registration", {
+//         message: "your registration has been failed",
+//       });
+//     }
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
 
 //===================================================load product listing page
 
