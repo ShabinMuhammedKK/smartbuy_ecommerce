@@ -15,7 +15,7 @@ const instance = new Razorpay({
 //Oerder placing
 const placeOrderManage = async (req, res) => {
   try {
-    console.log(req.body);
+
     const userID = req.session.user_id;
     const userSelectedData = req.body;
 
@@ -68,7 +68,6 @@ const placeOrderManage = async (req, res) => {
 
     const placeorder = await order.save();
 
-    // console.log("aaaaaaa : " + placeorder.paymentMethod);
     if (placeorder.paymentMethod === "COD") {
       await Order.updateOne(
         { _id: placeorder._id },

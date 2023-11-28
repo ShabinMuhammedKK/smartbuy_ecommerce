@@ -66,7 +66,7 @@ const transacHistory = async (Transaction) => {
           paid_amount: 1,
           date: {
             $dateToString: {
-              format: "%d-%b-%Y",
+              format: "%d-%m-%Y",
               date: "$date",
               timezone: "Asia/Kolkata",
             },
@@ -93,8 +93,8 @@ const orderListing = async (Order) => {
       },
       {
         $lookup: {
-          from: "products", // Use the name of the "products" collection
-          localField: "products.productId", // Assuming products have a "productId" field
+          from: "products",
+          localField: "products.productId",
           foreignField: "_id",
           as: "productData",
         },
@@ -111,7 +111,7 @@ const orderListing = async (Order) => {
           paymentStatus: "$paymentStatus",
           date: {
             $dateToString: {
-              format: "%d-%b-%Y",
+              format: "%d-%m-%Y",
               date: "$orderDate",
               timezone: "Asia/Kolkata",
             },
@@ -230,7 +230,7 @@ const salesDateWise = async (Order) => {
           date: {
             $first: {
               $dateToString: {
-                format: "%d %b %Y",
+                format: "%d %m %Y",
                 date: "$orderDate",
               },
             },
