@@ -122,6 +122,8 @@
                       required
                     />
                   </div>
+                  <p style="margin: 0; color: #ec2424;" id="errorDisplay"></p>
+
                   <div class="text-center">
                     <button
                       type="submit"
@@ -183,6 +185,8 @@
         });
       };
       function validateForm() {
+        var displayField = document.getElementById('errorDisplay');
+
         var descr = document.forms[0]["descr"].value;
         var disAmo = document.forms[0]["disAmo"].value;
         var minPur = document.forms[0]["minPur"].value;
@@ -191,7 +195,8 @@
 
         // Validate Description as letters
         if (!/^[a-zA-Z\s]+$/.test(descr)) {
-          alert("Please enter only letters for Description.");
+          // alert("Please enter only letters for Description.");
+          displayField.textContent = "⚠️ Please enter only letters for Description";
           return false;
         }
 
@@ -206,9 +211,10 @@
           isNaN(usageLim) ||
           usageLim < 0
         ) {
-          alert(
-            "Please enter valid positive numbers for Discount Amount, Minimum Purchase Amount, Usage Limit Per User, and Total Usage Limit."
-          );
+          // alert(
+            // "Please enter valid positive numbers for Discount Amount, Minimum Purchase Amount, Usage Limit Per User, and Total Usage Limit."
+          // );
+          displayField.textContent = "⚠️ Please enter valid positive numbers for Discount Amount, Minimum Purchase Amount, Usage Limit Per User, and Total Usage Limit";
           return false;
         }
         alertSweet();

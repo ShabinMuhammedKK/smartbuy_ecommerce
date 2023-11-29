@@ -36,6 +36,8 @@
                     <label>Offer ID (if any)</label>
                     <input type="text" class="form-control p_input" value="<%=category.appliedOfferID%>" style="color: white;" name="offerID">
                   </div>
+                  <p style="margin: 0; color: #ec2424;" id="errorDisplay"></p>
+
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-block enter-btn">Save</button>
                   </div>
@@ -92,12 +94,16 @@ const alertSweet = function sweetalert() {
         });
       };
       function validateForm() {
+        var displayField = document.getElementById('errorDisplay');
+
           var category = document.forms[0]["category"].value;
           var description = document.forms[0]["description"].value;
   
           // Validate that only text is entered
           if (!/^[a-zA-Z\s]+$/.test(category) || !/^[a-zA-Z\s]+$/.test(description)) {
-              alert("Please enter only text for Category Name and Description.");
+              // alert("Please enter only text for Category Name and Description.");
+              displayField.textContent = "⚠️ Please enter only text for Category Name and Description";
+
               return false;
           }
           alertSweet();

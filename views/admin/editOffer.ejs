@@ -48,7 +48,8 @@
                         <label>Offer ID *</label>
                         <input type="text" class="form-control p_input" value="<%=offer.offerID%>" style="color: white;" name="ID" required>
                       </div>
-                      
+                      <p style="margin: 0; color: #ec2424;" id="errorDisplay"></p>
+
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-block enter-btn">Add Offer</button>
                   </div>
@@ -106,6 +107,8 @@ const alertSweet = function sweetalert() {
         });
       };
       function validateForm() {
+        var displayField = document.getElementById('errorDisplay');
+
           var title = document.forms[0]["title"].value;
           var description = document.forms[0]["description"].value;
           var offerPercentage = document.forms[0]["offerPercentage"].value;
@@ -113,19 +116,25 @@ const alertSweet = function sweetalert() {
 
           // Validate Offer Title and Description as string
           if (!/^[a-zA-Z0-9\s]+$/.test(title) || !/^[a-zA-Z0-9\s]+$/.test(description)) {
-              alert("Please enter only letters and spaces for Offer Title and Description.");
+              // alert("Please enter only letters and spaces for Offer Title and Description.");
+              displayField.textContent = "⚠️ Please enter only letters and spaces for Offer Title and Description";
+
               return false;
           }
 
           // Validate Offer Percentage as a number between 1 and 99
           if (isNaN(offerPercentage) || offerPercentage < 1 || offerPercentage > 99) {
-              alert("Please enter a valid offer percentage between 1 and 99.");
+              // alert("Please enter a valid offer percentage between 1 and 99.");
+              displayField.textContent = "⚠️ Please enter a valid offer percentage between 1 and 99";
+
               return false;
           }
 
           // Validate Offer ID as capital letters only
           if (!/^[A-Z0-9]+$/.test(ID)) {
-              alert("Please enter capital letters for Offer ID.");
+              // alert("Please enter capital letters for Offer ID.");
+              displayField.textContent = "⚠️ Please enter capital letters for Offer ID";
+
               return false;
           }
           alertSweet()

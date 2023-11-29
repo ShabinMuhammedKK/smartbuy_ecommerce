@@ -145,6 +145,8 @@
                       <% } %>
                     </select>
                   </div>
+                  <p style="margin: 0; color: #ec2424;" id="errorDisplay"></p>
+
                   
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-block enter-btn">Save</button>
@@ -270,6 +272,8 @@ const alertSweet = function sweetalert() {
         });
       };
   function validateForm() {
+    var displayField = document.getElementById('errorDisplay');
+
       var name = document.forms[0]["name"].value;
       var description = document.forms[0]["description"].value;
       var price = document.forms[0]["price"].value;
@@ -284,7 +288,9 @@ const alertSweet = function sweetalert() {
 
       // Validate Price and Quantity as positive numbers
       if (isNaN(price) || price < 0 || isNaN(stock) || stock < 0) {
-          alert("Please enter valid positive numbers for Price and Quantity.");
+        
+        // alert("Please enter valid positive numbers for Price and Quantity.");
+        displayField.textContent = "⚠️ Please enter valid positive numbers for Price and Quantity";
           return false;
       }
         alertSweet()
